@@ -1703,7 +1703,7 @@
       "iso": "IND",
       "country": "India",
       "year": 2026,
-      "harmful": 20,
+      "harmful": 21,
       "liberalising": 6
     },
     {
@@ -4033,7 +4033,7 @@
     },
     {
       "year": 2026,
-      "harmful": 365,
+      "harmful": 366,
       "liberalising": 137
     }
   ],
@@ -4744,8 +4744,62 @@
     }
   ],
   "mineral_export_restrictions": {
-    "lithium": [],
-    "copper": [],
+    "lithium": [
+      {
+        "year": 2020,
+        "count": 4
+      },
+      {
+        "year": 2021,
+        "count": 1
+      },
+      {
+        "year": 2022,
+        "count": 17
+      },
+      {
+        "year": 2023,
+        "count": 15
+      },
+      {
+        "year": 2024,
+        "count": 13
+      },
+      {
+        "year": 2025,
+        "count": 12
+      }
+    ],
+    "copper": [
+      {
+        "year": 2020,
+        "count": 10
+      },
+      {
+        "year": 2021,
+        "count": 9
+      },
+      {
+        "year": 2022,
+        "count": 31
+      },
+      {
+        "year": 2023,
+        "count": 27
+      },
+      {
+        "year": 2024,
+        "count": 23
+      },
+      {
+        "year": 2025,
+        "count": 52
+      },
+      {
+        "year": 2026,
+        "count": 11
+      }
+    ],
     "cobalt": [],
     "nickel": [],
     "graphite": [

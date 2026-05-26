@@ -227,7 +227,7 @@ net_policy_stance,India,IND,2022,-19,
 net_policy_stance,India,IND,2023,-28,
 net_policy_stance,India,IND,2024,-28,
 net_policy_stance,India,IND,2025,-27,
-net_policy_stance,India,IND,2026,-14,
+net_policy_stance,India,IND,2026,-15,
 net_policy_stance,Ireland,IRL,2020,-2,
 net_policy_stance,Ireland,IRL,2021,2,
 net_policy_stance,Ireland,IRL,2022,-21,
@@ -706,7 +706,7 @@ green_industrial_growth_harmful,Global,WLD,2024,1076,
 green_industrial_growth_liberalising,Global,WLD,2024,277,
 green_industrial_growth_harmful,Global,WLD,2025,1105,
 green_industrial_growth_liberalising,Global,WLD,2025,413,
-green_industrial_growth_harmful,Global,WLD,2026,365,
+green_industrial_growth_harmful,Global,WLD,2026,366,
 green_industrial_growth_liberalising,Global,WLD,2026,137,
 fossil_subsidy_trend,Global,WLD,2020,178,
 green_subsidy_trend,Global,WLD,2020,626,
@@ -722,6 +722,19 @@ fossil_subsidy_trend,Global,WLD,2025,251,
 green_subsidy_trend,Global,WLD,2025,724,
 fossil_subsidy_trend,Global,WLD,2026,145,
 green_subsidy_trend,Global,WLD,2026,269,
+mineral_export_restrictions,Global,WLD,2020,4,lithium
+mineral_export_restrictions,Global,WLD,2021,1,lithium
+mineral_export_restrictions,Global,WLD,2022,17,lithium
+mineral_export_restrictions,Global,WLD,2023,15,lithium
+mineral_export_restrictions,Global,WLD,2024,13,lithium
+mineral_export_restrictions,Global,WLD,2025,12,lithium
+mineral_export_restrictions,Global,WLD,2020,10,copper
+mineral_export_restrictions,Global,WLD,2021,9,copper
+mineral_export_restrictions,Global,WLD,2022,31,copper
+mineral_export_restrictions,Global,WLD,2023,27,copper
+mineral_export_restrictions,Global,WLD,2024,23,copper
+mineral_export_restrictions,Global,WLD,2025,52,copper
+mineral_export_restrictions,Global,WLD,2026,11,copper
 mineral_export_restrictions,Global,WLD,2020,3,graphite
 mineral_export_restrictions,Global,WLD,2021,1,graphite
 mineral_export_restrictions,Global,WLD,2022,16,graphite
