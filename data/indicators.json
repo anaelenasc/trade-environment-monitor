@@ -149,7 +149,7 @@
       "iso": "ARE",
       "country": "United Arab Emirates",
       "year": 2026,
-      "harmful": 9,
+      "harmful": 10,
       "liberalising": 0
     },
     {
@@ -1066,7 +1066,7 @@
       "iso": "DNK",
       "country": "Denmark",
       "year": 2026,
-      "harmful": 26,
+      "harmful": 27,
       "liberalising": 2
     },
     {
@@ -1511,6 +1511,13 @@
       "liberalising": 0
     },
     {
+      "iso": "HKG",
+      "country": "Hong Kong",
+      "year": 2026,
+      "harmful": 1,
+      "liberalising": 0
+    },
+    {
       "iso": "HRV",
       "country": "Croatia",
       "year": 2020,
@@ -1781,7 +1788,7 @@
       "country": "Iraq",
       "year": 2026,
       "harmful": 0,
-      "liberalising": 3
+      "liberalising": 4
     },
     {
       "iso": "ISL",
@@ -3952,7 +3959,7 @@
     {
       "iso": "DNK",
       "country": "Denmark",
-      "count": 198
+      "count": 199
     },
     {
       "iso": "JPN",
@@ -4033,8 +4040,8 @@
     },
     {
       "year": 2026,
-      "harmful": 368,
-      "liberalising": 137
+      "harmful": 371,
+      "liberalising": 138
     }
   ],
   "fossil_fuel_support": [
@@ -4284,6 +4291,11 @@
       "count": 7
     },
     {
+      "iso": "PHL",
+      "country": "Philippines",
+      "count": 4
+    },
+    {
       "iso": "UKR",
       "country": "Ukraine",
       "count": 4
@@ -4309,6 +4321,11 @@
       "count": 3
     },
     {
+      "iso": "IRQ",
+      "country": "Iraq",
+      "count": 3
+    },
+    {
       "iso": "BLR",
       "country": "Belarus",
       "count": 2
@@ -4316,11 +4333,6 @@
     {
       "iso": "GMB",
       "country": "Gambia",
-      "count": 2
-    },
-    {
-      "iso": "PHL",
-      "country": "Philippines",
       "count": 2
     },
     {
@@ -4356,11 +4368,6 @@
     {
       "iso": "BGD",
       "country": "Bangladesh",
-      "count": 2
-    },
-    {
-      "iso": "IRQ",
-      "country": "Iraq",
       "count": 2
     },
     {
@@ -4637,8 +4644,8 @@
     },
     {
       "year": 2026,
-      "fossil": 147,
-      "green": 270
+      "fossil": 150,
+      "green": 272
     }
   ],
   "trade_remedies": [
@@ -4745,10 +4752,126 @@
   ],
   "mineral_export_restrictions": {
     "lithium": [],
-    "copper": [],
-    "cobalt": [],
-    "nickel": [],
+    "copper": [
+      {
+        "year": 2020,
+        "count": 10
+      },
+      {
+        "year": 2021,
+        "count": 9
+      },
+      {
+        "year": 2022,
+        "count": 31
+      },
+      {
+        "year": 2023,
+        "count": 27
+      },
+      {
+        "year": 2024,
+        "count": 23
+      },
+      {
+        "year": 2025,
+        "count": 52
+      },
+      {
+        "year": 2026,
+        "count": 11
+      }
+    ],
+    "cobalt": [
+      {
+        "year": 2020,
+        "count": 8
+      },
+      {
+        "year": 2021,
+        "count": 8
+      },
+      {
+        "year": 2022,
+        "count": 43
+      },
+      {
+        "year": 2023,
+        "count": 52
+      },
+      {
+        "year": 2024,
+        "count": 27
+      },
+      {
+        "year": 2025,
+        "count": 33
+      },
+      {
+        "year": 2026,
+        "count": 7
+      }
+    ],
+    "nickel": [
+      {
+        "year": 2020,
+        "count": 10
+      },
+      {
+        "year": 2021,
+        "count": 8
+      },
+      {
+        "year": 2022,
+        "count": 47
+      },
+      {
+        "year": 2023,
+        "count": 54
+      },
+      {
+        "year": 2024,
+        "count": 31
+      },
+      {
+        "year": 2025,
+        "count": 43
+      },
+      {
+        "year": 2026,
+        "count": 11
+      }
+    ],
     "graphite": [],
-    "rare_earths": []
+    "rare_earths": [
+      {
+        "year": 2020,
+        "count": 4
+      },
+      {
+        "year": 2021,
+        "count": 5
+      },
+      {
+        "year": 2022,
+        "count": 16
+      },
+      {
+        "year": 2023,
+        "count": 13
+      },
+      {
+        "year": 2024,
+        "count": 13
+      },
+      {
+        "year": 2025,
+        "count": 30
+      },
+      {
+        "year": 2026,
+        "count": 4
+      }
+    ]
   }
 }
