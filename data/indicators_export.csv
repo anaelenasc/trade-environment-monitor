@@ -543,7 +543,7 @@ net_policy_stance,Zimbabwe,ZWE,2020,-1,
 net_policy_stance,Zimbabwe,ZWE,2023,-1,
 green_sector_support,China,CHN,cumulative_since_2020,1374,
 green_sector_support,Australia,AUS,cumulative_since_2020,897,
-green_sector_support,United States of America,USA,cumulative_since_2020,544,
+green_sector_support,United States of America,USA,cumulative_since_2020,545,
 green_sector_support,Brazil,BRA,cumulative_since_2020,378,
 green_sector_support,Germany,DEU,cumulative_since_2020,360,
 green_sector_support,Italy,ITA,cumulative_since_2020,259,
@@ -572,9 +572,9 @@ fossil_fuel_support_active,France,FRA,in_force,51,
 fossil_fuel_support_active,India,IND,in_force,50,
 fossil_fuel_support_active,Greece,GRC,in_force,49,
 fossil_fuel_support_active,Poland,POL,in_force,48,
+fossil_fuel_support_active,Denmark,DNK,in_force,46,
 fossil_fuel_support_active,Austria,AUT,in_force,45,
 fossil_fuel_support_active,Belgium,BEL,in_force,45,
-fossil_fuel_support_active,Denmark,DNK,in_force,45,
 fossil_fuel_support_active,Hungary,HUN,in_force,44,
 fossil_fuel_support_active,Finland,FIN,in_force,43,
 fossil_fuel_support_active,Lithuania,LTU,in_force,43,
@@ -606,10 +606,10 @@ fossil_fuel_support_active,Nigeria,NGA,in_force,13,
 fossil_fuel_support_active,Pakistan,PAK,in_force,10,
 fossil_fuel_support_active,Mexico,MEX,in_force,10,
 fossil_fuel_support_active,Thailand,THA,in_force,8,
+fossil_fuel_support_active,Egypt,EGY,in_force,8,
 fossil_fuel_support_active,Peru,PER,in_force,7,
 fossil_fuel_support_active,Vietnam,VNM,in_force,7,
 fossil_fuel_support_active,Malaysia,MYS,in_force,7,
-fossil_fuel_support_active,Egypt,EGY,in_force,7,
 fossil_fuel_support_active,Ukraine,UKR,in_force,4,
 fossil_fuel_support_active,South Africa,ZAF,in_force,4,
 fossil_fuel_support_active,Mozambique,MOZ,in_force,3,
@@ -706,7 +706,7 @@ green_industrial_growth_harmful,Global,WLD,2024,1076,
 green_industrial_growth_liberalising,Global,WLD,2024,277,
 green_industrial_growth_harmful,Global,WLD,2025,1105,
 green_industrial_growth_liberalising,Global,WLD,2025,413,
-green_industrial_growth_harmful,Global,WLD,2026,366,
+green_industrial_growth_harmful,Global,WLD,2026,368,
 green_industrial_growth_liberalising,Global,WLD,2026,137,
 fossil_subsidy_trend,Global,WLD,2020,178,
 green_subsidy_trend,Global,WLD,2020,626,
@@ -720,32 +720,5 @@ fossil_subsidy_trend,Global,WLD,2024,257,
 green_subsidy_trend,Global,WLD,2024,726,
 fossil_subsidy_trend,Global,WLD,2025,251,
 green_subsidy_trend,Global,WLD,2025,724,
-fossil_subsidy_trend,Global,WLD,2026,145,
-green_subsidy_trend,Global,WLD,2026,269,
-mineral_export_restrictions,Global,WLD,2020,4,lithium
-mineral_export_restrictions,Global,WLD,2021,1,lithium
-mineral_export_restrictions,Global,WLD,2022,17,lithium
-mineral_export_restrictions,Global,WLD,2023,15,lithium
-mineral_export_restrictions,Global,WLD,2024,13,lithium
-mineral_export_restrictions,Global,WLD,2025,12,lithium
-mineral_export_restrictions,Global,WLD,2020,10,copper
-mineral_export_restrictions,Global,WLD,2021,9,copper
-mineral_export_restrictions,Global,WLD,2022,31,copper
-mineral_export_restrictions,Global,WLD,2023,27,copper
-mineral_export_restrictions,Global,WLD,2024,23,copper
-mineral_export_restrictions,Global,WLD,2025,52,copper
-mineral_export_restrictions,Global,WLD,2026,11,copper
-mineral_export_restrictions,Global,WLD,2020,3,graphite
-mineral_export_restrictions,Global,WLD,2021,1,graphite
-mineral_export_restrictions,Global,WLD,2022,16,graphite
-mineral_export_restrictions,Global,WLD,2023,16,graphite
-mineral_export_restrictions,Global,WLD,2024,10,graphite
-mineral_export_restrictions,Global,WLD,2025,23,graphite
-mineral_export_restrictions,Global,WLD,2026,7,graphite
-mineral_export_restrictions,Global,WLD,2020,4,rare_earths
-mineral_export_restrictions,Global,WLD,2021,5,rare_earths
-mineral_export_restrictions,Global,WLD,2022,16,rare_earths
-mineral_export_restrictions,Global,WLD,2023,13,rare_earths
-mineral_export_restrictions,Global,WLD,2024,13,rare_earths
-mineral_export_restrictions,Global,WLD,2025,30,rare_earths
-mineral_export_restrictions,Global,WLD,2026,4,rare_earths
+fossil_subsidy_trend,Global,WLD,2026,147,
+green_subsidy_trend,Global,WLD,2026,270,
