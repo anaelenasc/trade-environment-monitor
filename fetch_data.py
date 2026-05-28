@@ -485,25 +485,25 @@ EU_MEMBERS = ["AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA",
                "POL","PRT","ROU","SVK","SVN","ESP","SWE"]
 
 FTA_COVERAGE = (
-    [{{"iso": iso, "count": 19}} for iso in EU_MEMBERS] +
-    [{{"iso":"USA","count":11}},{{"iso":"KOR","count":8}},{{"iso":"CAN","count":8}},
-     {{"iso":"NZL","count":6}},{{"iso":"ISR","count":6}},{{"iso":"GBR","count":5}},
-     {{"iso":"AUS","count":5}},{{"iso":"PER","count":4}},{{"iso":"PAN","count":4}},
-     {{"iso":"MYS","count":4}},{{"iso":"GTM","count":4}},{{"iso":"COL","count":4}},
-     {{"iso":"CHL","count":4}},{{"iso":"ARE","count":3}},{{"iso":"CHE","count":3}},
-     {{"iso":"SGP","count":3}},{{"iso":"NIC","count":3}},{{"iso":"MEX","count":3}},
-     {{"iso":"JPN","count":3}},{{"iso":"HND","count":3}},{{"iso":"SLV","count":3}},
-     {{"iso":"CRI","count":3}},{{"iso":"ZWE","count":2}},{{"iso":"ZMB","count":2}},
-     {{"iso":"UKR","count":2}},{{"iso":"SYC","count":2}},{{"iso":"MAR","count":2}},
-     {{"iso":"MUS","count":2}},{{"iso":"MDG","count":2}},{{"iso":"KEN","count":2}},
-     {{"iso":"JOR","count":2}},{{"iso":"ISL","count":2}},{{"iso":"COM","count":2}},
-     {{"iso":"TWN","count":2}},{{"iso":"CHN","count":2}},{{"iso":"VNM","count":1}},
-     {{"iso":"TUR","count":1}},{{"iso":"TUN","count":1}},{{"iso":"SRB","count":1}},
-     {{"iso":"OMN","count":1}},{{"iso":"NOR","count":1}},{{"iso":"MKD","count":1}},
-     {{"iso":"LBN","count":1}},{{"iso":"IRQ","count":1}},{{"iso":"IND","count":1}},
-     {{"iso":"EGY","count":1}},{{"iso":"DOM","count":1}},{{"iso":"BRN","count":1}},
-     {{"iso":"BIH","count":1}},{{"iso":"AZE","count":1}},{{"iso":"DZA","count":1}},
-     {{"iso":"ALB","count":1}}]
+    [{"iso": iso, "count": 19} for iso in EU_MEMBERS] +
+    [{"iso":"USA","count":11},{"iso":"KOR","count":8},{"iso":"CAN","count":8},
+     {"iso":"NZL","count":6},{"iso":"ISR","count":6},{"iso":"GBR","count":5},
+     {"iso":"AUS","count":5},{"iso":"PER","count":4},{"iso":"PAN","count":4},
+     {"iso":"MYS","count":4},{"iso":"GTM","count":4},{"iso":"COL","count":4},
+     {"iso":"CHL","count":4},{"iso":"ARE","count":3},{"iso":"CHE","count":3},
+     {"iso":"SGP","count":3},{"iso":"NIC","count":3},{"iso":"MEX","count":3},
+     {"iso":"JPN","count":3},{"iso":"HND","count":3},{"iso":"SLV","count":3},
+     {"iso":"CRI","count":3},{"iso":"ZWE","count":2},{"iso":"ZMB","count":2},
+     {"iso":"UKR","count":2},{"iso":"SYC","count":2},{"iso":"MAR","count":2},
+     {"iso":"MUS","count":2},{"iso":"MDG","count":2},{"iso":"KEN","count":2},
+     {"iso":"JOR","count":2},{"iso":"ISL","count":2},{"iso":"COM","count":2},
+     {"iso":"TWN","count":2},{"iso":"CHN","count":2},{"iso":"VNM","count":1},
+     {"iso":"TUR","count":1},{"iso":"TUN","count":1},{"iso":"SRB","count":1},
+     {"iso":"OMN","count":1},{"iso":"NOR","count":1},{"iso":"MKD","count":1},
+     {"iso":"LBN","count":1},{"iso":"IRQ","count":1},{"iso":"IND","count":1},
+     {"iso":"EGY","count":1},{"iso":"DOM","count":1},{"iso":"BRN","count":1},
+     {"iso":"BIH","count":1},{"iso":"AZE","count":1},{"iso":"DZA","count":1},
+     {"iso":"ALB","count":1}]
 )
 
 
@@ -561,3 +561,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
