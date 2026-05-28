@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Trade Policy and the Green Transition Monitor</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<link rel="icon" type="image/svg+xml" href="gta-favicon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gta-navy:     #0E334D;
+    --gta-navy-bar: #003366;
+    --gta-accent1:  #3373A4;
+    --gta-accent2:  #257FB3;
+    --gta-accent3:  #8FC5E9;
+    --gta-teal:     #37B7C3;
+    --gta-deep-teal:#088395;
+    --gta-pale:     #EBF4F6;
+    --gta-blue:     #1874CD;
+    --nav-blue:     #3B97ED;
+    --page-bg:      #1874CD;
+    --card:         #FFFFFF;
+    --border:       #D8D8D8;
+    --white:        #FFFFFF;
+    --text:         #595959;
+    --navy:         #0E334D;
+    --slate:        #595959;
+    --muted:        #797979;
+    --red:          #B6242E;
+    --green-lib:    #1E752A;
+    --fossil:       #003366;
+    --teal:         #37B7C3;
+    --teal-lt:      #EBF4F6;
+    --font-head: 'Roboto', Arial, sans-serif;
+    --font-body: 'Roboto', Arial, sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 13px; }
+  body { font-family: var(--font-body); background: var(--page-bg); color: var(--text); line-height: 1.6; }
+
+  /* ── STICKY TOP: header + nav only ── */
+  #sticky-top { position: sticky; top: 0; z-index: 200; }
+
+  /* ── HEADER ── full width */
+  header {
+    background: var(--gta-navy);
+    color: #fff;
+    padding: 0.9rem 2rem 0.6rem;
+    width: 100%;
+  }
+  .header-brand { display: flex; align-items: flex-start; gap: 14px; }
+  .header-logo  { width: 42px; height: 42px; flex-shrink: 0; margin-top: 2px; }
+  .header-brand-text { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
+  header h1 {
+    font-family: var(--font-head);
+    font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #FFFFFF;
+    white-space: nowrap;
+  }
+  .header-sub-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem; flex-wrap: wrap; margin-top: 0.15rem;
+  }
+  .header-sub { font-size: 0.83rem; color: rgba(255,255,255,0.72); font-weight: 300; line-height: 1.5; flex-shrink: 0; }
+  .header-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; flex-shrink: 0; }
+  .last-updated { font-family: var(--font-mono); font-size: 0.63rem; color: #3B97ED; letter-spacing: 0.06em; }
+  .dl-buttons { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.28);
+    color: rgba(255,255,255,0.9); padding: 0.3rem 0.7rem;
+    font-family: var(--font-mono); font-size: 0.64rem;
+    cursor: pointer; text-decoration: none; transition: background 0.15s; border-radius: 3px;
+  }
+  .dl-btn:hover { background: rgba(255,255,255,0.2); }
+  .dl-btn svg { width: 11px; height: 11px; opacity: 0.8; }
+
+  /* ── NAV SECTION (inside sticky-top) ── */
+  .nav-section { background: var(--page-bg); padding: 0 1rem 0; }
+  .nav-tags-wrapper {
+    max-width: 1280px; margin: 0 auto;
+    padding: 0.5rem 0 0.4rem;
+    display: flex; flex-wrap: wrap; gap: 0.45rem;
+    justify-content: center;
+  }
+  .nav-tag {
+    background: #3B97ED; color: white; border: none; border-radius: 20px;
+    padding: 0.36rem 1rem; font-family: var(--font-body); font-size: 0.74rem;
+    font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .nav-tag:hover { background: #2178ce; transform: translateY(-1px); }
+
+  /* ── ABOUT CARD: standalone, not sticky ── */
+  .about-standalone { background: var(--page-bg); padding: 0.25rem 1rem 0.3rem; }
+  .about-card {
+    max-width: 1280px; margin: 0 auto;
+    background: var(--white); border-radius: 10px;
+    padding: 0.5rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.14);
+    position: relative; z-index: 10;
+  }
+  .about-card p {
+    font-size: 0.7rem; font-weight: 400; color: var(--slate);
+    line-height: 1.7; font-family: var(--font-body);
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main-content { padding: 0.3rem 1rem 2rem; }
+
+  /* ── SECTION CARD ── */
+  .section-card {
+    background: #E8EEF5; border-radius: 12px;
+    max-width: 1280px; margin: 0 auto 0.6rem;
+    padding: 0.7rem 1.1rem 0.55rem; position: relative;
+  }
+  .section-title {
+    font-family: var(--font-head); font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+    font-weight: 700; color: var(--gta-navy); margin-bottom: 0.15rem;
+  }
+  .section-desc { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.75rem; max-width: 760px; line-height: 1.55; }
+
+  /* ── CARDS ── */
+  .card-grid { display: grid; gap: 0.5rem; }
+  .card-grid.col2 { grid-template-columns: 1fr 1fr; }
+  .card-grid.col3 { grid-template-columns: 2fr 1fr; }
+  @media(max-width: 860px) {
+    .card-grid.col2, .card-grid.col3 { grid-template-columns: 1fr; }
+    header { padding: 1.2rem 1.2rem 0.8rem; }
+    header h1 { white-space: normal; }
+  }
+  .card {
+    background: var(--white); border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem 0.5rem; position: relative; border-radius: 6px;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--gta-navy-bar); border-radius: 6px 6px 0 0;
+  }
+  .card-full { grid-column: 1 / -1; }
+  .card-title {
+    font-family: var(--font-head); font-size: 0.76rem; font-weight: 700;
+    color: var(--gta-blue); letter-spacing: 0.01em; margin-bottom: 0.15rem;
+  }
+  .card-sub { font-size: 0.68rem; color: var(--muted); margin-bottom: 0.55rem; line-height: 1.4; }
+  .stat-number { font-family: var(--font-mono); font-size: 1.7rem; font-weight: 500; color: var(--gta-blue); line-height: 1; }
+  .stat-label  { font-size: 0.7rem; color: var(--slate); margin-top: 0.25rem; }
+
+  /* ── SECTION FOOTER ── */
+  .section-footer { margin-top: 0.7rem; padding-top: 0.4rem; border-top: 1px solid rgba(0,0,0,0.1); }
+  .section-source { font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.02em; }
+
+  /* ── CHARTS ── */
+  .chart-wrap { width: 100%; overflow: hidden; }
+  svg { display: block; }
+  .tooltip {
+    position: fixed; pointer-events: none; background: var(--gta-navy);
+    color: #fff; padding: 0.42rem 0.7rem; font-family: var(--font-body);
+    font-size: 0.71rem; line-height: 1.5; z-index: 9999; opacity: 0;
+    transition: opacity 0.15s; max-width: 220px; border-radius: 4px;
+    border: 1px solid var(--gta-navy);
+  }
+  .tooltip.visible { opacity: 1; }
+  .tooltip strong { display: block; font-weight: 700; font-size: 0.74rem; margin-bottom: 0.2rem; }
+
+  /* ── YEAR SLIDER ── */
+  .slider-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: nowrap; }
+  .slider-label { font-family: var(--font-body); font-size: 0.67rem; color: var(--slate); white-space: nowrap; }
+  .slider-track { flex: 1; min-width: 80px; position: relative; }
+  .range-wrap   { position: relative; height: 24px; }
+  /* Grey base track — behind the coloured selection bar */
+  .slider-base-bar {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    left: 0; right: 0; width: 100%; height: 4px;
+    background: var(--border); pointer-events: none; border-radius: 2px; z-index: 1;
+  }
+  /* Coloured selection bar — above base, below thumbs */
+  .slider-range-bar {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    height: 4px; background: var(--gta-blue); pointer-events: none;
+    border-radius: 2px; z-index: 2;
+  }
+  input[type=range] {
+    width: 100%; height: 4px; -webkit-appearance: none; appearance: none;
+    background: transparent; outline: none; cursor: pointer;
+    position: absolute; top: 50%; transform: translateY(-50%); pointer-events: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--gta-blue); border: 2px solid var(--white);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25); pointer-events: all; cursor: pointer;
+  }
+  #slider-from { z-index: 3; }
+  #slider-to   { z-index: 4; }
+  .year-display { font-family: var(--font-body); font-size: 0.71rem; color: var(--gta-navy); font-weight: 500; min-width: 70px; text-align: right; white-space: nowrap; }
+
+  /* ── MINERAL DROPDOWN ── */
+  .mineral-select {
+    border: 1px solid var(--border); background: var(--white); color: var(--gta-navy);
+    padding: 0.28rem 0.55rem; font-family: var(--font-body); font-size: 0.75rem;
+    font-weight: 500; cursor: pointer; outline: none; margin-bottom: 0.65rem; border-radius: 3px;
+  }
+  .mineral-select:focus { border-color: var(--gta-teal); }
+
+  /* ── LEGEND ── */
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+  .legend-item { display: flex; align-items: center; gap: 0.38rem; font-size: 0.69rem; color: var(--slate); font-family: var(--font-body); }
+  .legend-dot  { width: 9px; height: 9px; flex-shrink: 0; border-radius: 2px; }
+  .legend-line { width: 18px; height: 3px; flex-shrink: 0; }
+
+  /* ── METHODOLOGY ── */
+  .meth-sub { margin-bottom: 1.6rem; }
+  .meth-sub:last-child { margin-bottom: 0; }
+  .meth-sub-title {
+    font-family: var(--font-head); font-size: 0.98rem; font-weight: 700; color: var(--gta-navy);
+    margin-bottom: 0.85rem; padding-bottom: 0.38rem;
+    border-bottom: 2px solid var(--gta-navy); display: inline-block;
+  }
+  /* About the data: full width, Roboto Light */
+  .meth-about-text p {
+    font-size: 0.8rem; font-weight: 300; color: var(--slate);
+    line-height: 1.75; margin-bottom: 0.85rem; font-family: var(--font-body);
+  }
+  .meth-about-text p:last-child { margin-bottom: 0; }
+
+  /* Accordion for Indicators */
+  .meth-accordion { display: flex; flex-direction: column; gap: 0.5rem; }
+  .meth-details { background: var(--white); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .meth-details > summary { list-style: none; }
+  .meth-details > summary::-webkit-details-marker { display: none; }
+  .meth-details-title {
+    padding: 0.75rem 1rem; font-family: var(--font-head); font-weight: 600;
+    font-size: 0.85rem; color: var(--gta-navy); cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    user-select: none; border-left: 3px solid var(--gta-navy);
+  }
+  .meth-details-title::after { content: '+'; font-size: 1.1rem; color: var(--gta-blue); font-weight: 300; line-height: 1; flex-shrink: 0; margin-left: 0.5rem; }
+  details[open] .meth-details-title::after { content: '−'; }
+  .meth-details-body { padding: 0.75rem 1rem 1rem; border-top: 1px solid var(--border); }
+
+  .meth-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1rem; }
+  .meth-card {
+    background: #f8fafc; border: 1px solid var(--border);
+    border-left: 3px solid var(--gta-navy);
+    border-radius: 0 4px 4px 0; padding: 0.88rem 1rem;
+  }
+  .meth-card h4 { font-size: 0.74rem; font-weight: 700; color: var(--gta-navy); margin-bottom: 0.4rem; line-height: 1.3; }
+  .meth-card p  { font-size: 0.73rem; color: var(--slate); line-height: 1.6; }
+  .meth-note {
+    margin-top: 1.1rem; font-size: 0.73rem; color: var(--muted);
+    font-style: italic; line-height: 1.6;
+    border-top: 1px solid var(--border); padding-top: 0.85rem;
+  }
+
+  /* ── PRODUCT GROUPS ── */
+  /* 3-column: [Green Goods] | [Green Fuels + Fossil + Petrochem stacked] | [Strategic Minerals] */
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  /* Middle column wrapper — stacks three small cards vertically */
+  .product-col-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  /* Tall cards stretch to match the full height of the middle column */
+  .product-card-tall {
+    height: 100%;
+  }
+  .product-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-left: 3px solid var(--gta-navy);
+    border-radius: 8px; padding: 0.88rem 1rem;
+  }
+  .product-card h4 { font-size: 0.78rem; font-weight: 700; color: var(--gta-navy); margin-bottom: 0.5rem; }
+  .product-subcategory { margin-bottom: 0.45rem; }
+  .product-subcategory:last-child { margin-bottom: 0; }
+  .product-subcat-label { font-size: 0.71rem; font-weight: 500; color: var(--gta-accent1); margin-bottom: 0.18rem; }
+  .hs-codes {
+    font-family: var(--font-mono); font-size: 0.59rem; color: var(--muted);
+    line-height: 1.7; word-break: normal; overflow-wrap: break-word;
+  }
+
+  /* ── POLICY GROUPS ── */
+  .policy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .policy-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-left: 3px solid var(--gta-navy);
+    border-radius: 8px; padding: 0.88rem 1rem;
+  }
+  .policy-card h4 { font-size: 0.74rem; font-weight: 700; color: var(--gta-navy); margin-bottom: 0.38rem; }
+  .policy-card p  { font-size: 0.71rem; color: var(--slate); line-height: 1.55; margin-bottom: 0.3rem; }
+  .policy-tag {
+    display: inline-block; background: var(--gta-pale); color: var(--gta-navy);
+    font-family: var(--font-mono); font-size: 0.59rem;
+    padding: 0.1rem 0.35rem; margin: 0.1rem 0.08rem 0 0; border-radius: 2px;
+  }
+
+  /* ── FTA PAIR LIST ── */
+  .fta-pairs-list { overflow-y: auto; max-height: 280px; }
+  .fta-pair-item {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.74rem; gap: 0.5rem;
+  }
+  .fta-pair-item:last-child { border-bottom: none; }
+  .fta-pair-names { font-weight: 500; color: var(--gta-navy); }
+  .fta-pair-info  { font-size: 0.68rem; color: var(--muted); text-align: right; white-space: nowrap; }
+  .fta-pair-prov  { font-family: var(--font-mono); font-size: 0.65rem; background: var(--gta-pale); color: var(--gta-teal); padding: 0.08rem 0.35rem; white-space: nowrap; }
+  .no-data { font-size: 0.77rem; color: var(--muted); text-align: center; padding: 2rem; }
+
+  /* ── CONTACT ── */
+  .contact-inner { display: flex; flex-direction: column; gap: 0.4rem; }
+  .contact-inner h3 { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: var(--gta-navy); }
+  .contact-inner > p { font-size: 0.8rem; line-height: 1.6; color: var(--slate); }
+  .contact-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    color: var(--gta-blue); font-weight: 600; text-decoration: none;
+    font-size: 0.82rem; transition: color 0.2s; margin-top: 0.15rem;
+  }
+  .contact-link:hover { color: var(--gta-navy); }
+
+  /* ── BACK TO TOP ── */
+  #back-top {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: rgba(14,51,77,0.6); color: #fff;
+    border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s, background 0.15s; z-index: 100;
+  }
+  #back-top.visible { opacity: 1; }
+  #back-top:hover { background: rgba(14,51,77,0.9); }
+</style>
+</head>
+<body>
+
+<div class="tooltip" id="tooltip"></div>
+
+<!-- ╔══════════════════════════════════════════════════════════╗ -->
+<!-- ║  STICKY TOP — header + nav tags only                    ║ -->
+<!-- ╚══════════════════════════════════════════════════════════╝ -->
+<div id="sticky-top">
+
+  <header>
+    <div class="header-brand">
+      <a href="https://globaltradealert.org/" target="_blank" rel="noopener" style="display:flex;flex-shrink:0;">
+        <svg class="header-logo" viewBox="0 0 146.4 146.4" xmlns="http://www.w3.org/2000/svg" aria-label="Global Trade Alert">
+          <path fill="#2997ff" d="M39,27.5c-.5,1.5-.7,3.2-.7,4.9v15.9s-2.1-.6-2.1-.6c-4.8-1.4-9.7-.8-13.8,1.1v-4.5c0-9.5,7.7-16.7,16.6-16.9Z"/>
+          <path fill="#2997ff" d="M107.7,118.6c-2.6,8.5-11.7,13.9-20.8,11.3l-4.7-1.4c3.2-3.5,5.2-8.1,5.2-13.3v-1.7s15.4,4.4,15.4,4.4c1.7.5,3.3.7,4.9.7Z"/>
+          <path fill="#0263fa" d="M59,32.5c0,.1,0,.3,0,.4v21.3s-20.7-5.9-20.7-5.9v-15.9c0-1.7.3-3.4.7-4.9,1.6,0,3.3.2,4.9.7l15.1,4.3Z"/>
+          <path fill="#2997ff" d="M65.3,17.8c-3.7,3.7-6.2,8.9-6.3,14.7l-15.1-4.3c-1.7-.5-3.3-.7-4.9-.7,2.6-8.5,11.7-13.9,20.8-11.3l5.5,1.6Z"/>
+          <path fill="#0263fa" d="M108.4,97.8v15.8c0,1.7-.3,3.4-.7,4.9-1.6,0-3.3-.2-4.9-.7l-15.4-4.4v-21.7s21.1,6,21.1,6Z"/>
+          <path fill="#2997ff" d="M124.2,97.4v4.3c0,9.5-7.7,16.7-16.6,16.9.5-1.5.7-3.2.7-4.9v-15.8s2.5.7,2.5.7c4.7,1.3,9.4.8,13.4-1.1Z"/>
+          <path fill="#033acc" d="M87.3,91.8v21.7s-16.1-4.6-16.1-4.6c-19.5-5.6-32.9-23.4-32.9-43.6v-17s20.7,5.9,20.7,5.9v29.5s28.3,8.1,28.3,8.1Z"/>
+          <path fill="#0263fa" d="M87.3,113.5v1.7c0,5.2-2,9.8-5.2,13.3l-17.2-4.9c-25.2-7.2-42.5-30.2-42.5-56.4v-18.4c4.1-2,8.9-2.5,13.8-1.1l2.1.6v17c0,20.3,13.4,38.1,32.9,43.6l16.1,4.6Z"/>
+          <path fill="#2997ff" d="M82.1,128.5c-4.8,5.3-12.4,7.8-20,5.6l-4.8-1.4c-27.3-7.8-46.1-32.8-46.1-61.1v-5.2c0-7.9,4.6-14.5,11.1-17.6v18.4c0,26.2,17.3,49.2,42.5,56.4l17.2,4.9Z"/>
+          <path fill="#2997ff" d="M135.1,74.3v5.9c0,7.7-4.5,14.2-10.9,17.2v-18.6c0-26.2-17.3-49.2-42.5-56.3l-16.5-4.7c5.2-5.2,13.1-7.7,21-5.4l2.6.8c27.3,7.8,46.2,32.8,46.1,61.2Z"/>
+          <path fill="#0263fa" d="M124.3,78.8v18.6c-4,1.9-8.7,2.4-13.4,1.1l-2.5-.7v-17c0-20.3-13.4-38.1-32.9-43.6l-16.5-4.7c.1-5.8,2.5-11,6.3-14.7l16.5,4.7c25.1,7.2,42.5,30.2,42.5,56.3Z"/>
+          <path fill="#033acc" d="M108.4,80.8v17s-21.1-6-21.1-6v-29.5s-28.3-8.1-28.3-8.1v-21.3c0-.1,0-.3,0-.4l16.5,4.7c19.5,5.6,32.9,23.4,32.9,43.6Z"/>
+          <polygon fill="#041b9f" points="87.3 62.3 87.3 91.8 59 83.7 59 54.2 87.3 62.3"/>
+        </svg>
+      </a>
+      <div class="header-brand-text">
+        <h1>Trade Policy and the Green Transition Monitor</h1>
+        <div class="header-sub-row">
+          <p class="header-sub">Assessing trade policy's role in the green transition</p>
+          <div class="header-actions">
+            <span class="last-updated" id="last-updated-display">Data loading…</span>
+            <div class="dl-buttons">
+              <button class="dl-btn" onclick="downloadJSON()">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>GTA Data
+              </button>
+              <button class="dl-btn" id="btn-fta" onclick="downloadFTAData()">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>FTA Information
+              </button>
+              <button class="dl-btn" onclick="downloadCSV()">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>Indicators Data
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAV TAGS: fixed with header, centered -->
+  <div class="nav-section">
+    <div class="nav-tags-wrapper">
+      <a class="nav-tag" href="#section-commitments">Green Commitments</a>
+      <a class="nav-tag" href="#section-behaviour">Green Transition Policy Behaviour</a>
+      <a class="nav-tag" href="#section-fossil">Fossil Fuel Persistence</a>
+      <a class="nav-tag" href="#section-protection">Green Protectionism</a>
+      <a class="nav-tag" href="#methodology">Methodology</a>
+      <a class="nav-tag" href="#contact">Contact</a>
+    </div>
+  </div>
+
+</div><!-- end #sticky-top -->
+
+<!-- ABOUT CARD: not sticky, scrolls away -->
+<div class="about-standalone">
+  <div class="about-card">
+    <p>This dashboard tracks how trade policy is shaping the global green transition. Its purpose is diagnostic: to assess the extent to which governments' trade and industrial policy choices support or undermine the shift away from fossil fuels. All indicators and visualisations are derived directly from GTA intervention records and CLAIRK's coding of FTA environmental provisions. Data is refreshed daily, except for FTA-related information.</p>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════════════════╗ -->
+<!-- ║  MAIN SCROLLABLE CONTENT                                ║ -->
+<!-- ╚══════════════════════════════════════════════════════════╝ -->
+<div id="main-content">
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 1: GREEN COMMITMENTS
+  ═══════════════════════════════════════════ -->
+  <div class="section-card" id="section-commitments">
+    <h2 class="section-title">Green Commitments</h2>
+    <p class="section-desc">This section tracks trade agreements that incorporate environmental provisions and the expanding network of bilateral green commitments.</p>
+
+    <div class="card-grid col3">
+      <div class="card">
+        <div class="card-title">Environmental Provisions in Trade Agreements</div>
+        <div class="card-sub">Network of FTA pairs with environmental provisions. Ribbon width = number of provisions. Hover any arc or chord for details. C. America and ESA shown as negotiating blocs; W. Balkans and Mediterr. aggregate bilateral EU agreements.</div>
+        <div class="chart-wrap" id="chord-wrap"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="card" style="text-align:center;padding:1.6rem 1.4rem;">
+          <div class="card-title">Agreements Tracked</div>
+          <div class="card-sub">FTAs with at least one environmental provision</div>
+          <div class="stat-number" id="fta-stat">—</div>
+          <div class="stat-label">agreements</div>
+        </div>
+        <div class="card" style="flex:1;">
+          <div class="card-title">Geographical Breadth</div>
+          <div class="card-sub">Countries party to FTAs with environmental provisions. Darker shading = more agreements. EU member states share 19 EU-level agreements.</div>
+          <div class="legend" style="margin-bottom:0.5rem;align-items:center;gap:0.6rem;">
+            <span style="font-size:0.68rem;color:var(--muted);font-family:var(--font-mono);">1</span>
+            <div style="width:60px;height:5px;border-radius:3px;background:linear-gradient(to right,#E8EEF5,#1874CD);flex-shrink:0;"></div>
+            <span style="font-size:0.68rem;color:var(--muted);font-family:var(--font-mono);">19</span>
+          </div>
+          <div class="chart-wrap" id="fta-map-wrap"></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-footer">
+      <span class="section-source">Source: Clairk Database</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 2: GREEN TRANSITION POLICY BEHAVIOUR
+  ═══════════════════════════════════════════ -->
+  <div class="section-card" id="section-behaviour">
+    <h2 class="section-title">Green Transition Policy Behaviour</h2>
+    <p class="section-desc">This section tracks governments' support measures targeting green goods as defined in the methodology, identifying which countries are most actively backing the green transition through trade and industrial policy.</p>
+
+    <!-- All 3 indicators side by side in one row -->
+    <div class="card-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="card">
+        <div class="card-title">Net Policy Orientation on Green Goods</div>
+        <div class="card-sub">Liberalising minus harmful interventions per implementing jurisdiction. Positive = net liberalising; negative = net harmful.</div>
+        <div class="slider-row">
+          <span class="slider-label">Year range</span>
+          <div class="slider-track">
+            <div class="range-wrap">
+              <div class="slider-base-bar"></div>
+              <div class="slider-range-bar" id="range-bar"></div>
+              <input type="range" id="slider-from" min="2020" max="2025" value="2020" step="1"/>
+              <input type="range" id="slider-to"   min="2020" max="2025" value="2025" step="1"/>
+            </div>
+          </div>
+          <span class="year-display" id="year-display">2020 – 2025</span>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#B6242E;"></div>More harmful</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1E752A;"></div>More liberalising</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#D8D8D8;"></div>No data</div>
+        </div>
+        <div class="chart-wrap" id="net-map-wrap"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Top Implementers — Green Sector Support</div>
+        <div class="card-sub">Harmful subsidies (MAST L) + liberalising import barriers and export controls on green goods, hydrogen, and strategic minerals. Cumulative since 2020.</div>
+        <div class="chart-wrap" id="green-support-wrap"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Growth of Green Industrial Policy</div>
+        <div class="card-sub">Annual counts of all interventions on green goods, hydrogen, and strategic minerals since 2020.</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-line" style="background:#B6242E;"></div>Harmful</div>
+          <div class="legend-item"><div class="legend-line" style="background:#1E752A;"></div>Liberalising</div>
+        </div>
+        <div class="chart-wrap" id="growth-trend-wrap"></div>
+      </div>
+    </div>
+    <div class="section-footer">
+      <span class="section-source">Source: Global Trade Alert</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 3: FOSSIL FUEL PERSISTENCE
+  ═══════════════════════════════════════════ -->
+  <div class="section-card" id="section-fossil">
+    <h2 class="section-title">Fossil Fuel Persistence</h2>
+    <p class="section-desc">This section examines the continued use of fossil fuel support policies alongside the global expansion of green industrial measures.</p>
+
+    <div class="card-grid col2">
+      <div class="card">
+        <div class="card-title">Active Fossil Fuel Subsidies</div>
+        <div class="card-sub">Cumulative count of in-force subsidy interventions (MAST L) on coal, oil, gas, and petrochemicals since 2020, per implementing jurisdiction.</div>
+        <div class="chart-wrap" id="fossil-map-wrap"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Fossil Fuel vs Green Subsidy Trends</div>
+        <div class="card-sub">Annual counts of subsidy interventions (MAST L): fossil fuels vs green goods, hydrogen, and strategic minerals.</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-line" style="background:#003366;"></div>Fossil fuels</div>
+          <div class="legend-item"><div class="legend-line" style="background:#1874CD;"></div>Green goods &amp; minerals</div>
+        </div>
+        <div class="chart-wrap" id="fossil-trend-wrap"></div>
+      </div>
+    </div>
+    <div class="section-footer">
+      <span class="section-source">Source: Global Trade Alert</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 4: GREEN PROTECTIONISM
+  ═══════════════════════════════════════════ -->
+  <div class="section-card" id="section-protection">
+    <h2 class="section-title">Green Protectionism</h2>
+    <p class="section-desc">This section explores the growing use of trade defence instruments and export restrictions linked to green goods and strategic minerals.</p>
+
+    <div class="card-grid col2">
+      <div class="card">
+        <div class="card-title">Leading Users of Trade Remedies on Green Goods</div>
+        <div class="card-sub">Cumulative anti-dumping, anti-subsidy, safeguard, and anti-circumvention interventions where at least one affected product is a green good. Since 2020.</div>
+        <div class="chart-wrap" id="remedies-wrap"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Export Restrictions on Energy Transition Minerals</div>
+        <div class="card-sub">Annual count of export controls since 2020. Both all minerals and by mineral.</div>
+        <select class="mineral-select" id="mineral-select">
+          <option value="all" selected>All minerals</option>
+          <option value="lithium">Lithium</option>
+          <option value="copper">Copper</option>
+          <option value="cobalt">Cobalt</option>
+          <option value="nickel">Nickel</option>
+          <option value="graphite">Graphite</option>
+          <option value="rare_earths">Rare Earths</option>
+        </select>
+        <div class="chart-wrap" id="mineral-trend-wrap"></div>
+      </div>
+    </div>
+    <div class="section-footer">
+      <span class="section-source">Source: Global Trade Alert</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       METHODOLOGY
+  ═══════════════════════════════════════════ -->
+  <div class="section-card" id="methodology">
+    <h2 class="section-title">Methodology</h2>
+
+    <!-- About the data: full width, Roboto Light, new text -->
+    <div class="meth-sub">
+      <h3 class="meth-sub-title">About the data</h3>
+      <div class="meth-about-text">
+        <p>The indicators in this dashboard are built using two types of data. Dynamic indicators are derived directly from the Global Trade Alert database and refreshed daily via the GTA API. Static indicators are based on CLAIRK's database coding of environmental provisions in free trade agreements. This data is only updated periodically.</p>
+        <p>All dynamic indicators include measures covering the product groups specified in the "product groups" section. All product groups use the HS Nomenclature 2022 version at 6 digits. The trade instruments covered have been grouped into different policy categories as specified in the section "policy groups". Only measures with an announcement date from 1 January 2020 are included.</p>
+        <p>The GTA evaluates each intervention as Red (almost certainly harmful to foreign commercial interests), Amber (likely harmful), or Green (almost certainly liberalising). In this dashboard, "harmful" refers to Red and Amber interventions combined; "liberalising" refers to Green interventions. The underlying dataset and all indicators can be downloaded using the buttons in the banner above.</p>
+      </div>
+    </div>
+
+    <!-- Indicators: 4 accordion sections -->
+    <div class="meth-sub">
+      <h3 class="meth-sub-title">Indicators</h3>
+      <div class="meth-accordion">
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Green Commitments</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>Environmental Provisions in Trade Agreements</h4>
+                <p>Static dataset based on CLAIRK's coding. A "country pair" is counted once per bilateral FTA. Chord ribbon width is proportional to the number of environmental provisions in the agreement.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Geographical Breadth</h4>
+                <p>World map showing countries party to at least one FTA with environmental provisions. Colour intensity reflects the number of qualifying agreements per country. EU member states are each assigned the full count of EU-level agreements (19), as all member states are bound by them equally. Source: CLAIRK database.</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Green Transition Policy Behaviour</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>Net Policy Orientation on Green Goods</h4>
+                <p>Count of liberalising interventions minus harmful interventions on green goods HS codes, per implementing jurisdiction. Positive = net liberalising; negative = net harmful.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Top Implementers — Green Sector Support</h4>
+                <p>Combines: (a) harmful subsidies (MAST L) on green goods, hydrogen, and strategic minerals; (b) liberalising import barriers on the same products; (c) liberalising export controls on the same products. Cumulative since January 2020.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Growth of Green Industrial Policy</h4>
+                <p>Annual counts of all intervention types (harmful and liberalising) affecting green goods, hydrogen, and strategic minerals HS codes, announced since 2020.</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Fossil Fuel Persistence</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>Active Fossil Fuel Subsidies</h4>
+                <p>Cumulative count of in-force subsidy interventions (MAST Chapter L) on coal, oil, gas, and petrochemicals HS codes per implementing jurisdiction, restricted to measures currently in force.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Fossil Fuel vs Green Subsidy Trends</h4>
+                <p>Annual counts of subsidy interventions (MAST Chapter L) on fossil fuel HS codes versus green goods, hydrogen, and strategic mineral HS codes.</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Green Protectionism</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>Leading Users of Trade Remedies on Green Goods</h4>
+                <p>Cumulative counts of anti-dumping, anti-subsidy, safeguard, and anti-circumvention interventions where at least one affected product falls within the green goods HS code list.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Export Restrictions on Energy Transition Minerals</h4>
+                <p>Annual counts of export control interventions on HS codes for lithium, copper, cobalt, nickel, graphite, and rare earths separately.</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- Product groups -->
+    <div class="meth-sub">
+      <h3 class="meth-sub-title">Product groups</h3>
+      <div class="product-grid">
+
+        <!-- Col 1: Green Goods — spans full height of the middle stack -->
+        <div class="product-card product-card-tall">
+          <h4>Green Goods</h4>
+          <div class="product-subcategory"><div class="product-subcat-label">Batteries</div><div class="hs-codes">850610, 850630, 850640, 850650, 850660, 850680, 850690, 850710, 850720, 850730, 850750, 850760, 850780, 850790</div></div>
+          <div class="product-subcategory"><div class="product-subcat-label">Fuel Cell Batteries</div><div class="hs-codes">840590, 850690</div></div>
+          <div class="product-subcategory"><div class="product-subcat-label">Other Green Goods</div><div class="hs-codes">870380, 854142, 854143, 850231, 280410, 854330, 252100, 252220, 281610, 701990, 841410, 841430, 841440, 841480, 841490, 841780, 841960, 841989, 842139, 842199, 842490, 851411, 851419, 851420, 851431, 851432, 851439, 851490, 280110, 281511, 281512, 281830, 282010, 282090, 282410, 283210, 283220, 283510, 283524, 283525, 283526, 283527, 283528, 283529, 380210, 392690, 580190, 730900, 731010, 731021, 731029, 732510, 848110, 848130, 848140, 848180, 902610, 902620</div></div>
+          <div class="product-subcategory"><div class="product-subcat-label">Solar Energy Products</div><div class="hs-codes">392690, 700991, 700992, 711590, 730431, 730441, 730451, 730890, 741121, 741122, 741129, 761090, 830630, 841280, 841989, 841990, 847989, 850110, 850120, 850131, 850132, 850133, 850134, 850161, 850162, 850163, 850164, 850180, 850239, 850300, 850440, 854142, 854143, 900190, 900290, 900580, 901380</div></div>
+          <div class="product-subcategory"><div class="product-subcat-label">Wind Energy Products</div><div class="hs-codes">730820, 730890, 841290, 848210, 848220, 848230, 848240, 848250, 848260, 848280, 848340, 850161, 850162, 850163, 850164, 850231, 850421, 850422, 850423, 850431, 850432, 850433, 850434, 853710, 853720, 854442, 854449, 854460, 902830, 903020, 903021, 903022, 903023, 903024, 903025, 903026, 903027, 903028, 903029, 903039, 903289</div></div>
+        </div>
+
+        <!-- Col 2: three compact cards stacked vertically -->
+        <div class="product-col-stack">
+          <div class="product-card">
+            <h4>Green Fuels</h4>
+            <div class="product-subcategory"><div class="product-subcat-label">Biofuel</div><div class="hs-codes">382600</div></div>
+            <div class="product-subcategory"><div class="product-subcat-label">Hydrogen</div><div class="hs-codes">280410</div></div>
+          </div>
+          <div class="product-card">
+            <h4>Fossil Fuels</h4>
+            <div class="product-subcategory"><div class="product-subcat-label">Coal</div><div class="hs-codes">270111, 270112, 270119, 270120, 270210, 270220, 270300, 270400</div></div>
+            <div class="product-subcategory"><div class="product-subcat-label">Oil</div><div class="hs-codes">270900, 271012, 271019, 271020, 271112, 271113, 271114, 271119, 271121, 271129, 271210, 271220, 271290, 271311, 271312, 271320, 271390</div></div>
+            <div class="product-subcategory"><div class="product-subcat-label">Gas</div><div class="hs-codes">271111, 271112, 271113, 271114, 271119, 271121, 271129</div></div>
+          </div>
+          <div class="product-card">
+            <h4>Petrochemicals</h4>
+            <div class="product-subcategory"><div class="hs-codes">290121, 290122, 290123, 290124, 290211, 290220, 290230, 290241, 290242, 290243, 290244, 290250, 290511, 290512, 290513, 290514, 290515, 290516, 290519, 290522, 290529, 290531, 290532, 291521, 291611, 291612, 291736, 292910, 281420, 310210, 310230, 310240, 390110, 390120, 390210, 390230, 390311, 390319, 390330, 390410, 390690, 390760, 400219, 400220, 400259</div></div>
+          </div>
+        </div>
+
+        <!-- Col 3: Strategic Minerals — spans full height of the middle stack -->
+        <div class="product-card product-card-tall">
+          <h4>Strategic Minerals</h4>
+          <div class="product-subcategory"><div class="product-subcat-label">Lithium</div><div class="hs-codes">282520, 283691</div></div>
+          <div class="product-subcategory"><div class="product-subcat-label">Copper</div><div class="hs-codes">260300, 262030, 282550, 282741, 283325, 740100, 740200, 740300, 740400, 740500, 740610, 740620, 740710, 740721, 740729, 740811, 740819, 740821, 740822, 740823, 740824, 740825, 740826, 740827, 740828, 740829, 740911, 740912, 740913, 740914, 740919, 740921, 740922, 740931, 740940, 740990, 741011, 741012, 741013, 741014</div></div>
+          <div class="product-subcategory"><div class="product-subcat-label">Cobalt</div><div class="hs-codes">260500, 282200, 810520, 810530, 810590</div></div>
+          <div class="product-subcategory"><div class="product-subcat-label">Nickel</div><div class="hs-codes">260400, 282540, 282735, 283324, 720260, 750110, 750120, 750210, 750220, 750300, 750400, 750511, 750512, 750521, 750522, 750610, 750620</div></div>
+          <div class="product-subcategory"><div class="product-subcat-label">Graphite</div><div class="hs-codes">250410, 250490</div></div>
+          <div class="product-subcategory"><div class="product-subcat-label">Rare Earths</div><div class="hs-codes">280530, 284610, 284690</div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Policy groups: revised text -->
+    <div class="meth-sub" style="margin-bottom:0;">
+      <h3 class="meth-sub-title">Policy groups</h3>
+      <div class="policy-grid">
+        <div class="policy-card">
+          <h4>Domestic subsidies</h4>
+          <p>This group includes the following trade instruments classified under MAST Chapter L:</p>
+          <div style="margin-top:0.45rem;">
+            <span class="policy-tag">Debt purchase</span><span class="policy-tag">Equity stake</span><span class="policy-tag">Financial grant</span><span class="policy-tag">Financial investment support</span><span class="policy-tag">In-kind grant</span><span class="policy-tag">Interest payment subsidy</span><span class="policy-tag">Lending support</span><span class="policy-tag">Loan guarantee</span><span class="policy-tag">Price stabilisation</span><span class="policy-tag">Production subsidy</span><span class="policy-tag">State loan</span><span class="policy-tag">Tax or social insurance relief</span><span class="policy-tag">State aid, nes</span><span class="policy-tag">State aid, unspecified</span>
+          </div>
+        </div>
+        <div class="policy-card">
+          <h4>Export controls</h4>
+          <p>This group includes the following trade instruments:</p>
+          <div style="margin-top:0.45rem;">
+            <span class="policy-tag">export ban</span><span class="policy-tag">export quota</span><span class="policy-tag">export tax</span><span class="policy-tag">export tariff quota</span><span class="policy-tag">export licensing requirement</span><span class="policy-tag">export price benchmark</span><span class="policy-tag">local supply for exports</span>
+          </div>
+        </div>
+        <div class="policy-card">
+          <h4>Import barrier</h4>
+          <p>This group includes the following trade instruments:</p>
+          <div style="margin-top:0.45rem;">
+            <span class="policy-tag">import tariff</span><span class="policy-tag">import quota</span><span class="policy-tag">import ban</span><span class="policy-tag">import tariff quota</span><span class="policy-tag">import licensing requirement</span><span class="policy-tag">import price benchmark</span><span class="policy-tag">minimum import price</span><span class="policy-tag">other import charges</span>
+          </div>
+        </div>
+        <div class="policy-card">
+          <h4>Trade Remedies</h4>
+          <p>This group includes the following trade instruments:</p>
+          <div style="margin-top:0.45rem;">
+            <span class="policy-tag">Anti-dumping</span><span class="policy-tag">Anti-subsidy</span><span class="policy-tag">Anti-circumvention</span><span class="policy-tag">Safeguards</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       CONTACT
+  ═══════════════════════════════════════════ -->
+  <div class="section-card" id="contact">
+    <div class="contact-inner">
+      <h3>Contact</h3>
+      <p>For inquiries related to the scope and presentation of the contents of this dashboard, please get in touch.</p>
+      <a href="mailto:anaelena.sancho@sgept.org" class="contact-link">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="14" height="10" rx="2"/><path d="M1 5l7 5 7-5"/></svg>
+        anaelena.sancho@sgept.org
+      </a>
+    </div>
+  </div>
+
+</div><!-- end #main-content -->
+
+<button id="back-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="2"><path d="M2 9l5-5 5 5"/></svg>
+</button>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONSTANTS — Roboto for all D3 text
+// ═══════════════════════════════════════════════════════
+const F_SANS = "'Roboto', Arial, sans-serif";
+const F_MONO = "'Roboto Mono', monospace";
+
+const TEAL      = "#37B7C3";
+const RED       = "#B6242E";
+const GREEN_LIB = "#1E752A";
+const FOSSIL_C  = "#003366";
+const GTA_BLUE  = "#1874CD";
+const NAV_BLUE  = "#3B97ED";
+const NAVY      = "#0E334D";
+const MUTED     = "#797979";
+const BORDER    = "#D8D8D8";
+
+let DATA  = null;
+let WORLD = null;
+
+const MINERAL_LABELS = {
+  all:"All minerals",
+  lithium:"Lithium", copper:"Copper", cobalt:"Cobalt",
+  nickel:"Nickel", graphite:"Graphite", rare_earths:"Rare Earths"
+};
+
+// ═══════════════════════════════════════════════════════
+//  SAMPLE / FALLBACK DATA — used when data/indicators.json is absent
+// ═══════════════════════════════════════════════════════
+const SAMPLE_DATA = {
+  last_updated: "sample data",
+  fta_total_pairs: 64,
+  fta_country_pairs: [
+    // EU
+    {from:"EU", to:"Canada",          agreement:"CETA",                          year:2017, provisions:1},
+    {from:"EU", to:"Israel",          agreement:"EU-Israel Association",         year:2000, provisions:1},
+    {from:"EU", to:"C. America", agreement:"Central America-EU Association",year:2013, provisions:2},
+    {from:"EU", to:"ESA",   agreement:"ESA-EU Interim EPA",            year:2012, provisions:1},
+    {from:"EU", to:"Kenya",           agreement:"EU-Kenya EPA",                  year:2023, provisions:1},
+    {from:"EU", to:"W. Balkans",      agreement:"EU Stabilisation & Association Agreements", year:2006, provisions:5,
+      countries:"Albania, Bosnia-Herzegovina, Kosovo, North Macedonia, Serbia"},
+    {from:"EU", to:"Mediterr.",   agreement:"EU Association Agreements",     year:2002, provisions:9,
+      countries:"Algeria, Azerbaijan, Egypt, Iraq, Jordan, Lebanon, Morocco, Palestinian Authority, Tunisia"},
+    // Korea
+    {from:"Korea", to:"US",   agreement:"Korea-US FTA",             year:2012, provisions:1},
+    {from:"Korea", to:"Australia",       agreement:"Australia-Korea FTA",       year:2014, provisions:1},
+    {from:"Korea", to:"Israel",          agreement:"Israel-Korea FTA",          year:2021, provisions:1},
+    {from:"Korea", to:"NZ",     agreement:"Korea-NZ FTA",              year:2015, provisions:2},
+    {from:"Korea", to:"Peru",            agreement:"Korea-Peru FTA",            year:2011, provisions:4},
+    {from:"Korea", to:"Colombia",        agreement:"Colombia-Korea FTA",        year:2016, provisions:1},
+    {from:"Korea", to:"C. America", agreement:"Central America-Korea FTA", year:2019, provisions:1},
+    // Canada
+    {from:"Canada", to:"US", agreement:"USMCA",                  year:2020, provisions:2},
+    {from:"Canada", to:"Israel",        agreement:"Canada-Israel FTA",       year:1997, provisions:1},
+    {from:"Canada", to:"Chile",         agreement:"CPTPP",                   year:2018, provisions:2},
+    {from:"Canada", to:"NZ",   agreement:"CPTPP",                   year:2018, provisions:2},
+    {from:"Canada", to:"Peru",          agreement:"CPTPP + Canada-Peru FTA", year:2018, provisions:4},
+    {from:"Canada", to:"Colombia",      agreement:"Canada-Colombia FTA",     year:2011, provisions:2},
+    {from:"Canada", to:"Japan",         agreement:"CPTPP",                   year:2018, provisions:2},
+    {from:"Canada", to:"Mediterr.", agreement:"Canada-Jordan FTA",       year:2012, provisions:1,
+      countries:"Jordan"},
+    // United Kingdom
+    {from:"UK", to:"Australia",     agreement:"Australia-UK FTA", year:2023, provisions:3},
+    {from:"UK", to:"NZ",   agreement:"NZ-UK FTA",        year:2023, provisions:2},
+    {from:"UK", to:"ESA", agreement:"ESA-UK EPA",       year:2021, provisions:1},
+    {from:"UK", to:"Kenya",         agreement:"Kenya-UK EPA",     year:2021, provisions:1},
+    {from:"UK", to:"India",         agreement:"India-UK FTA",     year:2024, provisions:2},
+    // United States
+    {from:"US", to:"Australia",       agreement:"Australia-US FTA",  year:2005, provisions:1},
+    {from:"US", to:"Chile",           agreement:"Chile-US FTA",      year:2004, provisions:3},
+    {from:"US", to:"Peru",            agreement:"Peru-US TPA",        year:2009, provisions:1},
+    {from:"US", to:"Colombia",        agreement:"Colombia-US TPA",   year:2012, provisions:1},
+    {from:"US", to:"C. America", agreement:"CAFTA-DR",          year:2006, provisions:1},
+    {from:"US", to:"Oman",            agreement:"Oman-US FTA",       year:2009, provisions:1},
+    {from:"US", to:"Singapore",       agreement:"Singapore-US FTA",  year:2004, provisions:1},
+    {from:"US", to:"Panama",          agreement:"Panama-US TPA",     year:2012, provisions:1},
+    {from:"US", to:"Mediterr.",   agreement:"Morocco-US FTA",    year:2006, provisions:1,
+      countries:"Morocco"},
+    // CPTPP bilateral pairs
+    {from:"Australia", to:"Chile",       agreement:"CPTPP", year:2018, provisions:2},
+    {from:"Australia", to:"NZ", agreement:"CPTPP", year:2018, provisions:2},
+    {from:"Australia", to:"Peru",        agreement:"CPTPP", year:2018, provisions:2},
+    {from:"Australia", to:"Japan",       agreement:"CPTPP", year:2018, provisions:2},
+    {from:"Chile",     to:"NZ", agreement:"CPTPP", year:2018, provisions:2},
+    {from:"Chile",     to:"Peru",        agreement:"CPTPP", year:2018, provisions:2},
+    {from:"Chile",     to:"Japan",       agreement:"CPTPP", year:2018, provisions:2},
+    {from:"NZ", to:"Peru",      agreement:"CPTPP", year:2018, provisions:2},
+    {from:"NZ", to:"Japan",     agreement:"CPTPP", year:2018, provisions:2},
+    {from:"Peru",      to:"Japan",       agreement:"CPTPP", year:2018, provisions:2},
+    // Israel
+    {from:"Israel", to:"Colombia", agreement:"Colombia-Israel FTA", year:2020, provisions:1},
+    // UAE
+    {from:"UAE", to:"Australia",   agreement:"Australia-UAE CEPA", year:2023, provisions:2},
+    {from:"UAE", to:"NZ", agreement:"NZ-UAE CEPA",        year:2023, provisions:1},
+    {from:"UAE", to:"Chile",       agreement:"Chile-UAE CEPA",     year:2024, provisions:1}
+  ],
+  // Pre-computed: FTA agreements per country (EU expanded to all 27 members = 19 each)
+  fta_coverage: [
+    {iso:"AUT",count:19},{iso:"BEL",count:19},{iso:"BGR",count:19},{iso:"HRV",count:19},
+    {iso:"CYP",count:19},{iso:"CZE",count:19},{iso:"DNK",count:19},{iso:"EST",count:19},
+    {iso:"FIN",count:19},{iso:"FRA",count:19},{iso:"DEU",count:19},{iso:"GRC",count:19},
+    {iso:"HUN",count:19},{iso:"IRL",count:19},{iso:"ITA",count:19},{iso:"LVA",count:19},
+    {iso:"LTU",count:19},{iso:"LUX",count:19},{iso:"MLT",count:19},{iso:"NLD",count:19},
+    {iso:"POL",count:19},{iso:"PRT",count:19},{iso:"ROU",count:19},{iso:"SVK",count:19},
+    {iso:"SVN",count:19},{iso:"ESP",count:19},{iso:"SWE",count:19},
+    {iso:"USA",count:11},{iso:"KOR",count:8},{iso:"CAN",count:8},{iso:"NZL",count:6},
+    {iso:"ISR",count:6},{iso:"GBR",count:5},{iso:"AUS",count:5},{iso:"PER",count:4},
+    {iso:"PAN",count:4},{iso:"MYS",count:4},{iso:"GTM",count:4},{iso:"COL",count:4},
+    {iso:"CHL",count:4},{iso:"ARE",count:3},{iso:"CHE",count:3},{iso:"SGP",count:3},
+    {iso:"NIC",count:3},{iso:"MEX",count:3},{iso:"JPN",count:3},{iso:"HND",count:3},
+    {iso:"SLV",count:3},{iso:"CRI",count:3},{iso:"ZWE",count:2},{iso:"ZMB",count:2},
+    {iso:"UKR",count:2},{iso:"SYC",count:2},{iso:"MAR",count:2},{iso:"MUS",count:2},
+    {iso:"MDG",count:2},{iso:"KEN",count:2},{iso:"JOR",count:2},{iso:"ISL",count:2},
+    {iso:"COM",count:2},{iso:"TWN",count:2},{iso:"CHN",count:2},{iso:"VNM",count:1},
+    {iso:"TUR",count:1},{iso:"TUN",count:1},{iso:"SRB",count:1},{iso:"OMN",count:1},
+    {iso:"NOR",count:1},{iso:"MKD",count:1},{iso:"LBN",count:1},{iso:"IRQ",count:1},
+    {iso:"IND",count:1},{iso:"EGY",count:1},{iso:"DOM",count:1},{iso:"BRN",count:1},
+    {iso:"BIH",count:1},{iso:"AZE",count:1},{iso:"DZA",count:1},{iso:"ALB",count:1}
+  ],
+  net_policy_stance: [
+    {iso:"USA",country:"US",  year:2020,harmful:45,liberalising:12},
+    {iso:"USA",country:"US",  year:2021,harmful:52,liberalising:18},
+    {iso:"USA",country:"US",  year:2022,harmful:38,liberalising:89},
+    {iso:"USA",country:"US",  year:2023,harmful:41,liberalising:76},
+    {iso:"USA",country:"US",  year:2024,harmful:35,liberalising:62},
+    {iso:"USA",country:"US",  year:2025,harmful:28,liberalising:44},
+    {iso:"CHN",country:"China",          year:2020,harmful:55,liberalising:28},
+    {iso:"CHN",country:"China",          year:2021,harmful:61,liberalising:34},
+    {iso:"CHN",country:"China",          year:2022,harmful:58,liberalising:75},
+    {iso:"CHN",country:"China",          year:2023,harmful:65,liberalising:68},
+    {iso:"CHN",country:"China",          year:2024,harmful:72,liberalising:61},
+    {iso:"CHN",country:"China",          year:2025,harmful:68,liberalising:55},
+    {iso:"DEU",country:"Germany",        year:2020,harmful:8, liberalising:22},
+    {iso:"DEU",country:"Germany",        year:2021,harmful:11,liberalising:34},
+    {iso:"DEU",country:"Germany",        year:2022,harmful:9, liberalising:41},
+    {iso:"DEU",country:"Germany",        year:2023,harmful:7, liberalising:35},
+    {iso:"DEU",country:"Germany",        year:2024,harmful:6, liberalising:28},
+    {iso:"DEU",country:"Germany",        year:2025,harmful:5, liberalising:19},
+    {iso:"IND",country:"India",          year:2020,harmful:34,liberalising:5},
+    {iso:"IND",country:"India",          year:2021,harmful:41,liberalising:9},
+    {iso:"IND",country:"India",          year:2022,harmful:38,liberalising:15},
+    {iso:"IND",country:"India",          year:2023,harmful:45,liberalising:22},
+    {iso:"IND",country:"India",          year:2024,harmful:52,liberalising:28},
+    {iso:"IND",country:"India",          year:2025,harmful:47,liberalising:31},
+    {iso:"BRA",country:"Brazil",         year:2020,harmful:22,liberalising:14},
+    {iso:"BRA",country:"Brazil",         year:2021,harmful:25,liberalising:18},
+    {iso:"BRA",country:"Brazil",         year:2022,harmful:21,liberalising:34},
+    {iso:"BRA",country:"Brazil",         year:2023,harmful:19,liberalising:39},
+    {iso:"BRA",country:"Brazil",         year:2024,harmful:18,liberalising:43},
+    {iso:"BRA",country:"Brazil",         year:2025,harmful:17,liberalising:38},
+    {iso:"KOR",country:"South Korea",    year:2020,harmful:5, liberalising:25},
+    {iso:"KOR",country:"South Korea",    year:2021,harmful:6, liberalising:38},
+    {iso:"KOR",country:"South Korea",    year:2022,harmful:4, liberalising:45},
+    {iso:"KOR",country:"South Korea",    year:2023,harmful:5, liberalising:41},
+    {iso:"KOR",country:"South Korea",    year:2024,harmful:3, liberalising:33},
+    {iso:"KOR",country:"South Korea",    year:2025,harmful:4, liberalising:27},
+    {iso:"JPN",country:"Japan",          year:2020,harmful:4, liberalising:19},
+    {iso:"JPN",country:"Japan",          year:2021,harmful:5, liberalising:28},
+    {iso:"JPN",country:"Japan",          year:2022,harmful:3, liberalising:35},
+    {iso:"JPN",country:"Japan",          year:2023,harmful:4, liberalising:31},
+    {iso:"JPN",country:"Japan",          year:2024,harmful:3, liberalising:24},
+    {iso:"JPN",country:"Japan",          year:2025,harmful:2, liberalising:18},
+    {iso:"RUS",country:"Russia",         year:2020,harmful:28,liberalising:3},
+    {iso:"RUS",country:"Russia",         year:2021,harmful:35,liberalising:4},
+    {iso:"RUS",country:"Russia",         year:2022,harmful:42,liberalising:2},
+    {iso:"RUS",country:"Russia",         year:2023,harmful:38,liberalising:3},
+    {iso:"RUS",country:"Russia",         year:2024,harmful:31,liberalising:2},
+    {iso:"RUS",country:"Russia",         year:2025,harmful:27,liberalising:1},
+    {iso:"GBR",country:"UK", year:2020,harmful:3, liberalising:15},
+    {iso:"GBR",country:"UK", year:2021,harmful:4, liberalising:24},
+    {iso:"GBR",country:"UK", year:2022,harmful:3, liberalising:31},
+    {iso:"GBR",country:"UK", year:2023,harmful:2, liberalising:27},
+    {iso:"GBR",country:"UK", year:2024,harmful:2, liberalising:21},
+    {iso:"GBR",country:"UK", year:2025,harmful:1, liberalising:14},
+    {iso:"CAN",country:"Canada",         year:2020,harmful:6, liberalising:21},
+    {iso:"CAN",country:"Canada",         year:2021,harmful:8, liberalising:32},
+    {iso:"CAN",country:"Canada",         year:2022,harmful:5, liberalising:42},
+    {iso:"CAN",country:"Canada",         year:2023,harmful:4, liberalising:38},
+    {iso:"CAN",country:"Canada",         year:2024,harmful:3, liberalising:29},
+    {iso:"CAN",country:"Canada",         year:2025,harmful:3, liberalising:21},
+    {iso:"AUS",country:"Australia",      year:2020,harmful:7, liberalising:12},
+    {iso:"AUS",country:"Australia",      year:2021,harmful:9, liberalising:18},
+    {iso:"AUS",country:"Australia",      year:2022,harmful:6, liberalising:24},
+    {iso:"AUS",country:"Australia",      year:2023,harmful:5, liberalising:31},
+    {iso:"AUS",country:"Australia",      year:2024,harmful:4, liberalising:26},
+    {iso:"AUS",country:"Australia",      year:2025,harmful:3, liberalising:19},
+    {iso:"SAU",country:"Saudi Arabia",   year:2020,harmful:18,liberalising:2},
+    {iso:"SAU",country:"Saudi Arabia",   year:2021,harmful:22,liberalising:3},
+    {iso:"SAU",country:"Saudi Arabia",   year:2022,harmful:19,liberalising:5},
+    {iso:"SAU",country:"Saudi Arabia",   year:2023,harmful:25,liberalising:4},
+    {iso:"SAU",country:"Saudi Arabia",   year:2024,harmful:21,liberalising:6},
+    {iso:"SAU",country:"Saudi Arabia",   year:2025,harmful:18,liberalising:5},
+    {iso:"FRA",country:"France",         year:2020,harmful:6, liberalising:18},
+    {iso:"FRA",country:"France",         year:2021,harmful:9, liberalising:27},
+    {iso:"FRA",country:"France",         year:2022,harmful:7, liberalising:33},
+    {iso:"FRA",country:"France",         year:2023,harmful:5, liberalising:29},
+    {iso:"FRA",country:"France",         year:2024,harmful:4, liberalising:22},
+    {iso:"FRA",country:"France",         year:2025,harmful:3, liberalising:15}
+  ],
+  green_sector_support: [
+    {country:"US",  count:312},
+    {country:"China",          count:287},
+    {country:"Germany",        count:198},
+    {country:"France",         count:167},
+    {country:"South Korea",    count:143},
+    {country:"Japan",          count:138},
+    {country:"UK", count:121},
+    {country:"India",          count:114},
+    {country:"Canada",         count:97},
+    {country:"Australia",      count:82}
+  ],
+  green_industrial_growth: [
+    {year:2020,harmful:89, liberalising:67},
+    {year:2021,harmful:124,liberalising:98},
+    {year:2022,harmful:156,liberalising:189},
+    {year:2023,harmful:143,liberalising:224},
+    {year:2024,harmful:131,liberalising:267},
+    {year:2025,harmful:118,liberalising:241}
+  ],
+  fossil_fuel_support: [
+    {iso:"SAU",country:"Saudi Arabia", count:89},
+    {iso:"RUS",country:"Russia",       count:76},
+    {iso:"USA",country:"US",count:68},
+    {iso:"CHN",country:"China",        count:54},
+    {iso:"IND",country:"India",        count:47},
+    {iso:"IDN",country:"Indonesia",    count:38},
+    {iso:"BRA",country:"Brazil",       count:31},
+    {iso:"ARE",country:"UAE",          count:28},
+    {iso:"IRN",country:"Iran",         count:24},
+    {iso:"IRQ",country:"Iraq",         count:21},
+    {iso:"NGA",country:"Nigeria",      count:18},
+    {iso:"MEX",country:"Mexico",       count:16},
+    {iso:"AUS",country:"Australia",    count:14},
+    {iso:"KWT",country:"Kuwait",       count:12},
+    {iso:"DEU",country:"Germany",      count:9}
+  ],
+  fossil_vs_green_trend: [
+    {year:2020,fossil:312,green:156},
+    {year:2021,fossil:298,green:222},
+    {year:2022,fossil:287,green:345},
+    {year:2023,fossil:271,green:367},
+    {year:2024,fossil:258,green:398},
+    {year:2025,fossil:241,green:359}
+  ],
+  trade_remedies: [
+    {country:"US",  count:48},
+    {country:"EU",             count:41},
+    {country:"India",          count:34},
+    {country:"Brazil",         count:27},
+    {country:"Canada",         count:23},
+    {country:"Australia",      count:18},
+    {country:"Turkey",         count:15},
+    {country:"UK", count:13},
+    {country:"Mexico",         count:11},
+    {country:"South Korea",    count:9}
+  ],
+  mineral_export_restrictions: {
+    all:         [{year:2020,count:33},{year:2021,count:46},{year:2022,count:72},{year:2023,count:91},{year:2024,count:113},{year:2025,count:87}],
+    lithium:     [{year:2020,count:3},{year:2021,count:5},{year:2022,count:8},{year:2023,count:12},{year:2024,count:15},{year:2025,count:11}],
+    copper:      [{year:2020,count:4},{year:2021,count:6},{year:2022,count:9},{year:2023,count:11},{year:2024,count:13},{year:2025,count:10}],
+    cobalt:      [{year:2020,count:6},{year:2021,count:8},{year:2022,count:12},{year:2023,count:15},{year:2024,count:18},{year:2025,count:14}],
+    nickel:      [{year:2020,count:8},{year:2021,count:11},{year:2022,count:16},{year:2023,count:19},{year:2024,count:22},{year:2025,count:17}],
+    graphite:    [{year:2020,count:5},{year:2021,count:7},{year:2022,count:14},{year:2023,count:18},{year:2024,count:24},{year:2025,count:19}],
+    rare_earths: [{year:2020,count:7},{year:2021,count:9},{year:2022,count:13},{year:2023,count:16},{year:2024,count:21},{year:2025,count:16}]
+  }
+};
+
+
+const NODE_AGREEMENTS = {
+  "EU":19, "US":11, "Korea":8, "Canada":8, "NZ":6, "Israel":6,
+  "UK":5, "Australia":5, "Peru":4, "Colombia":4, "Chile":4, "Panama":4,
+  "Japan":3, "UAE":3, "Singapore":3, "Morocco":2, "Kenya":2,
+  "Oman":1, "India":1,
+  "C. America":3, "ESA":2, "W. Balkans":5, "Mediterr.":11
+};
+
+// ═══════════════════════════════════════════════════════
+//  ISO3 → NUMERIC MAP
+// ═══════════════════════════════════════════════════════
+const ISO3_NUM = {
+  AFG:"004",ALB:"008",DZA:"012",AND:"020",AGO:"024",ARG:"032",ARM:"051",
+  AUS:"036",AUT:"040",AZE:"031",BHS:"044",BHR:"048",BGD:"050",BRB:"052",
+  BLR:"112",BEL:"056",BLZ:"084",BEN:"204",BTN:"064",BOL:"068",BIH:"070",
+  BWA:"072",BRA:"076",BRN:"096",BGR:"100",BFA:"854",BDI:"108",CPV:"132",
+  KHM:"116",CMR:"120",CAN:"124",CAF:"140",TCD:"148",CHL:"152",CHN:"156",
+  COL:"170",COM:"174",COD:"180",COG:"178",CRI:"188",CIV:"384",HRV:"191",
+  CUB:"192",CYP:"196",CZE:"203",DNK:"208",DJI:"262",DOM:"214",ECU:"218",
+  EGY:"818",SLV:"222",GNQ:"226",ERI:"232",EST:"233",SWZ:"748",ETH:"231",
+  FJI:"242",FIN:"246",FRA:"250",GAB:"266",GMB:"270",GEO:"268",DEU:"276",
+  GHA:"288",GRC:"300",GTM:"320",GIN:"324",GNB:"624",GUY:"328",HTI:"332",
+  HND:"340",HUN:"348",ISL:"352",IND:"356",IDN:"360",IRN:"364",IRQ:"368",
+  IRL:"372",ISR:"376",ITA:"380",JAM:"388",JPN:"392",JOR:"400",KAZ:"398",
+  KEN:"404",KOR:"410",KWT:"414",KGZ:"417",LAO:"418",LVA:"428",LBN:"422",
+  LSO:"426",LBR:"430",LBY:"434",LTU:"440",LUX:"442",MDG:"450",MWI:"454",
+  MYS:"458",MDV:"462",MLI:"466",MLT:"470",MRT:"478",MUS:"480",MEX:"484",
+  MDA:"498",MNG:"496",MNE:"499",MAR:"504",MOZ:"508",MMR:"104",NAM:"516",
+  NPL:"524",NLD:"528",NZL:"554",NIC:"558",NER:"562",NGA:"566",MKD:"807",
+  NOR:"578",OMN:"512",PAK:"586",PAN:"591",PNG:"598",PRY:"600",PER:"604",
+  PHL:"608",POL:"616",PRT:"620",QAT:"634",ROU:"642",RUS:"643",RWA:"646",
+  SAU:"682",SEN:"686",SRB:"688",SLE:"694",SGP:"702",SVK:"703",SVN:"705",
+  SOM:"706",ZAF:"710",SSD:"728",ESP:"724",LKA:"144",SDN:"729",SUR:"740",
+  SWE:"752",CHE:"756",SYR:"760",TWN:"158",TJK:"762",TZA:"834",THA:"764",
+  TLS:"626",TGO:"768",TTO:"780",TUN:"788",TUR:"792",TKM:"795",UGA:"800",
+  UKR:"804",ARE:"784",GBR:"826",USA:"840",URY:"858",UZB:"860",VEN:"862",
+  VNM:"704",YEM:"887",ZMB:"894",ZWE:"716",SYC:"690"
+};
+
+// ═══════════════════════════════════════════════════════
+//  NAV TAG SMOOTH SCROLL — offset by sticky height
+// ═══════════════════════════════════════════════════════
+function getStickyHeight() {
+  const el = document.getElementById("sticky-top");
+  return el ? el.offsetHeight + 12 : 180;
+}
+document.querySelectorAll(".nav-tag").forEach(tag => {
+  tag.addEventListener("click", e => {
+    e.preventDefault();
+    const target = document.querySelector(tag.getAttribute("href"));
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - getStickyHeight();
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+//  TOOLTIP
+// ═══════════════════════════════════════════════════════
+const tooltip = document.getElementById("tooltip");
+function showTip(html, event) { tooltip.innerHTML = html; tooltip.classList.add("visible"); moveTip(event); }
+function moveTip(event) {
+  let x = event.clientX + 14, y = event.clientY - 10;
+  if (x + 230 > window.innerWidth) x = event.clientX - 230;
+  tooltip.style.left = x + "px"; tooltip.style.top = y + "px";
+}
+function hideTip() { tooltip.classList.remove("visible"); }
+
+// ═══════════════════════════════════════════════════════
+//  WORLD MAP HELPER
+// ═══════════════════════════════════════════════════════
+function drawWorldMap(containerId, dataByIso, colorFn, tipFn, fixedH) {
+  const wrap = document.getElementById(containerId);
+  const W = wrap.clientWidth || 640;
+  const H = fixedH !== undefined ? fixedH : Math.round(Math.min(W * 0.5, 200));
+  const svg = d3.select(wrap).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", "100%");
+  const scale = Math.min(W / 6.3, H / 3.15);
+  const proj = d3.geoNaturalEarth1().scale(scale).translate([W / 2, H / 2]);
+  const path = d3.geoPath().projection(proj);
+  const countries = topojson.feature(WORLD, WORLD.objects.countries);
+  const numToIso = {};
+  for (const [iso, num] of Object.entries(ISO3_NUM)) numToIso[num] = iso;
+  svg.selectAll(".country").data(countries.features).join("path")
+    .attr("class", "country").attr("d", path)
+    .attr("fill", d => {
+      const iso = numToIso[String(d.id).padStart(3, "0")];
+      return iso && dataByIso[iso] !== undefined ? colorFn(dataByIso[iso]) : "#D8D8D8";
+    })
+    .attr("stroke", "#fff").attr("stroke-width", 0.4)
+    .on("mousemove", (event, d) => {
+      const iso = numToIso[String(d.id).padStart(3, "0")];
+      if (iso && dataByIso[iso] !== undefined) showTip(tipFn(iso, dataByIso[iso]), event);
+    })
+    .on("mouseleave", hideTip);
+}
+
+// ═══════════════════════════════════════════════════════
+//  1. FTA CHORD DIAGRAM
+// ═══════════════════════════════════════════════════════
+function renderChord(pairs) {
+  const wrap = document.getElementById("chord-wrap");
+  const W = wrap.clientWidth || 400;
+  const SCREEN = Math.min(Math.round(W * 0.9), 390); // screen px — small but legible
+  const D    = 450;   // viewBox coordinate space — larger than screen to give labels room
+  const DH   = Math.round(D * 0.8); // viewBox height = 4/5 of width
+  const R    = 105;   // chord radius in viewBox units
+  const FONT = 13;    // font in viewBox units (~7px on screen)
+  const nodesSet = new Set();
+  pairs.forEach(p => { nodesSet.add(p.from); nodesSet.add(p.to); });
+  const nodes = [...nodesSet], idx = {};
+  nodes.forEach((n, i) => idx[n] = i);
+  const n = nodes.length;
+  const matrix = Array.from({length: n}, () => Array(n).fill(0));
+  const agreeInfo = {};
+  pairs.forEach(p => {
+    const i = idx[p.from], j = idx[p.to];
+    matrix[i][j] += p.provisions; matrix[j][i] += p.provisions;
+    agreeInfo[`${Math.min(i,j)}_${Math.max(i,j)}`] = {agreement: p.agreement, year: p.year, provisions: p.provisions, countries: p.countries || null};
+  });
+  const color = d3.scaleOrdinal().domain(nodes)
+    .range([
+      "#094D8C","#1874CD","#3B97ED","#7DC3F8","#B6DFFF",
+      "#2B7379","#379293","#52B6B7","#8BD8D9","#BDEDED",
+      "#8C7448","#AF935F","#D1B278","#EACD9C","#FCE5BF",
+      "#925047","#AF6055","#C97063","#DE9589","#F4BBB3",
+      "#606060","#797979"
+    ]);
+  const svg = d3.select(wrap).append("svg")
+    .attr("viewBox", `0 0 ${D} ${DH}`)
+    .attr("width", SCREEN)
+    .attr("height", Math.round(SCREEN * 0.8))
+    .style("display", "block")
+    .style("margin", "0 auto");
+  const g = svg.append("g").attr("transform", `translate(${D/2},${DH/2})`);
+  const chords = d3.chord().padAngle(0.06).sortSubgroups(d3.descending)(matrix);
+  const arc    = d3.arc().innerRadius(R - 20).outerRadius(R);
+  const ribbon = d3.ribbon().radius(R - 22);
+  g.append("g").selectAll("path").data(chords).join("path")
+    .attr("d", ribbon).attr("fill", d => color(nodes[d.source.index]))
+    .attr("opacity", 0.55).attr("stroke", "white").attr("stroke-width", 0.5)
+    .on("mousemove", (event, d) => {
+      const i = Math.min(d.source.index, d.target.index), j = Math.max(d.source.index, d.target.index);
+      const info = agreeInfo[`${i}_${j}`];
+      if (info) {
+        const body = info.countries
+          ? `${info.provisions} bilateral agreement${info.provisions > 1 ? "s" : ""} · ${info.provisions} environmental provision${info.provisions > 1 ? "s" : ""}<br/>Countries: ${info.countries}`
+          : `${info.agreement}<br/>In force: ${info.year} · ${info.provisions} provision${info.provisions > 1 ? "s" : ""}`;
+        showTip(`<strong>${nodes[d.source.index]} — ${nodes[d.target.index]}</strong>${body}`, event);
+      }
+    }).on("mouseleave", hideTip);
+  const groupArcs = g.append("g").selectAll("g").data(chords.groups).join("g");
+  groupArcs.append("path").attr("d", arc).attr("fill", d => color(nodes[d.index])).attr("stroke", "white").attr("stroke-width", 0.5)
+    .on("mousemove", (event, d) => {
+      const name = nodes[d.index];
+      const count = NODE_AGREEMENTS[name];
+      showTip(`<strong>${name}</strong>${count ? count + " agreement" + (count > 1 ? "s" : "") : ""}`, event);
+    })
+    .on("mouseleave", hideTip);
+  groupArcs.append("text")
+    .each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
+    .attr("dy", "0.35em")
+    .attr("transform", d => `rotate(${d.angle * 180 / Math.PI - 90}) translate(${R + 12}) ${d.angle > Math.PI ? "rotate(180)" : ""}`)
+    .attr("text-anchor", d => d.angle > Math.PI ? "end" : "start")
+    .attr("fill", "#1e293b").attr("font-family", F_SANS).attr("font-size", FONT).attr("font-weight", "600")
+    .text(d => nodes[d.index]);
+}
+
+// ═══════════════════════════════════════════════════════
+//  1b. FTA COVERAGE MAP
+// ═══════════════════════════════════════════════════════
+function renderFTAMap() {
+  const coverage = DATA.fta_coverage || [];
+  if (!coverage.length || !WORLD) return;
+  const byIso = {};
+  coverage.forEach(d => { byIso[d.iso] = d.count; });
+  const maxVal = Math.max(...coverage.map(d => d.count)); // 19 for EU
+  const colorScale = d3.scaleSequential()
+    .domain([1, maxVal])
+    .interpolator(d3.interpolate("#E8EEF5", "#1874CD"));
+  drawWorldMap("fta-map-wrap",
+    byIso,
+    v => colorScale(v),
+    (iso, count) => {
+      const EU_MEMBERS = ["AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA",
+        "DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD",
+        "POL","PRT","ROU","SVK","SVN","ESP","SWE"];
+      const label = EU_MEMBERS.includes(iso) ? `EU member — ${count} agreements (EU bloc)` : `${count} agreement${count > 1 ? "s" : ""}`;
+      return `<strong>${iso}</strong>${label}`;
+    },
+    200  // fixed height — decoupled from container width
+  );
+}
+
+
+// ═══════════════════════════════════════════════════════
+function buildNetMap(fromYear, toYear) {
+  const byIso = {};
+  (DATA.net_policy_stance || []).forEach(r => { if (!byIso[r.iso]) byIso[r.iso] = {country: r.country, harmful: 0, liberalising: 0}; });
+  (DATA.net_policy_stance || []).forEach(r => {
+    if (r.year >= fromYear && r.year <= toYear) { byIso[r.iso].harmful += r.harmful; byIso[r.iso].liberalising += r.liberalising; }
+  });
+  const result = {};
+  for (const [iso, d] of Object.entries(byIso)) {
+    if (d.harmful > 0 || d.liberalising > 0)
+      result[iso] = {net: d.liberalising - d.harmful, country: d.country, harmful: d.harmful, liberalising: d.liberalising};
+  }
+  return result;
+}
+function renderNetMap() {
+  const fromYear = +document.getElementById("slider-from").value;
+  const toYear   = +document.getElementById("slider-to").value;
+  const mapped = buildNetMap(fromYear, toYear);
+  document.getElementById("net-map-wrap").innerHTML = "";
+  drawWorldMap("net-map-wrap",
+    Object.fromEntries(Object.entries(mapped).map(([iso, d]) => [iso, d.net])),
+    v => v > 0 ? GREEN_LIB : v < 0 ? RED : "#D8D8D8",
+    (iso, net) => { const d = mapped[iso]; return `<strong>${d.country}</strong>Net: ${net >= 0 ? "+" : ""}${Math.round(net)}<br/>Liberalising: ${d.liberalising} · Harmful: ${d.harmful}`; }
+  );
+}
+function initSlider() {
+  const from = document.getElementById("slider-from"), to = document.getElementById("slider-to");
+  const bar  = document.getElementById("range-bar"),   disp = document.getElementById("year-display");
+  const min  = +from.min, max = +from.max;
+  function update() {
+    let f = +from.value, t = +to.value;
+    if (f > t) { [f, t] = [t, f]; from.value = f; to.value = t; }
+    bar.style.left  = ((f - min) / (max - min) * 100) + "%";
+    bar.style.width = (((t - min) / (max - min)) - ((f - min) / (max - min))) * 100 + "%";
+    disp.textContent = f === t ? String(f) : `${f} – ${t}`;
+    if (DATA) renderNetMap();
+  }
+  from.addEventListener("input", update); to.addEventListener("input", update); update();
+}
+
+// ═══════════════════════════════════════════════════════
+//  3. HORIZONTAL BAR CHART
+// ═══════════════════════════════════════════════════════
+function renderBarChart(containerId, data, color) {
+  const top10 = data.slice(0, 10);
+  const wrap  = document.getElementById(containerId);
+  const W = wrap.clientWidth || 440;
+  const BAR_H = 15, GAP = 3, ML = 118, MR = 36, MT = 6, MB = 6;
+  const H = top10.length * (BAR_H + GAP) + MT + MB;
+  const x = d3.scaleLinear().domain([0, d3.max(top10, d => d.count)]).range([0, W - ML - MR]);
+  const svg = d3.select(wrap).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", "100%");
+  const g   = svg.append("g").attr("transform", `translate(${ML},${MT})`);
+  top10.forEach((d, i) => {
+    const y = i * (BAR_H + GAP), bw = x(d.count);
+    g.append("rect").attr("x", 0).attr("y", y).attr("width", bw).attr("height", BAR_H)
+      .attr("fill", color).attr("rx", 2).attr("opacity", 0.88)
+      .on("mousemove", e => showTip(`<strong>${d.country}</strong>${d.count.toLocaleString()} interventions`, e))
+      .on("mouseleave", hideTip);
+    g.append("text").attr("x", -6).attr("y", y + BAR_H / 2).attr("dy", "0.35em")
+      .attr("text-anchor", "end").attr("font-size", "11px").attr("font-family", F_SANS)
+      .attr("fill", "#334155").text(d.country.length > 16 ? d.country.slice(0, 15) + "…" : d.country);
+    g.append("text").attr("x", bw + 5).attr("y", y + BAR_H / 2).attr("dy", "0.35em")
+      .attr("font-size", "10.5px").attr("font-family", F_MONO).attr("fill", "#64748b").text(d.count);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  4. LINE CHART HELPER
+// ═══════════════════════════════════════════════════════
+function renderLineChart(containerId, series, colorMap) {
+  const wrap = document.getElementById(containerId);
+  const W = wrap.clientWidth || 440, H = 125;
+  const ML = 32, MR = 10, MT = 8, MB = 24, cW = W - ML - MR, cH = H - MT - MB;
+  const allYears  = [...new Set(series.flatMap(s => s.values.map(v => v.year)))].sort();
+  const allValues = series.flatMap(s => s.values.map(v => v.count));
+  const x    = d3.scalePoint().domain(allYears).range([0, cW]).padding(0.3);
+  const y    = d3.scaleLinear().domain([0, d3.max(allValues) * 1.1 || 10]).range([cH, 0]).nice();
+  const line = d3.line().x(d => x(d.year)).y(d => y(d.count)).curve(d3.curveCatmullRom);
+  const svg  = d3.select(wrap).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", "100%");
+  const g    = svg.append("g").attr("transform", `translate(${ML},${MT})`);
+  g.append("g").call(d3.axisLeft(y).ticks(4).tickSize(-cW).tickFormat(d3.format("~s"))).call(ax => {
+    ax.select(".domain").remove();
+    ax.selectAll(".tick line").attr("stroke", BORDER).attr("stroke-dasharray", "3,3");
+    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO);
+  });
+  g.append("g").attr("transform", `translate(0,${cH})`).call(d3.axisBottom(x).tickSize(0)).call(ax => {
+    ax.select(".domain").attr("stroke", BORDER);
+    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO).attr("dy", "1.2em");
+  });
+  series.forEach(s => {
+    g.append("path").datum(s.values).attr("d", line).attr("fill", "none")
+      .attr("stroke", colorMap[s.key] || TEAL).attr("stroke-width", 2.2)
+      .attr("stroke-linejoin", "round").attr("stroke-linecap", "round");
+    g.selectAll(`.dot-${s.key}`).data(s.values).join("circle")
+      .attr("cx", d => x(d.year)).attr("cy", d => y(d.count)).attr("r", 3.5)
+      .attr("fill", colorMap[s.key] || TEAL).attr("stroke", "white").attr("stroke-width", 1.5)
+      .on("mousemove", (event, d) => showTip(`<strong>${s.label} — ${d.year}</strong>${d.count.toLocaleString()} interventions`, event))
+      .on("mouseleave", hideTip);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  5. FOSSIL FUEL MAP — blue scale
+// ═══════════════════════════════════════════════════════
+function renderFossilMap() {
+  const byIso   = {};
+  (DATA.fossil_fuel_support || []).forEach(d => { byIso[d.iso] = d; });
+  const maxVal  = Math.max(1, ...(DATA.fossil_fuel_support || []).map(d => d.count));
+  const colorScale = d3.scaleSequential().domain([0, maxVal]).interpolator(d3.interpolate("#E8EEF5", "#1874CD"));
+  drawWorldMap("fossil-map-wrap",
+    Object.fromEntries(Object.entries(byIso).map(([iso, d]) => [iso, d.count])),
+    v => colorScale(v),
+    (iso, count) => { const d = byIso[iso]; return `<strong>${d.country}</strong>${count} active fossil fuel subsidies`; }
+  );
+}
+
+// ═══════════════════════════════════════════════════════
+//  6. MINERAL TREND
+// ═══════════════════════════════════════════════════════
+function renderMineralTrend(mineral) {
+  const wrap = document.getElementById("mineral-trend-wrap");
+  wrap.innerHTML = "";
+  const data = (DATA.mineral_export_restrictions || {})[mineral] || [];
+  if (!data.length) { wrap.innerHTML = '<div class="no-data">No data available</div>'; return; }
+  renderLineChart("mineral-trend-wrap", [{key: mineral, label: MINERAL_LABELS[mineral], values: data}], {[mineral]: GTA_BLUE});
+}
+
+// ═══════════════════════════════════════════════════════
+//  DOWNLOAD HELPERS
+// ═══════════════════════════════════════════════════════
+function downloadJSON() { const a = document.createElement("a"); a.href = "data/indicators.json"; a.download = `GTA_Green_Transition_Data_${DATA?.last_updated||"latest"}.json`; a.click(); }
+function downloadCSV()  { const a = document.createElement("a"); a.href = "data/indicators_export.csv"; a.download = `GTA_Green_Transition_Indicators_${DATA?.last_updated||"latest"}.csv`; a.click(); }
+function downloadFTAData() {
+  const rows = [["from","to","agreement","year","provisions"]];
+  (DATA?.fta_country_pairs || []).forEach(p => rows.push([p.from, p.to, p.agreement, p.year, p.provisions]));
+  const csv = rows.map(r => r.join(",")).join("\n");
+  const url = URL.createObjectURL(new Blob([csv], {type: "text/csv"}));
+  const a = document.createElement("a"); a.href = url; a.download = "FTA_Environmental_Provisions.csv"; a.click(); URL.revokeObjectURL(url);
+}
+
+// ═══════════════════════════════════════════════════════
+//  FTA PAIR LIST
+// ═══════════════════════════════════════════════════════
+function renderFTAList(pairs) {
+  document.getElementById("fta-list").innerHTML = pairs.map(p => `
+    <div class="fta-pair-item">
+      <span class="fta-pair-names">${p.from} &mdash; ${p.to}</span>
+      <span class="fta-pair-info"><span class="fta-pair-prov">${p.provisions} prov.</span>&nbsp;${p.agreement}, ${p.year}</span>
+    </div>`).join("");
+}
+
+// ═══════════════════════════════════════════════════════
+//  BACK TO TOP
+// ═══════════════════════════════════════════════════════
+window.addEventListener("scroll", () => {
+  document.getElementById("back-top").classList.toggle("visible", window.scrollY > 400);
+});
+
+// ═══════════════════════════════════════════════════════
+//  MAIN INIT — with SAMPLE_DATA fallback
+// ═══════════════════════════════════════════════════════
+async function init() {
+  // Try loading live data; fall back to sample data if unavailable
+  let indicatorsData = null;
+  try {
+    const res = await fetch("data/indicators.json");
+    if (res.ok) indicatorsData = await res.json();
+  } catch (e) { /* no live data file — use sample */ }
+  DATA = indicatorsData || SAMPLE_DATA;
+
+  // Load world topology
+  try {
+    const worldRes = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json");
+    WORLD = await worldRes.json();
+  } catch (e) {
+    console.error("Could not load world atlas — maps will not render:", e);
+  }
+
+  // Last updated label
+  const lu = DATA.last_updated || "unknown";
+  document.getElementById("last-updated-display").textContent = lu === "sample data"
+    ? "Showing sample data"
+    : `Data as of: ${lu}`;
+
+  // Section 1
+  document.getElementById("fta-stat").textContent = DATA.fta_total_pairs || 0;
+  renderChord(DATA.fta_country_pairs || []);
+  if (WORLD) renderFTAMap();
+
+  // Section 2
+  initSlider();
+  renderBarChart("green-support-wrap", DATA.green_sector_support || [], NAV_BLUE);
+  const growth = DATA.green_industrial_growth || [];
+  renderLineChart("growth-trend-wrap", [
+    {key:"harmful",      label:"Harmful",      values: growth.map(d => ({year: d.year, count: d.harmful}))},
+    {key:"liberalising", label:"Liberalising",  values: growth.map(d => ({year: d.year, count: d.liberalising}))},
+  ], {harmful: RED, liberalising: GREEN_LIB});
+
+  // Section 3
+  if (WORLD) renderFossilMap();
+  const fvg = DATA.fossil_vs_green_trend || [];
+  renderLineChart("fossil-trend-wrap", [
+    {key:"fossil", label:"Fossil fuel subsidies", values: fvg.map(d => ({year: d.year, count: d.fossil}))},
+    {key:"green",  label:"Green subsidies",        values: fvg.map(d => ({year: d.year, count: d.green}))},
+  ], {fossil: FOSSIL_C, green: GTA_BLUE});
+
+  // Section 4
+  renderBarChart("remedies-wrap", DATA.trade_remedies || [], GTA_BLUE);
+  const initMineral = document.getElementById("mineral-select").value;
+  renderMineralTrend(initMineral);
+  document.getElementById("mineral-select").addEventListener("change", e => renderMineralTrend(e.target.value));
+
+  // Net map (needs WORLD)
+  if (WORLD) renderNetMap();
+}
+
+init().catch(err => console.error("Dashboard init failed:", err));
+</script>
+</body>
+</html>
