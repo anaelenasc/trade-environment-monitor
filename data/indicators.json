@@ -4,104 +4,678 @@
   "fta_country_pairs": [
     {
       "from": "EU",
-      "to": "Japan",
-      "agreement": "EU-Japan EPA",
-      "year": 2019,
-      "provisions": 25
-    },
-    {
-      "from": "EU",
       "to": "Canada",
       "agreement": "CETA",
       "year": 2017,
-      "provisions": 31
+      "provisions": 1
     },
     {
       "from": "EU",
-      "to": "South Korea",
-      "agreement": "EU-South Korea FTA",
-      "year": 2011,
-      "provisions": 18
+      "to": "Israel",
+      "agreement": "EU-Israel Association",
+      "year": 2000,
+      "provisions": 1
     },
     {
       "from": "EU",
-      "to": "Singapore",
-      "agreement": "EU-Singapore FTA",
-      "year": 2019,
-      "provisions": 12
+      "to": "C. America",
+      "agreement": "Central America-EU Association",
+      "year": 2013,
+      "provisions": 2
     },
     {
       "from": "EU",
-      "to": "UK",
-      "agreement": "EU-UK TCA",
-      "year": 2021,
-      "provisions": 40
+      "to": "ESA",
+      "agreement": "ESA-EU Interim EPA",
+      "year": 2012,
+      "provisions": 1
     },
     {
       "from": "EU",
-      "to": "New Zealand",
-      "agreement": "EU-New Zealand FTA",
-      "year": 2024,
-      "provisions": 15
+      "to": "Kenya",
+      "agreement": "EU-Kenya EPA",
+      "year": 2023,
+      "provisions": 1
     },
     {
-      "from": "US",
-      "to": "Canada",
-      "agreement": "USMCA",
-      "year": 2020,
-      "provisions": 20
+      "from": "EU",
+      "to": "W. Balkans",
+      "agreement": "EU Stabilisation & Association Agreements",
+      "year": 2006,
+      "provisions": 5,
+      "countries": "Albania, Bosnia-Herzegovina, Kosovo, North Macedonia, Serbia"
     },
     {
-      "from": "US",
-      "to": "Mexico",
-      "agreement": "USMCA",
-      "year": 2020,
-      "provisions": 18
+      "from": "EU",
+      "to": "Mediterr.",
+      "agreement": "EU Association Agreements",
+      "year": 2002,
+      "provisions": 9,
+      "countries": "Algeria, Azerbaijan, Egypt, Iraq, Jordan, Lebanon, Morocco, Palestinian Authority, Tunisia"
     },
     {
-      "from": "Japan",
+      "from": "Korea",
+      "to": "US",
+      "agreement": "Korea-US FTA",
+      "year": 2012,
+      "provisions": 1
+    },
+    {
+      "from": "Korea",
       "to": "Australia",
-      "agreement": "JAEPA",
+      "agreement": "Australia-Korea FTA",
+      "year": 2014,
+      "provisions": 1
+    },
+    {
+      "from": "Korea",
+      "to": "Israel",
+      "agreement": "Israel-Korea FTA",
+      "year": 2021,
+      "provisions": 1
+    },
+    {
+      "from": "Korea",
+      "to": "NZ",
+      "agreement": "Korea-NZ FTA",
       "year": 2015,
-      "provisions": 10
+      "provisions": 2
     },
     {
-      "from": "Japan",
-      "to": "UK",
-      "agreement": "Japan-UK EPA",
-      "year": 2021,
-      "provisions": 22
+      "from": "Korea",
+      "to": "Peru",
+      "agreement": "Korea-Peru FTA",
+      "year": 2011,
+      "provisions": 4
     },
     {
-      "from": "UK",
-      "to": "Australia",
-      "agreement": "UK-Australia FTA",
-      "year": 2023,
-      "provisions": 24
+      "from": "Korea",
+      "to": "Colombia",
+      "agreement": "Colombia-Korea FTA",
+      "year": 2016,
+      "provisions": 1
     },
     {
-      "from": "UK",
-      "to": "New Zealand",
-      "agreement": "UK-NZ FTA",
-      "year": 2023,
-      "provisions": 19
+      "from": "Korea",
+      "to": "C. America",
+      "agreement": "Central America-Korea FTA",
+      "year": 2019,
+      "provisions": 1
     },
     {
       "from": "Canada",
-      "to": "Australia",
-      "agreement": "CPTPP",
-      "year": 2018,
-      "provisions": 8
+      "to": "US",
+      "agreement": "USMCA",
+      "year": 2020,
+      "provisions": 2
     },
     {
-      "from": "Japan",
-      "to": "Mexico",
-      "agreement": "Japan-Mexico EPA",
+      "from": "Canada",
+      "to": "Israel",
+      "agreement": "Canada-Israel FTA",
+      "year": 1997,
+      "provisions": 1
+    },
+    {
+      "from": "Canada",
+      "to": "Chile",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Canada",
+      "to": "NZ",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Canada",
+      "to": "Peru",
+      "agreement": "CPTPP + Canada-Peru FTA",
+      "year": 2018,
+      "provisions": 4
+    },
+    {
+      "from": "Canada",
+      "to": "Colombia",
+      "agreement": "Canada-Colombia FTA",
+      "year": 2011,
+      "provisions": 2
+    },
+    {
+      "from": "Canada",
+      "to": "Japan",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Canada",
+      "to": "Mediterr.",
+      "agreement": "Canada-Jordan FTA",
+      "year": 2012,
+      "provisions": 1,
+      "countries": "Jordan"
+    },
+    {
+      "from": "UK",
+      "to": "Australia",
+      "agreement": "Australia-UK FTA",
+      "year": 2023,
+      "provisions": 3
+    },
+    {
+      "from": "UK",
+      "to": "NZ",
+      "agreement": "NZ-UK FTA",
+      "year": 2023,
+      "provisions": 2
+    },
+    {
+      "from": "UK",
+      "to": "ESA",
+      "agreement": "ESA-UK EPA",
+      "year": 2021,
+      "provisions": 1
+    },
+    {
+      "from": "UK",
+      "to": "Kenya",
+      "agreement": "Kenya-UK EPA",
+      "year": 2021,
+      "provisions": 1
+    },
+    {
+      "from": "UK",
+      "to": "India",
+      "agreement": "India-UK FTA",
+      "year": 2024,
+      "provisions": 2
+    },
+    {
+      "from": "US",
+      "to": "Australia",
+      "agreement": "Australia-US FTA",
       "year": 2005,
-      "provisions": 7
+      "provisions": 1
+    },
+    {
+      "from": "US",
+      "to": "Chile",
+      "agreement": "Chile-US FTA",
+      "year": 2004,
+      "provisions": 3
+    },
+    {
+      "from": "US",
+      "to": "Peru",
+      "agreement": "Peru-US TPA",
+      "year": 2009,
+      "provisions": 1
+    },
+    {
+      "from": "US",
+      "to": "Colombia",
+      "agreement": "Colombia-US TPA",
+      "year": 2012,
+      "provisions": 1
+    },
+    {
+      "from": "US",
+      "to": "C. America",
+      "agreement": "CAFTA-DR",
+      "year": 2006,
+      "provisions": 1
+    },
+    {
+      "from": "US",
+      "to": "Oman",
+      "agreement": "Oman-US FTA",
+      "year": 2009,
+      "provisions": 1
+    },
+    {
+      "from": "US",
+      "to": "Singapore",
+      "agreement": "Singapore-US FTA",
+      "year": 2004,
+      "provisions": 1
+    },
+    {
+      "from": "US",
+      "to": "Panama",
+      "agreement": "Panama-US TPA",
+      "year": 2012,
+      "provisions": 1
+    },
+    {
+      "from": "US",
+      "to": "Mediterr.",
+      "agreement": "Morocco-US FTA",
+      "year": 2006,
+      "provisions": 1,
+      "countries": "Morocco"
+    },
+    {
+      "from": "Australia",
+      "to": "Chile",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Australia",
+      "to": "NZ",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Australia",
+      "to": "Peru",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Australia",
+      "to": "Japan",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Chile",
+      "to": "NZ",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Chile",
+      "to": "Peru",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Chile",
+      "to": "Japan",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "NZ",
+      "to": "Peru",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "NZ",
+      "to": "Japan",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Peru",
+      "to": "Japan",
+      "agreement": "CPTPP",
+      "year": 2018,
+      "provisions": 2
+    },
+    {
+      "from": "Israel",
+      "to": "Colombia",
+      "agreement": "Colombia-Israel FTA",
+      "year": 2020,
+      "provisions": 1
+    },
+    {
+      "from": "UAE",
+      "to": "Australia",
+      "agreement": "Australia-UAE CEPA",
+      "year": 2023,
+      "provisions": 2
+    },
+    {
+      "from": "UAE",
+      "to": "NZ",
+      "agreement": "NZ-UAE CEPA",
+      "year": 2023,
+      "provisions": 1
+    },
+    {
+      "from": "UAE",
+      "to": "Chile",
+      "agreement": "Chile-UAE CEPA",
+      "year": 2024,
+      "provisions": 1
     }
   ],
-  "fta_total_pairs": 14,
+  "fta_total_pairs": 64,
+  "fta_coverage": [
+    {
+      "iso": "AUT",
+      "count": 19
+    },
+    {
+      "iso": "BEL",
+      "count": 19
+    },
+    {
+      "iso": "BGR",
+      "count": 19
+    },
+    {
+      "iso": "HRV",
+      "count": 19
+    },
+    {
+      "iso": "CYP",
+      "count": 19
+    },
+    {
+      "iso": "CZE",
+      "count": 19
+    },
+    {
+      "iso": "DNK",
+      "count": 19
+    },
+    {
+      "iso": "EST",
+      "count": 19
+    },
+    {
+      "iso": "FIN",
+      "count": 19
+    },
+    {
+      "iso": "FRA",
+      "count": 19
+    },
+    {
+      "iso": "DEU",
+      "count": 19
+    },
+    {
+      "iso": "GRC",
+      "count": 19
+    },
+    {
+      "iso": "HUN",
+      "count": 19
+    },
+    {
+      "iso": "IRL",
+      "count": 19
+    },
+    {
+      "iso": "ITA",
+      "count": 19
+    },
+    {
+      "iso": "LVA",
+      "count": 19
+    },
+    {
+      "iso": "LTU",
+      "count": 19
+    },
+    {
+      "iso": "LUX",
+      "count": 19
+    },
+    {
+      "iso": "MLT",
+      "count": 19
+    },
+    {
+      "iso": "NLD",
+      "count": 19
+    },
+    {
+      "iso": "POL",
+      "count": 19
+    },
+    {
+      "iso": "PRT",
+      "count": 19
+    },
+    {
+      "iso": "ROU",
+      "count": 19
+    },
+    {
+      "iso": "SVK",
+      "count": 19
+    },
+    {
+      "iso": "SVN",
+      "count": 19
+    },
+    {
+      "iso": "ESP",
+      "count": 19
+    },
+    {
+      "iso": "SWE",
+      "count": 19
+    },
+    {
+      "iso": "USA",
+      "count": 11
+    },
+    {
+      "iso": "KOR",
+      "count": 8
+    },
+    {
+      "iso": "CAN",
+      "count": 8
+    },
+    {
+      "iso": "NZL",
+      "count": 6
+    },
+    {
+      "iso": "ISR",
+      "count": 6
+    },
+    {
+      "iso": "GBR",
+      "count": 5
+    },
+    {
+      "iso": "AUS",
+      "count": 5
+    },
+    {
+      "iso": "PER",
+      "count": 4
+    },
+    {
+      "iso": "PAN",
+      "count": 4
+    },
+    {
+      "iso": "MYS",
+      "count": 4
+    },
+    {
+      "iso": "GTM",
+      "count": 4
+    },
+    {
+      "iso": "COL",
+      "count": 4
+    },
+    {
+      "iso": "CHL",
+      "count": 4
+    },
+    {
+      "iso": "ARE",
+      "count": 3
+    },
+    {
+      "iso": "CHE",
+      "count": 3
+    },
+    {
+      "iso": "SGP",
+      "count": 3
+    },
+    {
+      "iso": "NIC",
+      "count": 3
+    },
+    {
+      "iso": "MEX",
+      "count": 3
+    },
+    {
+      "iso": "JPN",
+      "count": 3
+    },
+    {
+      "iso": "HND",
+      "count": 3
+    },
+    {
+      "iso": "SLV",
+      "count": 3
+    },
+    {
+      "iso": "CRI",
+      "count": 3
+    },
+    {
+      "iso": "ZWE",
+      "count": 2
+    },
+    {
+      "iso": "ZMB",
+      "count": 2
+    },
+    {
+      "iso": "UKR",
+      "count": 2
+    },
+    {
+      "iso": "SYC",
+      "count": 2
+    },
+    {
+      "iso": "MAR",
+      "count": 2
+    },
+    {
+      "iso": "MUS",
+      "count": 2
+    },
+    {
+      "iso": "MDG",
+      "count": 2
+    },
+    {
+      "iso": "KEN",
+      "count": 2
+    },
+    {
+      "iso": "JOR",
+      "count": 2
+    },
+    {
+      "iso": "ISL",
+      "count": 2
+    },
+    {
+      "iso": "COM",
+      "count": 2
+    },
+    {
+      "iso": "TWN",
+      "count": 2
+    },
+    {
+      "iso": "CHN",
+      "count": 2
+    },
+    {
+      "iso": "VNM",
+      "count": 1
+    },
+    {
+      "iso": "TUR",
+      "count": 1
+    },
+    {
+      "iso": "TUN",
+      "count": 1
+    },
+    {
+      "iso": "SRB",
+      "count": 1
+    },
+    {
+      "iso": "OMN",
+      "count": 1
+    },
+    {
+      "iso": "NOR",
+      "count": 1
+    },
+    {
+      "iso": "MKD",
+      "count": 1
+    },
+    {
+      "iso": "LBN",
+      "count": 1
+    },
+    {
+      "iso": "IRQ",
+      "count": 1
+    },
+    {
+      "iso": "IND",
+      "count": 1
+    },
+    {
+      "iso": "EGY",
+      "count": 1
+    },
+    {
+      "iso": "DOM",
+      "count": 1
+    },
+    {
+      "iso": "BRN",
+      "count": 1
+    },
+    {
+      "iso": "BIH",
+      "count": 1
+    },
+    {
+      "iso": "AZE",
+      "count": 1
+    },
+    {
+      "iso": "DZA",
+      "count": 1
+    },
+    {
+      "iso": "ALB",
+      "count": 1
+    }
+  ],
   "net_policy_stance": [
     {
       "iso": "AGO",
@@ -157,14 +731,14 @@
       "country": "Argentina",
       "year": 2020,
       "harmful": 6,
-      "liberalising": 10
+      "liberalising": 8
     },
     {
       "iso": "ARG",
       "country": "Argentina",
       "year": 2021,
-      "harmful": 6,
-      "liberalising": 5
+      "harmful": 4,
+      "liberalising": 3
     },
     {
       "iso": "ARG",
@@ -177,8 +751,8 @@
       "iso": "ARG",
       "country": "Argentina",
       "year": 2023,
-      "harmful": 11,
-      "liberalising": 3
+      "harmful": 10,
+      "liberalising": 2
     },
     {
       "iso": "ARG",
@@ -192,7 +766,7 @@
       "country": "Argentina",
       "year": 2025,
       "harmful": 3,
-      "liberalising": 32
+      "liberalising": 29
     },
     {
       "iso": "ARG",
@@ -254,50 +828,50 @@
       "iso": "AUS",
       "country": "Australia",
       "year": 2020,
-      "harmful": 42,
-      "liberalising": 110
+      "harmful": 41,
+      "liberalising": 89
     },
     {
       "iso": "AUS",
       "country": "Australia",
       "year": 2021,
-      "harmful": 16,
-      "liberalising": 98
+      "harmful": 15,
+      "liberalising": 77
     },
     {
       "iso": "AUS",
       "country": "Australia",
       "year": 2022,
-      "harmful": 39,
-      "liberalising": 87
+      "harmful": 35,
+      "liberalising": 65
     },
     {
       "iso": "AUS",
       "country": "Australia",
       "year": 2023,
-      "harmful": 41,
-      "liberalising": 141
-    },
-    {
-      "iso": "AUS",
-      "country": "Australia",
-      "year": 2024,
-      "harmful": 30,
+      "harmful": 38,
       "liberalising": 117
     },
     {
       "iso": "AUS",
       "country": "Australia",
+      "year": 2024,
+      "harmful": 28,
+      "liberalising": 85
+    },
+    {
+      "iso": "AUS",
+      "country": "Australia",
       "year": 2025,
-      "harmful": 21,
-      "liberalising": 148
+      "harmful": 16,
+      "liberalising": 110
     },
     {
       "iso": "AUS",
       "country": "Australia",
       "year": 2026,
-      "harmful": 14,
-      "liberalising": 61
+      "harmful": 11,
+      "liberalising": 55
     },
     {
       "iso": "AUT",
@@ -310,43 +884,43 @@
       "iso": "AUT",
       "country": "Austria",
       "year": 2021,
-      "harmful": 6,
-      "liberalising": 7
-    },
-    {
-      "iso": "AUT",
-      "country": "Austria",
-      "year": 2022,
-      "harmful": 26,
+      "harmful": 5,
       "liberalising": 5
     },
     {
       "iso": "AUT",
       "country": "Austria",
+      "year": 2022,
+      "harmful": 25,
+      "liberalising": 4
+    },
+    {
+      "iso": "AUT",
+      "country": "Austria",
       "year": 2023,
-      "harmful": 44,
+      "harmful": 41,
       "liberalising": 4
     },
     {
       "iso": "AUT",
       "country": "Austria",
       "year": 2024,
-      "harmful": 32,
+      "harmful": 31,
       "liberalising": 4
     },
     {
       "iso": "AUT",
       "country": "Austria",
       "year": 2025,
-      "harmful": 71,
+      "harmful": 70,
       "liberalising": 6
     },
     {
       "iso": "AUT",
       "country": "Austria",
       "year": 2026,
-      "harmful": 27,
-      "liberalising": 2
+      "harmful": 24,
+      "liberalising": 0
     },
     {
       "iso": "AZE",
@@ -373,43 +947,43 @@
       "iso": "BEL",
       "country": "Belgium",
       "year": 2021,
-      "harmful": 9,
-      "liberalising": 7
-    },
-    {
-      "iso": "BEL",
-      "country": "Belgium",
-      "year": 2022,
-      "harmful": 28,
+      "harmful": 8,
       "liberalising": 5
     },
     {
       "iso": "BEL",
       "country": "Belgium",
+      "year": 2022,
+      "harmful": 27,
+      "liberalising": 4
+    },
+    {
+      "iso": "BEL",
+      "country": "Belgium",
       "year": 2023,
-      "harmful": 42,
+      "harmful": 38,
       "liberalising": 4
     },
     {
       "iso": "BEL",
       "country": "Belgium",
       "year": 2024,
-      "harmful": 33,
+      "harmful": 32,
       "liberalising": 4
     },
     {
       "iso": "BEL",
       "country": "Belgium",
       "year": 2025,
-      "harmful": 72,
+      "harmful": 71,
       "liberalising": 6
     },
     {
       "iso": "BEL",
       "country": "Belgium",
       "year": 2026,
-      "harmful": 27,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "BEN",
@@ -443,7 +1017,7 @@
       "iso": "BGD",
       "country": "Bangladesh",
       "year": 2024,
-      "harmful": 2,
+      "harmful": 1,
       "liberalising": 4
     },
     {
@@ -451,7 +1025,7 @@
       "country": "Bangladesh",
       "year": 2025,
       "harmful": 4,
-      "liberalising": 15
+      "liberalising": 14
     },
     {
       "iso": "BGD",
@@ -471,43 +1045,43 @@
       "iso": "BGR",
       "country": "Bulgaria",
       "year": 2021,
-      "harmful": 3,
-      "liberalising": 7
-    },
-    {
-      "iso": "BGR",
-      "country": "Bulgaria",
-      "year": 2022,
-      "harmful": 28,
+      "harmful": 2,
       "liberalising": 5
     },
     {
       "iso": "BGR",
       "country": "Bulgaria",
+      "year": 2022,
+      "harmful": 27,
+      "liberalising": 4
+    },
+    {
+      "iso": "BGR",
+      "country": "Bulgaria",
       "year": 2023,
-      "harmful": 37,
+      "harmful": 35,
       "liberalising": 4
     },
     {
       "iso": "BGR",
       "country": "Bulgaria",
       "year": 2024,
-      "harmful": 33,
+      "harmful": 32,
       "liberalising": 4
     },
     {
       "iso": "BGR",
       "country": "Bulgaria",
       "year": 2025,
-      "harmful": 69,
+      "harmful": 68,
       "liberalising": 6
     },
     {
       "iso": "BGR",
       "country": "Bulgaria",
       "year": 2026,
-      "harmful": 26,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "BHR",
@@ -598,55 +1172,55 @@
       "country": "Bolivia",
       "year": 2024,
       "harmful": 0,
-      "liberalising": 2
+      "liberalising": 1
     },
     {
       "iso": "BRA",
       "country": "Brazil",
       "year": 2020,
-      "harmful": 23,
+      "harmful": 20,
       "liberalising": 46
     },
     {
       "iso": "BRA",
       "country": "Brazil",
       "year": 2021,
-      "harmful": 39,
-      "liberalising": 53
+      "harmful": 32,
+      "liberalising": 52
     },
     {
       "iso": "BRA",
       "country": "Brazil",
       "year": 2022,
-      "harmful": 44,
+      "harmful": 38,
       "liberalising": 52
     },
     {
       "iso": "BRA",
       "country": "Brazil",
       "year": 2023,
-      "harmful": 55,
-      "liberalising": 34
+      "harmful": 43,
+      "liberalising": 32
     },
     {
       "iso": "BRA",
       "country": "Brazil",
       "year": 2024,
-      "harmful": 76,
-      "liberalising": 37
+      "harmful": 73,
+      "liberalising": 36
     },
     {
       "iso": "BRA",
       "country": "Brazil",
       "year": 2025,
-      "harmful": 62,
-      "liberalising": 40
+      "harmful": 55,
+      "liberalising": 38
     },
     {
       "iso": "BRA",
       "country": "Brazil",
       "year": 2026,
-      "harmful": 28,
+      "harmful": 25,
       "liberalising": 16
     },
     {
@@ -668,21 +1242,14 @@
       "country": "Botswana",
       "year": 2021,
       "harmful": 2,
-      "liberalising": 2
+      "liberalising": 1
     },
     {
       "iso": "BWA",
       "country": "Botswana",
       "year": 2024,
-      "harmful": 2,
-      "liberalising": 3
-    },
-    {
-      "iso": "BWA",
-      "country": "Botswana",
-      "year": 2025,
-      "harmful": 0,
-      "liberalising": 1
+      "harmful": 1,
+      "liberalising": 2
     },
     {
       "iso": "BWA",
@@ -695,28 +1262,28 @@
       "iso": "CAN",
       "country": "Canada",
       "year": 2020,
-      "harmful": 17,
+      "harmful": 14,
       "liberalising": 2
     },
     {
       "iso": "CAN",
       "country": "Canada",
       "year": 2021,
-      "harmful": 30,
+      "harmful": 29,
       "liberalising": 0
     },
     {
       "iso": "CAN",
       "country": "Canada",
       "year": 2022,
-      "harmful": 67,
+      "harmful": 65,
       "liberalising": 2
     },
     {
       "iso": "CAN",
       "country": "Canada",
       "year": 2023,
-      "harmful": 60,
+      "harmful": 59,
       "liberalising": 3
     },
     {
@@ -730,7 +1297,7 @@
       "iso": "CAN",
       "country": "Canada",
       "year": 2025,
-      "harmful": 25,
+      "harmful": 24,
       "liberalising": 2
     },
     {
@@ -786,50 +1353,50 @@
       "iso": "CHN",
       "country": "China",
       "year": 2020,
-      "harmful": 330,
-      "liberalising": 9
+      "harmful": 323,
+      "liberalising": 8
     },
     {
       "iso": "CHN",
       "country": "China",
       "year": 2021,
-      "harmful": 198,
-      "liberalising": 6
+      "harmful": 190,
+      "liberalising": 5
     },
     {
       "iso": "CHN",
       "country": "China",
       "year": 2022,
-      "harmful": 189,
+      "harmful": 183,
       "liberalising": 4
     },
     {
       "iso": "CHN",
       "country": "China",
       "year": 2023,
-      "harmful": 179,
+      "harmful": 174,
       "liberalising": 3
     },
     {
       "iso": "CHN",
       "country": "China",
       "year": 2024,
-      "harmful": 174,
-      "liberalising": 8
+      "harmful": 170,
+      "liberalising": 7
     },
     {
       "iso": "CHN",
       "country": "China",
       "year": 2025,
-      "harmful": 143,
+      "harmful": 142,
       "liberalising": 24
     },
     {
       "iso": "CHN",
       "country": "China",
       "year": 2026,
-      "harmful": 41,
-      "liberalising": 6
+      "harmful": 38,
+      "liberalising": 5
     },
     {
       "iso": "COD",
@@ -864,7 +1431,7 @@
       "country": "Colombia",
       "year": 2022,
       "harmful": 0,
-      "liberalising": 3
+      "liberalising": 2
     },
     {
       "iso": "COL",
@@ -884,43 +1451,43 @@
       "iso": "CYP",
       "country": "Cyprus",
       "year": 2021,
-      "harmful": 3,
-      "liberalising": 5
+      "harmful": 2,
+      "liberalising": 3
     },
     {
       "iso": "CYP",
       "country": "Cyprus",
       "year": 2022,
-      "harmful": 26,
-      "liberalising": 5
+      "harmful": 25,
+      "liberalising": 4
     },
     {
       "iso": "CYP",
       "country": "Cyprus",
       "year": 2023,
-      "harmful": 37,
+      "harmful": 35,
       "liberalising": 4
     },
     {
       "iso": "CYP",
       "country": "Cyprus",
       "year": 2024,
-      "harmful": 30,
+      "harmful": 29,
       "liberalising": 4
     },
     {
       "iso": "CYP",
       "country": "Cyprus",
       "year": 2025,
-      "harmful": 69,
+      "harmful": 68,
       "liberalising": 6
     },
     {
       "iso": "CYP",
       "country": "Cyprus",
       "year": 2026,
-      "harmful": 25,
-      "liberalising": 2
+      "harmful": 22,
+      "liberalising": 0
     },
     {
       "iso": "CZE",
@@ -933,141 +1500,141 @@
       "iso": "CZE",
       "country": "Czechia",
       "year": 2021,
-      "harmful": 4,
-      "liberalising": 7
-    },
-    {
-      "iso": "CZE",
-      "country": "Czechia",
-      "year": 2022,
-      "harmful": 29,
+      "harmful": 3,
       "liberalising": 5
     },
     {
       "iso": "CZE",
       "country": "Czechia",
-      "year": 2023,
-      "harmful": 42,
-      "liberalising": 4
-    },
-    {
-      "iso": "CZE",
-      "country": "Czechia",
-      "year": 2024,
-      "harmful": 32,
-      "liberalising": 4
-    },
-    {
-      "iso": "CZE",
-      "country": "Czechia",
-      "year": 2025,
-      "harmful": 72,
-      "liberalising": 6
-    },
-    {
-      "iso": "CZE",
-      "country": "Czechia",
-      "year": 2026,
-      "harmful": 25,
-      "liberalising": 2
-    },
-    {
-      "iso": "DEU",
-      "country": "Germany",
-      "year": 2020,
-      "harmful": 26,
-      "liberalising": 3
-    },
-    {
-      "iso": "DEU",
-      "country": "Germany",
-      "year": 2021,
-      "harmful": 27,
-      "liberalising": 7
-    },
-    {
-      "iso": "DEU",
-      "country": "Germany",
       "year": 2022,
-      "harmful": 42,
+      "harmful": 28,
+      "liberalising": 4
+    },
+    {
+      "iso": "CZE",
+      "country": "Czechia",
+      "year": 2023,
+      "harmful": 39,
+      "liberalising": 4
+    },
+    {
+      "iso": "CZE",
+      "country": "Czechia",
+      "year": 2024,
+      "harmful": 31,
+      "liberalising": 4
+    },
+    {
+      "iso": "CZE",
+      "country": "Czechia",
+      "year": 2025,
+      "harmful": 71,
       "liberalising": 6
     },
     {
-      "iso": "DEU",
-      "country": "Germany",
-      "year": 2023,
-      "harmful": 80,
-      "liberalising": 4
-    },
-    {
-      "iso": "DEU",
-      "country": "Germany",
-      "year": 2024,
-      "harmful": 70,
-      "liberalising": 4
-    },
-    {
-      "iso": "DEU",
-      "country": "Germany",
-      "year": 2025,
-      "harmful": 101,
-      "liberalising": 7
-    },
-    {
-      "iso": "DEU",
-      "country": "Germany",
+      "iso": "CZE",
+      "country": "Czechia",
       "year": 2026,
-      "harmful": 39,
-      "liberalising": 2
+      "harmful": 22,
+      "liberalising": 0
     },
     {
-      "iso": "DNK",
-      "country": "Denmark",
+      "iso": "DEU",
+      "country": "Germany",
       "year": 2020,
-      "harmful": 12,
+      "harmful": 11,
       "liberalising": 3
     },
     {
-      "iso": "DNK",
-      "country": "Denmark",
+      "iso": "DEU",
+      "country": "Germany",
       "year": 2021,
-      "harmful": 13,
-      "liberalising": 7
+      "harmful": 16,
+      "liberalising": 5
     },
     {
-      "iso": "DNK",
-      "country": "Denmark",
+      "iso": "DEU",
+      "country": "Germany",
       "year": 2022,
       "harmful": 38,
       "liberalising": 5
     },
     {
+      "iso": "DEU",
+      "country": "Germany",
+      "year": 2023,
+      "harmful": 61,
+      "liberalising": 4
+    },
+    {
+      "iso": "DEU",
+      "country": "Germany",
+      "year": 2024,
+      "harmful": 53,
+      "liberalising": 4
+    },
+    {
+      "iso": "DEU",
+      "country": "Germany",
+      "year": 2025,
+      "harmful": 90,
+      "liberalising": 7
+    },
+    {
+      "iso": "DEU",
+      "country": "Germany",
+      "year": 2026,
+      "harmful": 36,
+      "liberalising": 0
+    },
+    {
+      "iso": "DNK",
+      "country": "Denmark",
+      "year": 2020,
+      "harmful": 6,
+      "liberalising": 3
+    },
+    {
+      "iso": "DNK",
+      "country": "Denmark",
+      "year": 2021,
+      "harmful": 5,
+      "liberalising": 5
+    },
+    {
+      "iso": "DNK",
+      "country": "Denmark",
+      "year": 2022,
+      "harmful": 30,
+      "liberalising": 4
+    },
+    {
       "iso": "DNK",
       "country": "Denmark",
       "year": 2023,
-      "harmful": 42,
+      "harmful": 39,
       "liberalising": 4
     },
     {
       "iso": "DNK",
       "country": "Denmark",
       "year": 2024,
-      "harmful": 34,
+      "harmful": 32,
       "liberalising": 4
     },
     {
       "iso": "DNK",
       "country": "Denmark",
       "year": 2025,
-      "harmful": 75,
+      "harmful": 70,
       "liberalising": 6
     },
     {
       "iso": "DNK",
       "country": "Denmark",
       "year": 2026,
-      "harmful": 27,
-      "liberalising": 2
+      "harmful": 24,
+      "liberalising": 0
     },
     {
       "iso": "DZA",
@@ -1081,7 +1648,7 @@
       "country": "Algeria",
       "year": 2022,
       "harmful": 2,
-      "liberalising": 4
+      "liberalising": 2
     },
     {
       "iso": "DZA",
@@ -1164,43 +1731,43 @@
       "iso": "ESP",
       "country": "Spain",
       "year": 2021,
-      "harmful": 17,
-      "liberalising": 7
-    },
-    {
-      "iso": "ESP",
-      "country": "Spain",
-      "year": 2022,
-      "harmful": 32,
+      "harmful": 16,
       "liberalising": 5
     },
     {
       "iso": "ESP",
       "country": "Spain",
+      "year": 2022,
+      "harmful": 31,
+      "liberalising": 4
+    },
+    {
+      "iso": "ESP",
+      "country": "Spain",
       "year": 2023,
-      "harmful": 50,
+      "harmful": 48,
       "liberalising": 4
     },
     {
       "iso": "ESP",
       "country": "Spain",
       "year": 2024,
-      "harmful": 34,
+      "harmful": 33,
       "liberalising": 4
     },
     {
       "iso": "ESP",
       "country": "Spain",
       "year": 2025,
-      "harmful": 80,
+      "harmful": 77,
       "liberalising": 6
     },
     {
       "iso": "ESP",
       "country": "Spain",
       "year": 2026,
-      "harmful": 30,
-      "liberalising": 2
+      "harmful": 27,
+      "liberalising": 0
     },
     {
       "iso": "EST",
@@ -1213,43 +1780,43 @@
       "iso": "EST",
       "country": "Estonia",
       "year": 2021,
-      "harmful": 3,
-      "liberalising": 7
-    },
-    {
-      "iso": "EST",
-      "country": "Estonia",
-      "year": 2022,
-      "harmful": 28,
+      "harmful": 2,
       "liberalising": 5
     },
     {
       "iso": "EST",
       "country": "Estonia",
+      "year": 2022,
+      "harmful": 27,
+      "liberalising": 4
+    },
+    {
+      "iso": "EST",
+      "country": "Estonia",
       "year": 2023,
-      "harmful": 38,
+      "harmful": 36,
       "liberalising": 4
     },
     {
       "iso": "EST",
       "country": "Estonia",
       "year": 2024,
-      "harmful": 32,
+      "harmful": 31,
       "liberalising": 4
     },
     {
       "iso": "EST",
       "country": "Estonia",
       "year": 2025,
-      "harmful": 72,
+      "harmful": 70,
       "liberalising": 6
     },
     {
       "iso": "EST",
       "country": "Estonia",
       "year": 2026,
-      "harmful": 26,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "ETH",
@@ -1269,43 +1836,43 @@
       "iso": "FIN",
       "country": "Finland",
       "year": 2021,
-      "harmful": 6,
-      "liberalising": 7
-    },
-    {
-      "iso": "FIN",
-      "country": "Finland",
-      "year": 2022,
-      "harmful": 28,
+      "harmful": 5,
       "liberalising": 5
     },
     {
       "iso": "FIN",
       "country": "Finland",
+      "year": 2022,
+      "harmful": 27,
+      "liberalising": 4
+    },
+    {
+      "iso": "FIN",
+      "country": "Finland",
       "year": 2023,
-      "harmful": 39,
+      "harmful": 37,
       "liberalising": 4
     },
     {
       "iso": "FIN",
       "country": "Finland",
       "year": 2024,
-      "harmful": 34,
+      "harmful": 33,
       "liberalising": 4
     },
     {
       "iso": "FIN",
       "country": "Finland",
       "year": 2025,
-      "harmful": 70,
+      "harmful": 69,
       "liberalising": 6
     },
     {
       "iso": "FIN",
       "country": "Finland",
       "year": 2026,
-      "harmful": 26,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "FJI",
@@ -1332,49 +1899,49 @@
       "iso": "FRA",
       "country": "France",
       "year": 2021,
-      "harmful": 13,
-      "liberalising": 5
+      "harmful": 12,
+      "liberalising": 3
     },
     {
       "iso": "FRA",
       "country": "France",
       "year": 2022,
-      "harmful": 41,
-      "liberalising": 5
+      "harmful": 38,
+      "liberalising": 4
     },
     {
       "iso": "FRA",
       "country": "France",
       "year": 2023,
-      "harmful": 52,
+      "harmful": 48,
       "liberalising": 4
     },
     {
       "iso": "FRA",
       "country": "France",
       "year": 2024,
-      "harmful": 41,
+      "harmful": 39,
       "liberalising": 4
     },
     {
       "iso": "FRA",
       "country": "France",
       "year": 2025,
-      "harmful": 86,
+      "harmful": 84,
       "liberalising": 6
     },
     {
       "iso": "FRA",
       "country": "France",
       "year": 2026,
-      "harmful": 29,
-      "liberalising": 2
+      "harmful": 26,
+      "liberalising": 0
     },
     {
       "iso": "GBR",
       "country": "United Kingdom",
       "year": 2020,
-      "harmful": 22,
+      "harmful": 21,
       "liberalising": 11
     },
     {
@@ -1388,8 +1955,8 @@
       "iso": "GBR",
       "country": "United Kingdom",
       "year": 2022,
-      "harmful": 27,
-      "liberalising": 4
+      "harmful": 26,
+      "liberalising": 3
     },
     {
       "iso": "GBR",
@@ -1402,14 +1969,14 @@
       "iso": "GBR",
       "country": "United Kingdom",
       "year": 2024,
-      "harmful": 20,
+      "harmful": 18,
       "liberalising": 0
     },
     {
       "iso": "GBR",
       "country": "United Kingdom",
       "year": 2025,
-      "harmful": 39,
+      "harmful": 37,
       "liberalising": 2
     },
     {
@@ -1451,43 +2018,43 @@
       "iso": "GRC",
       "country": "Greece",
       "year": 2021,
-      "harmful": 6,
-      "liberalising": 5
+      "harmful": 5,
+      "liberalising": 3
     },
     {
       "iso": "GRC",
       "country": "Greece",
       "year": 2022,
-      "harmful": 27,
-      "liberalising": 5
+      "harmful": 26,
+      "liberalising": 4
     },
     {
       "iso": "GRC",
       "country": "Greece",
       "year": 2023,
-      "harmful": 41,
+      "harmful": 39,
       "liberalising": 4
     },
     {
       "iso": "GRC",
       "country": "Greece",
       "year": 2024,
-      "harmful": 32,
+      "harmful": 31,
       "liberalising": 4
     },
     {
       "iso": "GRC",
       "country": "Greece",
       "year": 2025,
-      "harmful": 73,
+      "harmful": 71,
       "liberalising": 6
     },
     {
       "iso": "GRC",
       "country": "Greece",
       "year": 2026,
-      "harmful": 27,
-      "liberalising": 2
+      "harmful": 24,
+      "liberalising": 0
     },
     {
       "iso": "GTM",
@@ -1528,43 +2095,43 @@
       "iso": "HRV",
       "country": "Croatia",
       "year": 2021,
-      "harmful": 7,
-      "liberalising": 7
-    },
-    {
-      "iso": "HRV",
-      "country": "Croatia",
-      "year": 2022,
-      "harmful": 27,
+      "harmful": 6,
       "liberalising": 5
     },
     {
       "iso": "HRV",
       "country": "Croatia",
+      "year": 2022,
+      "harmful": 26,
+      "liberalising": 4
+    },
+    {
+      "iso": "HRV",
+      "country": "Croatia",
       "year": 2023,
-      "harmful": 39,
+      "harmful": 37,
       "liberalising": 4
     },
     {
       "iso": "HRV",
       "country": "Croatia",
       "year": 2024,
-      "harmful": 31,
+      "harmful": 30,
       "liberalising": 4
     },
     {
       "iso": "HRV",
       "country": "Croatia",
       "year": 2025,
-      "harmful": 69,
+      "harmful": 68,
       "liberalising": 6
     },
     {
       "iso": "HRV",
       "country": "Croatia",
       "year": 2026,
-      "harmful": 26,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "HUN",
@@ -1577,43 +2144,43 @@
       "iso": "HUN",
       "country": "Hungary",
       "year": 2021,
-      "harmful": 4,
-      "liberalising": 8
+      "harmful": 3,
+      "liberalising": 6
     },
     {
       "iso": "HUN",
       "country": "Hungary",
       "year": 2022,
-      "harmful": 28,
-      "liberalising": 5
+      "harmful": 27,
+      "liberalising": 4
     },
     {
       "iso": "HUN",
       "country": "Hungary",
       "year": 2023,
-      "harmful": 43,
+      "harmful": 41,
       "liberalising": 4
     },
     {
       "iso": "HUN",
       "country": "Hungary",
       "year": 2024,
-      "harmful": 31,
+      "harmful": 30,
       "liberalising": 4
     },
     {
       "iso": "HUN",
       "country": "Hungary",
       "year": 2025,
-      "harmful": 74,
+      "harmful": 73,
       "liberalising": 6
     },
     {
       "iso": "HUN",
       "country": "Hungary",
       "year": 2026,
-      "harmful": 25,
-      "liberalising": 2
+      "harmful": 22,
+      "liberalising": 0
     },
     {
       "iso": "IDN",
@@ -1668,50 +2235,50 @@
       "iso": "IND",
       "country": "India",
       "year": 2020,
-      "harmful": 44,
+      "harmful": 41,
       "liberalising": 8
     },
     {
       "iso": "IND",
       "country": "India",
       "year": 2021,
-      "harmful": 23,
-      "liberalising": 11
+      "harmful": 17,
+      "liberalising": 7
     },
     {
       "iso": "IND",
       "country": "India",
       "year": 2022,
-      "harmful": 25,
+      "harmful": 21,
       "liberalising": 6
     },
     {
       "iso": "IND",
       "country": "India",
       "year": 2023,
-      "harmful": 35,
-      "liberalising": 7
+      "harmful": 20,
+      "liberalising": 3
     },
     {
       "iso": "IND",
       "country": "India",
       "year": 2024,
-      "harmful": 39,
-      "liberalising": 11
+      "harmful": 29,
+      "liberalising": 10
     },
     {
       "iso": "IND",
       "country": "India",
       "year": 2025,
-      "harmful": 34,
+      "harmful": 33,
       "liberalising": 7
     },
     {
       "iso": "IND",
       "country": "India",
       "year": 2026,
-      "harmful": 22,
-      "liberalising": 6
+      "harmful": 20,
+      "liberalising": 5
     },
     {
       "iso": "IRL",
@@ -1724,43 +2291,43 @@
       "iso": "IRL",
       "country": "Ireland",
       "year": 2021,
-      "harmful": 5,
-      "liberalising": 7
-    },
-    {
-      "iso": "IRL",
-      "country": "Ireland",
-      "year": 2022,
-      "harmful": 26,
+      "harmful": 4,
       "liberalising": 5
     },
     {
       "iso": "IRL",
       "country": "Ireland",
+      "year": 2022,
+      "harmful": 25,
+      "liberalising": 4
+    },
+    {
+      "iso": "IRL",
+      "country": "Ireland",
       "year": 2023,
-      "harmful": 40,
+      "harmful": 38,
       "liberalising": 4
     },
     {
       "iso": "IRL",
       "country": "Ireland",
       "year": 2024,
-      "harmful": 30,
+      "harmful": 29,
       "liberalising": 4
     },
     {
       "iso": "IRL",
       "country": "Ireland",
       "year": 2025,
-      "harmful": 69,
+      "harmful": 68,
       "liberalising": 6
     },
     {
       "iso": "IRL",
       "country": "Ireland",
       "year": 2026,
-      "harmful": 25,
-      "liberalising": 2
+      "harmful": 22,
+      "liberalising": 0
     },
     {
       "iso": "IRN",
@@ -1822,43 +2389,43 @@
       "iso": "ITA",
       "country": "Italy",
       "year": 2021,
-      "harmful": 20,
-      "liberalising": 7
-    },
-    {
-      "iso": "ITA",
-      "country": "Italy",
-      "year": 2022,
-      "harmful": 46,
+      "harmful": 16,
       "liberalising": 5
     },
     {
       "iso": "ITA",
       "country": "Italy",
+      "year": 2022,
+      "harmful": 44,
+      "liberalising": 4
+    },
+    {
+      "iso": "ITA",
+      "country": "Italy",
       "year": 2023,
-      "harmful": 57,
+      "harmful": 50,
       "liberalising": 4
     },
     {
       "iso": "ITA",
       "country": "Italy",
       "year": 2024,
-      "harmful": 45,
+      "harmful": 42,
       "liberalising": 5
     },
     {
       "iso": "ITA",
       "country": "Italy",
       "year": 2025,
-      "harmful": 87,
+      "harmful": 85,
       "liberalising": 6
     },
     {
       "iso": "ITA",
       "country": "Italy",
       "year": 2026,
-      "harmful": 27,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "JAM",
@@ -1878,42 +2445,42 @@
       "iso": "JPN",
       "country": "Japan",
       "year": 2021,
-      "harmful": 14,
+      "harmful": 12,
       "liberalising": 0
     },
     {
       "iso": "JPN",
       "country": "Japan",
       "year": 2022,
-      "harmful": 27,
+      "harmful": 25,
       "liberalising": 3
     },
     {
       "iso": "JPN",
       "country": "Japan",
       "year": 2023,
-      "harmful": 44,
+      "harmful": 43,
       "liberalising": 0
     },
     {
       "iso": "JPN",
       "country": "Japan",
       "year": 2024,
-      "harmful": 33,
+      "harmful": 30,
       "liberalising": 6
     },
     {
       "iso": "JPN",
       "country": "Japan",
       "year": 2025,
-      "harmful": 35,
+      "harmful": 31,
       "liberalising": 7
     },
     {
       "iso": "JPN",
       "country": "Japan",
       "year": 2026,
-      "harmful": 8,
+      "harmful": 7,
       "liberalising": 1
     },
     {
@@ -2039,42 +2606,42 @@
       "iso": "KOR",
       "country": "Republic of Korea",
       "year": 2020,
-      "harmful": 9,
+      "harmful": 8,
       "liberalising": 1
     },
     {
       "iso": "KOR",
       "country": "Republic of Korea",
       "year": 2021,
-      "harmful": 13,
+      "harmful": 12,
       "liberalising": 1
     },
     {
       "iso": "KOR",
       "country": "Republic of Korea",
       "year": 2022,
-      "harmful": 10,
+      "harmful": 9,
       "liberalising": 2
     },
     {
       "iso": "KOR",
       "country": "Republic of Korea",
       "year": 2023,
-      "harmful": 43,
+      "harmful": 41,
       "liberalising": 1
     },
     {
       "iso": "KOR",
       "country": "Republic of Korea",
       "year": 2024,
-      "harmful": 39,
+      "harmful": 38,
       "liberalising": 2
     },
     {
       "iso": "KOR",
       "country": "Republic of Korea",
       "year": 2025,
-      "harmful": 38,
+      "harmful": 37,
       "liberalising": 2
     },
     {
@@ -2145,7 +2712,7 @@
       "country": "Sri Lanka",
       "year": 2020,
       "harmful": 1,
-      "liberalising": 4
+      "liberalising": 3
     },
     {
       "iso": "LKA",
@@ -2173,21 +2740,14 @@
       "country": "Lesotho",
       "year": 2021,
       "harmful": 2,
-      "liberalising": 2
+      "liberalising": 1
     },
     {
       "iso": "LSO",
       "country": "Lesotho",
       "year": 2024,
-      "harmful": 2,
-      "liberalising": 3
-    },
-    {
-      "iso": "LSO",
-      "country": "Lesotho",
-      "year": 2025,
-      "harmful": 0,
-      "liberalising": 1
+      "harmful": 1,
+      "liberalising": 2
     },
     {
       "iso": "LSO",
@@ -2200,148 +2760,148 @@
       "iso": "LTU",
       "country": "Lithuania",
       "year": 2020,
-      "harmful": 6,
+      "harmful": 4,
       "liberalising": 3
     },
     {
       "iso": "LTU",
       "country": "Lithuania",
       "year": 2021,
-      "harmful": 3,
-      "liberalising": 5
+      "harmful": 2,
+      "liberalising": 3
     },
     {
       "iso": "LTU",
       "country": "Lithuania",
       "year": 2022,
-      "harmful": 28,
-      "liberalising": 5
-    },
-    {
-      "iso": "LTU",
-      "country": "Lithuania",
-      "year": 2023,
-      "harmful": 40,
-      "liberalising": 4
-    },
-    {
-      "iso": "LTU",
-      "country": "Lithuania",
-      "year": 2024,
-      "harmful": 31,
-      "liberalising": 4
-    },
-    {
-      "iso": "LTU",
-      "country": "Lithuania",
-      "year": 2025,
-      "harmful": 69,
-      "liberalising": 6
-    },
-    {
-      "iso": "LTU",
-      "country": "Lithuania",
-      "year": 2026,
       "harmful": 27,
-      "liberalising": 2
+      "liberalising": 4
     },
     {
-      "iso": "LUX",
-      "country": "Luxembourg",
-      "year": 2020,
-      "harmful": 4,
-      "liberalising": 3
-    },
-    {
-      "iso": "LUX",
-      "country": "Luxembourg",
-      "year": 2021,
-      "harmful": 3,
-      "liberalising": 7
-    },
-    {
-      "iso": "LUX",
-      "country": "Luxembourg",
-      "year": 2022,
-      "harmful": 26,
-      "liberalising": 5
-    },
-    {
-      "iso": "LUX",
-      "country": "Luxembourg",
+      "iso": "LTU",
+      "country": "Lithuania",
       "year": 2023,
-      "harmful": 37,
+      "harmful": 36,
       "liberalising": 4
     },
     {
-      "iso": "LUX",
-      "country": "Luxembourg",
+      "iso": "LTU",
+      "country": "Lithuania",
       "year": 2024,
-      "harmful": 31,
+      "harmful": 30,
       "liberalising": 4
     },
     {
-      "iso": "LUX",
-      "country": "Luxembourg",
+      "iso": "LTU",
+      "country": "Lithuania",
       "year": 2025,
-      "harmful": 70,
+      "harmful": 68,
       "liberalising": 6
     },
     {
-      "iso": "LUX",
-      "country": "Luxembourg",
+      "iso": "LTU",
+      "country": "Lithuania",
       "year": 2026,
-      "harmful": 26,
-      "liberalising": 2
+      "harmful": 24,
+      "liberalising": 0
     },
     {
-      "iso": "LVA",
-      "country": "Latvia",
+      "iso": "LUX",
+      "country": "Luxembourg",
       "year": 2020,
       "harmful": 4,
       "liberalising": 3
     },
     {
-      "iso": "LVA",
-      "country": "Latvia",
+      "iso": "LUX",
+      "country": "Luxembourg",
       "year": 2021,
-      "harmful": 3,
-      "liberalising": 7
-    },
-    {
-      "iso": "LVA",
-      "country": "Latvia",
-      "year": 2022,
-      "harmful": 28,
+      "harmful": 2,
       "liberalising": 5
     },
     {
-      "iso": "LVA",
-      "country": "Latvia",
+      "iso": "LUX",
+      "country": "Luxembourg",
+      "year": 2022,
+      "harmful": 25,
+      "liberalising": 4
+    },
+    {
+      "iso": "LUX",
+      "country": "Luxembourg",
       "year": 2023,
-      "harmful": 38,
+      "harmful": 35,
       "liberalising": 4
     },
     {
-      "iso": "LVA",
-      "country": "Latvia",
+      "iso": "LUX",
+      "country": "Luxembourg",
       "year": 2024,
-      "harmful": 31,
+      "harmful": 30,
       "liberalising": 4
     },
     {
-      "iso": "LVA",
-      "country": "Latvia",
+      "iso": "LUX",
+      "country": "Luxembourg",
       "year": 2025,
       "harmful": 69,
       "liberalising": 6
     },
     {
+      "iso": "LUX",
+      "country": "Luxembourg",
+      "year": 2026,
+      "harmful": 23,
+      "liberalising": 0
+    },
+    {
+      "iso": "LVA",
+      "country": "Latvia",
+      "year": 2020,
+      "harmful": 4,
+      "liberalising": 3
+    },
+    {
+      "iso": "LVA",
+      "country": "Latvia",
+      "year": 2021,
+      "harmful": 2,
+      "liberalising": 5
+    },
+    {
+      "iso": "LVA",
+      "country": "Latvia",
+      "year": 2022,
+      "harmful": 27,
+      "liberalising": 4
+    },
+    {
+      "iso": "LVA",
+      "country": "Latvia",
+      "year": 2023,
+      "harmful": 36,
+      "liberalising": 4
+    },
+    {
+      "iso": "LVA",
+      "country": "Latvia",
+      "year": 2024,
+      "harmful": 30,
+      "liberalising": 4
+    },
+    {
+      "iso": "LVA",
+      "country": "Latvia",
+      "year": 2025,
+      "harmful": 68,
+      "liberalising": 6
+    },
+    {
       "iso": "LVA",
       "country": "Latvia",
       "year": 2026,
-      "harmful": 26,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "MAR",
@@ -2452,43 +3012,43 @@
       "iso": "MLT",
       "country": "Malta",
       "year": 2021,
-      "harmful": 3,
-      "liberalising": 7
-    },
-    {
-      "iso": "MLT",
-      "country": "Malta",
-      "year": 2022,
-      "harmful": 26,
+      "harmful": 2,
       "liberalising": 5
     },
     {
       "iso": "MLT",
       "country": "Malta",
+      "year": 2022,
+      "harmful": 25,
+      "liberalising": 4
+    },
+    {
+      "iso": "MLT",
+      "country": "Malta",
       "year": 2023,
-      "harmful": 38,
+      "harmful": 36,
       "liberalising": 4
     },
     {
       "iso": "MLT",
       "country": "Malta",
       "year": 2024,
-      "harmful": 30,
+      "harmful": 29,
       "liberalising": 4
     },
     {
       "iso": "MLT",
       "country": "Malta",
       "year": 2025,
-      "harmful": 69,
+      "harmful": 68,
       "liberalising": 6
     },
     {
       "iso": "MLT",
       "country": "Malta",
       "year": 2026,
-      "harmful": 25,
-      "liberalising": 2
+      "harmful": 22,
+      "liberalising": 0
     },
     {
       "iso": "MMR",
@@ -2550,7 +3110,7 @@
       "iso": "MYS",
       "country": "Malaysia",
       "year": 2024,
-      "harmful": 2,
+      "harmful": 1,
       "liberalising": 1
     },
     {
@@ -2579,7 +3139,7 @@
       "country": "Namibia",
       "year": 2021,
       "harmful": 2,
-      "liberalising": 2
+      "liberalising": 1
     },
     {
       "iso": "NAM",
@@ -2592,15 +3152,8 @@
       "iso": "NAM",
       "country": "Namibia",
       "year": 2024,
-      "harmful": 2,
-      "liberalising": 3
-    },
-    {
-      "iso": "NAM",
-      "country": "Namibia",
-      "year": 2025,
-      "harmful": 0,
-      "liberalising": 1
+      "harmful": 1,
+      "liberalising": 2
     },
     {
       "iso": "NAM",
@@ -2648,50 +3201,50 @@
       "iso": "NLD",
       "country": "Netherlands",
       "year": 2020,
-      "harmful": 6,
+      "harmful": 5,
       "liberalising": 3
     },
     {
       "iso": "NLD",
       "country": "Netherlands",
       "year": 2021,
-      "harmful": 10,
-      "liberalising": 7
-    },
-    {
-      "iso": "NLD",
-      "country": "Netherlands",
-      "year": 2022,
-      "harmful": 30,
+      "harmful": 9,
       "liberalising": 5
     },
     {
       "iso": "NLD",
       "country": "Netherlands",
+      "year": 2022,
+      "harmful": 29,
+      "liberalising": 4
+    },
+    {
+      "iso": "NLD",
+      "country": "Netherlands",
       "year": 2023,
-      "harmful": 42,
+      "harmful": 38,
       "liberalising": 4
     },
     {
       "iso": "NLD",
       "country": "Netherlands",
       "year": 2024,
-      "harmful": 37,
+      "harmful": 35,
       "liberalising": 4
     },
     {
       "iso": "NLD",
       "country": "Netherlands",
       "year": 2025,
-      "harmful": 71,
+      "harmful": 70,
       "liberalising": 6
     },
     {
       "iso": "NLD",
       "country": "Netherlands",
       "year": 2026,
-      "harmful": 26,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "NOR",
@@ -2704,7 +3257,7 @@
       "iso": "NOR",
       "country": "Norway",
       "year": 2021,
-      "harmful": 4,
+      "harmful": 3,
       "liberalising": 0
     },
     {
@@ -2761,14 +3314,14 @@
       "country": "New Zealand",
       "year": 2021,
       "harmful": 1,
-      "liberalising": 11
+      "liberalising": 7
     },
     {
       "iso": "NZL",
       "country": "New Zealand",
       "year": 2022,
-      "harmful": 7,
-      "liberalising": 10
+      "harmful": 6,
+      "liberalising": 7
     },
     {
       "iso": "NZL",
@@ -2782,13 +3335,13 @@
       "country": "New Zealand",
       "year": 2024,
       "harmful": 3,
-      "liberalising": 6
+      "liberalising": 4
     },
     {
       "iso": "NZL",
       "country": "New Zealand",
       "year": 2025,
-      "harmful": 4,
+      "harmful": 3,
       "liberalising": 1
     },
     {
@@ -2796,7 +3349,7 @@
       "country": "New Zealand",
       "year": 2026,
       "harmful": 3,
-      "liberalising": 2
+      "liberalising": 1
     },
     {
       "iso": "OMN",
@@ -2837,8 +3390,8 @@
       "iso": "PAK",
       "country": "Pakistan",
       "year": 2021,
-      "harmful": 6,
-      "liberalising": 7
+      "harmful": 4,
+      "liberalising": 5
     },
     {
       "iso": "PAK",
@@ -2857,15 +3410,8 @@
     {
       "iso": "PAK",
       "country": "Pakistan",
-      "year": 2024,
-      "harmful": 0,
-      "liberalising": 2
-    },
-    {
-      "iso": "PAK",
-      "country": "Pakistan",
       "year": 2025,
-      "harmful": 5,
+      "harmful": 4,
       "liberalising": 4
     },
     {
@@ -2886,22 +3432,22 @@
       "iso": "PHL",
       "country": "Philippines",
       "year": 2020,
-      "harmful": 2,
-      "liberalising": 4
+      "harmful": 1,
+      "liberalising": 3
     },
     {
       "iso": "PHL",
       "country": "Philippines",
       "year": 2021,
       "harmful": 1,
-      "liberalising": 4
+      "liberalising": 2
     },
     {
       "iso": "PHL",
       "country": "Philippines",
       "year": 2022,
       "harmful": 0,
-      "liberalising": 4
+      "liberalising": 3
     },
     {
       "iso": "PHL",
@@ -2935,43 +3481,43 @@
       "iso": "POL",
       "country": "Poland",
       "year": 2021,
-      "harmful": 6,
-      "liberalising": 7
-    },
-    {
-      "iso": "POL",
-      "country": "Poland",
-      "year": 2022,
-      "harmful": 33,
+      "harmful": 5,
       "liberalising": 5
     },
     {
       "iso": "POL",
       "country": "Poland",
+      "year": 2022,
+      "harmful": 32,
+      "liberalising": 4
+    },
+    {
+      "iso": "POL",
+      "country": "Poland",
       "year": 2023,
-      "harmful": 43,
+      "harmful": 40,
       "liberalising": 4
     },
     {
       "iso": "POL",
       "country": "Poland",
       "year": 2024,
-      "harmful": 33,
+      "harmful": 31,
       "liberalising": 4
     },
     {
       "iso": "POL",
       "country": "Poland",
       "year": 2025,
-      "harmful": 73,
+      "harmful": 72,
       "liberalising": 6
     },
     {
       "iso": "POL",
       "country": "Poland",
       "year": 2026,
-      "harmful": 25,
-      "liberalising": 2
+      "harmful": 22,
+      "liberalising": 0
     },
     {
       "iso": "PRT",
@@ -2984,55 +3530,48 @@
       "iso": "PRT",
       "country": "Portugal",
       "year": 2021,
-      "harmful": 3,
-      "liberalising": 7
-    },
-    {
-      "iso": "PRT",
-      "country": "Portugal",
-      "year": 2022,
-      "harmful": 28,
+      "harmful": 2,
       "liberalising": 5
     },
     {
       "iso": "PRT",
       "country": "Portugal",
+      "year": 2022,
+      "harmful": 26,
+      "liberalising": 4
+    },
+    {
+      "iso": "PRT",
+      "country": "Portugal",
       "year": 2023,
-      "harmful": 37,
+      "harmful": 35,
       "liberalising": 4
     },
     {
       "iso": "PRT",
       "country": "Portugal",
       "year": 2024,
-      "harmful": 34,
+      "harmful": 31,
       "liberalising": 4
     },
     {
       "iso": "PRT",
       "country": "Portugal",
       "year": 2025,
-      "harmful": 71,
+      "harmful": 70,
       "liberalising": 6
     },
     {
       "iso": "PRT",
       "country": "Portugal",
       "year": 2026,
-      "harmful": 25,
-      "liberalising": 2
+      "harmful": 22,
+      "liberalising": 0
     },
     {
       "iso": "PRY",
       "country": "Paraguay",
       "year": 2020,
-      "harmful": 0,
-      "liberalising": 1
-    },
-    {
-      "iso": "PRY",
-      "country": "Paraguay",
-      "year": 2021,
       "harmful": 0,
       "liberalising": 1
     },
@@ -3089,49 +3628,49 @@
       "iso": "ROU",
       "country": "Romania",
       "year": 2021,
-      "harmful": 3,
-      "liberalising": 7
-    },
-    {
-      "iso": "ROU",
-      "country": "Romania",
-      "year": 2022,
-      "harmful": 28,
+      "harmful": 2,
       "liberalising": 5
     },
     {
       "iso": "ROU",
       "country": "Romania",
+      "year": 2022,
+      "harmful": 27,
+      "liberalising": 4
+    },
+    {
+      "iso": "ROU",
+      "country": "Romania",
       "year": 2023,
-      "harmful": 39,
+      "harmful": 37,
       "liberalising": 4
     },
     {
       "iso": "ROU",
       "country": "Romania",
       "year": 2024,
-      "harmful": 31,
+      "harmful": 30,
       "liberalising": 4
     },
     {
       "iso": "ROU",
       "country": "Romania",
       "year": 2025,
-      "harmful": 71,
+      "harmful": 70,
       "liberalising": 6
     },
     {
       "iso": "ROU",
       "country": "Romania",
       "year": 2026,
-      "harmful": 27,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "RUS",
       "country": "Russia",
       "year": 2020,
-      "harmful": 18,
+      "harmful": 15,
       "liberalising": 7
     },
     {
@@ -3152,7 +3691,7 @@
       "iso": "RUS",
       "country": "Russia",
       "year": 2023,
-      "harmful": 15,
+      "harmful": 14,
       "liberalising": 4
     },
     {
@@ -3166,8 +3705,8 @@
       "iso": "RUS",
       "country": "Russia",
       "year": 2025,
-      "harmful": 21,
-      "liberalising": 13
+      "harmful": 17,
+      "liberalising": 11
     },
     {
       "iso": "RUS",
@@ -3215,7 +3754,7 @@
       "iso": "SAU",
       "country": "Saudi Arabia",
       "year": 2022,
-      "harmful": 6,
+      "harmful": 4,
       "liberalising": 0
     },
     {
@@ -3229,7 +3768,7 @@
       "iso": "SAU",
       "country": "Saudi Arabia",
       "year": 2024,
-      "harmful": 12,
+      "harmful": 11,
       "liberalising": 0
     },
     {
@@ -3268,13 +3807,6 @@
       "liberalising": 0
     },
     {
-      "iso": "SRB",
-      "country": "Serbia",
-      "year": 2022,
-      "harmful": 0,
-      "liberalising": 1
-    },
-    {
       "iso": "SSD",
       "country": "South Sudan",
       "year": 2022,
@@ -3292,92 +3824,92 @@
       "iso": "SVK",
       "country": "Slovakia",
       "year": 2021,
-      "harmful": 6,
-      "liberalising": 5
-    },
-    {
-      "iso": "SVK",
-      "country": "Slovakia",
-      "year": 2022,
-      "harmful": 28,
-      "liberalising": 5
-    },
-    {
-      "iso": "SVK",
-      "country": "Slovakia",
-      "year": 2023,
-      "harmful": 41,
-      "liberalising": 4
-    },
-    {
-      "iso": "SVK",
-      "country": "Slovakia",
-      "year": 2024,
-      "harmful": 33,
-      "liberalising": 4
-    },
-    {
-      "iso": "SVK",
-      "country": "Slovakia",
-      "year": 2025,
-      "harmful": 71,
-      "liberalising": 6
-    },
-    {
-      "iso": "SVK",
-      "country": "Slovakia",
-      "year": 2026,
-      "harmful": 25,
-      "liberalising": 2
-    },
-    {
-      "iso": "SVN",
-      "country": "Slovenia",
-      "year": 2020,
-      "harmful": 6,
+      "harmful": 5,
       "liberalising": 3
     },
     {
-      "iso": "SVN",
-      "country": "Slovenia",
-      "year": 2021,
-      "harmful": 3,
-      "liberalising": 8
-    },
-    {
-      "iso": "SVN",
-      "country": "Slovenia",
+      "iso": "SVK",
+      "country": "Slovakia",
       "year": 2022,
       "harmful": 27,
-      "liberalising": 5
-    },
-    {
-      "iso": "SVN",
-      "country": "Slovenia",
-      "year": 2023,
-      "harmful": 40,
-      "liberalising": 5
-    },
-    {
-      "iso": "SVN",
-      "country": "Slovenia",
-      "year": 2024,
-      "harmful": 33,
       "liberalising": 4
     },
     {
-      "iso": "SVN",
-      "country": "Slovenia",
+      "iso": "SVK",
+      "country": "Slovakia",
+      "year": 2023,
+      "harmful": 39,
+      "liberalising": 4
+    },
+    {
+      "iso": "SVK",
+      "country": "Slovakia",
+      "year": 2024,
+      "harmful": 31,
+      "liberalising": 4
+    },
+    {
+      "iso": "SVK",
+      "country": "Slovakia",
       "year": 2025,
       "harmful": 70,
       "liberalising": 6
     },
     {
+      "iso": "SVK",
+      "country": "Slovakia",
+      "year": 2026,
+      "harmful": 22,
+      "liberalising": 0
+    },
+    {
+      "iso": "SVN",
+      "country": "Slovenia",
+      "year": 2020,
+      "harmful": 6,
+      "liberalising": 3
+    },
+    {
+      "iso": "SVN",
+      "country": "Slovenia",
+      "year": 2021,
+      "harmful": 2,
+      "liberalising": 6
+    },
+    {
+      "iso": "SVN",
+      "country": "Slovenia",
+      "year": 2022,
+      "harmful": 26,
+      "liberalising": 4
+    },
+    {
+      "iso": "SVN",
+      "country": "Slovenia",
+      "year": 2023,
+      "harmful": 38,
+      "liberalising": 5
+    },
+    {
+      "iso": "SVN",
+      "country": "Slovenia",
+      "year": 2024,
+      "harmful": 32,
+      "liberalising": 4
+    },
+    {
+      "iso": "SVN",
+      "country": "Slovenia",
+      "year": 2025,
+      "harmful": 69,
+      "liberalising": 6
+    },
+    {
       "iso": "SVN",
       "country": "Slovenia",
       "year": 2026,
-      "harmful": 28,
-      "liberalising": 2
+      "harmful": 25,
+      "liberalising": 0
     },
     {
       "iso": "SWE",
@@ -3390,43 +3922,43 @@
       "iso": "SWE",
       "country": "Sweden",
       "year": 2021,
-      "harmful": 8,
-      "liberalising": 7
-    },
-    {
-      "iso": "SWE",
-      "country": "Sweden",
-      "year": 2022,
-      "harmful": 28,
+      "harmful": 7,
       "liberalising": 5
     },
     {
       "iso": "SWE",
       "country": "Sweden",
+      "year": 2022,
+      "harmful": 27,
+      "liberalising": 4
+    },
+    {
+      "iso": "SWE",
+      "country": "Sweden",
       "year": 2023,
-      "harmful": 44,
+      "harmful": 40,
       "liberalising": 4
     },
     {
       "iso": "SWE",
       "country": "Sweden",
       "year": 2024,
-      "harmful": 34,
+      "harmful": 33,
       "liberalising": 4
     },
     {
       "iso": "SWE",
       "country": "Sweden",
       "year": 2025,
-      "harmful": 75,
+      "harmful": 74,
       "liberalising": 6
     },
     {
       "iso": "SWE",
       "country": "Sweden",
       "year": 2026,
-      "harmful": 26,
-      "liberalising": 2
+      "harmful": 23,
+      "liberalising": 0
     },
     {
       "iso": "SWZ",
@@ -3440,21 +3972,14 @@
       "country": "Eswatini",
       "year": 2021,
       "harmful": 2,
-      "liberalising": 2
+      "liberalising": 1
     },
     {
       "iso": "SWZ",
       "country": "Eswatini",
       "year": 2024,
-      "harmful": 2,
-      "liberalising": 3
-    },
-    {
-      "iso": "SWZ",
-      "country": "Eswatini",
-      "year": 2025,
-      "harmful": 0,
-      "liberalising": 1
+      "harmful": 1,
+      "liberalising": 2
     },
     {
       "iso": "SWZ",
@@ -3467,7 +3992,7 @@
       "iso": "SYR",
       "country": "Syria",
       "year": 2020,
-      "harmful": 1,
+      "harmful": 0,
       "liberalising": 1
     },
     {
@@ -3531,7 +4056,7 @@
       "country": "Thailand",
       "year": 2024,
       "harmful": 7,
-      "liberalising": 5
+      "liberalising": 4
     },
     {
       "iso": "THA",
@@ -3545,7 +4070,7 @@
       "country": "Thailand",
       "year": 2026,
       "harmful": 0,
-      "liberalising": 5
+      "liberalising": 4
     },
     {
       "iso": "TUN",
@@ -3558,14 +4083,14 @@
       "iso": "TUR",
       "country": "Turkiye",
       "year": 2020,
-      "harmful": 19,
-      "liberalising": 4
+      "harmful": 18,
+      "liberalising": 3
     },
     {
       "iso": "TUR",
       "country": "Turkiye",
       "year": 2021,
-      "harmful": 7,
+      "harmful": 5,
       "liberalising": 6
     },
     {
@@ -3579,21 +4104,21 @@
       "iso": "TUR",
       "country": "Turkiye",
       "year": 2023,
-      "harmful": 15,
-      "liberalising": 9
+      "harmful": 8,
+      "liberalising": 8
     },
     {
       "iso": "TUR",
       "country": "Turkiye",
       "year": 2024,
-      "harmful": 37,
+      "harmful": 36,
       "liberalising": 3
     },
     {
       "iso": "TUR",
       "country": "Turkiye",
       "year": 2025,
-      "harmful": 17,
+      "harmful": 15,
       "liberalising": 4
     },
     {
@@ -3621,7 +4146,7 @@
       "iso": "TWN",
       "country": "Chinese Taipei",
       "year": 2023,
-      "harmful": 2,
+      "harmful": 1,
       "liberalising": 0
     },
     {
@@ -3663,7 +4188,7 @@
       "iso": "UKR",
       "country": "Ukraine",
       "year": 2020,
-      "harmful": 2,
+      "harmful": 1,
       "liberalising": 2
     },
     {
@@ -3704,13 +4229,6 @@
     {
       "iso": "URY",
       "country": "Uruguay",
-      "year": 2021,
-      "harmful": 0,
-      "liberalising": 1
-    },
-    {
-      "iso": "URY",
-      "country": "Uruguay",
       "year": 2023,
       "harmful": 0,
       "liberalising": 1
@@ -3719,42 +4237,42 @@
       "iso": "USA",
       "country": "United States of America",
       "year": 2020,
-      "harmful": 111,
+      "harmful": 108,
       "liberalising": 8
     },
     {
       "iso": "USA",
       "country": "United States of America",
       "year": 2021,
-      "harmful": 191,
-      "liberalising": 7
+      "harmful": 187,
+      "liberalising": 4
     },
     {
       "iso": "USA",
       "country": "United States of America",
       "year": 2022,
       "harmful": 244,
-      "liberalising": 5
+      "liberalising": 4
     },
     {
       "iso": "USA",
       "country": "United States of America",
       "year": 2023,
-      "harmful": 249,
+      "harmful": 240,
       "liberalising": 1
     },
     {
       "iso": "USA",
       "country": "United States of America",
       "year": 2024,
-      "harmful": 294,
+      "harmful": 280,
       "liberalising": 2
     },
     {
       "iso": "USA",
       "country": "United States of America",
       "year": 2025,
-      "harmful": 243,
+      "harmful": 225,
       "liberalising": 42
     },
     {
@@ -3762,7 +4280,7 @@
       "country": "United States of America",
       "year": 2026,
       "harmful": 52,
-      "liberalising": 6
+      "liberalising": 7
     },
     {
       "iso": "UZB",
@@ -3790,7 +4308,7 @@
       "country": "Venezuela",
       "year": 2020,
       "harmful": 0,
-      "liberalising": 3
+      "liberalising": 1
     },
     {
       "iso": "VNM",
@@ -3817,21 +4335,14 @@
       "iso": "VNM",
       "country": "Vietnam",
       "year": 2023,
-      "harmful": 2,
+      "harmful": 1,
       "liberalising": 1
     },
     {
       "iso": "VNM",
       "country": "Vietnam",
-      "year": 2024,
-      "harmful": 1,
-      "liberalising": 0
-    },
-    {
-      "iso": "VNM",
-      "country": "Vietnam",
       "year": 2025,
-      "harmful": 9,
+      "harmful": 7,
       "liberalising": 4
     },
     {
@@ -3846,7 +4357,7 @@
       "country": "South Africa",
       "year": 2021,
       "harmful": 4,
-      "liberalising": 2
+      "liberalising": 1
     },
     {
       "iso": "ZAF",
@@ -3860,21 +4371,21 @@
       "country": "South Africa",
       "year": 2023,
       "harmful": 4,
-      "liberalising": 1
+      "liberalising": 0
     },
     {
       "iso": "ZAF",
       "country": "South Africa",
       "year": 2024,
-      "harmful": 2,
-      "liberalising": 3
+      "harmful": 1,
+      "liberalising": 2
     },
     {
       "iso": "ZAF",
       "country": "South Africa",
       "year": 2025,
-      "harmful": 8,
-      "liberalising": 1
+      "harmful": 7,
+      "liberalising": 0
     },
     {
       "iso": "ZAF",
@@ -3909,326 +4420,316 @@
     {
       "iso": "CHN",
       "country": "China",
-      "count": 1377
+      "count": 1341
     },
     {
       "iso": "AUS",
       "country": "Australia",
-      "count": 897
+      "count": 722
     },
     {
       "iso": "USA",
       "country": "United States of America",
-      "count": 545
+      "count": 513
     },
     {
       "iso": "BRA",
       "country": "Brazil",
-      "count": 378
+      "count": 366
     },
     {
       "iso": "DEU",
       "country": "Germany",
-      "count": 361
-    },
-    {
-      "iso": "ITA",
-      "country": "Italy",
-      "count": 259
+      "count": 282
     },
     {
       "iso": "FRA",
       "country": "France",
-      "count": 254
+      "count": 240
+    },
+    {
+      "iso": "ITA",
+      "country": "Italy",
+      "count": 238
     },
     {
       "iso": "ESP",
       "country": "Spain",
-      "count": 224
+      "count": 214
     },
     {
       "iso": "CAN",
       "country": "Canada",
-      "count": 215
+      "count": 207
     },
     {
       "iso": "IND",
       "country": "India",
-      "count": 209
-    },
-    {
-      "iso": "DNK",
-      "country": "Denmark",
-      "count": 199
+      "count": 189
     },
     {
       "iso": "JPN",
       "country": "Japan",
-      "count": 186
-    },
-    {
-      "iso": "NLD",
-      "country": "Netherlands",
-      "count": 182
+      "count": 173
     },
     {
       "iso": "POL",
       "country": "Poland",
-      "count": 180
+      "count": 171
+    },
+    {
+      "iso": "NLD",
+      "country": "Netherlands",
+      "count": 170
     },
     {
       "iso": "SWE",
       "country": "Sweden",
-      "count": 179
-    },
-    {
-      "iso": "BEL",
-      "country": "Belgium",
-      "count": 173
+      "count": 169
     },
     {
       "iso": "KOR",
       "country": "Republic of Korea",
-      "count": 172
+      "count": 168
+    },
+    {
+      "iso": "DNK",
+      "country": "Denmark",
+      "count": 165
+    },
+    {
+      "iso": "BEL",
+      "country": "Belgium",
+      "count": 162
     },
     {
       "iso": "FIN",
       "country": "Finland",
-      "count": 169
+      "count": 161
     },
     {
       "iso": "HUN",
       "country": "Hungary",
-      "count": 165
+      "count": 157
     },
     {
-      "iso": "AUT",
-      "country": "Austria",
-      "count": 164
+      "iso": "GBR",
+      "country": "United Kingdom",
+      "count": 157
     }
   ],
   "green_industrial_growth": [
     {
       "year": 2020,
-      "harmful": 863,
-      "liberalising": 338
+      "harmful": 810,
+      "liberalising": 309
     },
     {
       "year": 2021,
-      "harmful": 771,
-      "liberalising": 274
+      "harmful": 713,
+      "liberalising": 232
     },
     {
       "year": 2022,
-      "harmful": 1047,
-      "liberalising": 282
+      "harmful": 1005,
+      "liberalising": 249
     },
     {
       "year": 2023,
-      "harmful": 1222,
-      "liberalising": 263
+      "harmful": 1130,
+      "liberalising": 230
     },
     {
       "year": 2024,
-      "harmful": 1076,
-      "liberalising": 277
+      "harmful": 1011,
+      "liberalising": 235
     },
     {
       "year": 2025,
-      "harmful": 1105,
-      "liberalising": 413
+      "harmful": 1033,
+      "liberalising": 366
     },
     {
       "year": 2026,
-      "harmful": 376,
-      "liberalising": 142
+      "harmful": 358,
+      "liberalising": 131
     }
   ],
   "fossil_fuel_support": [
     {
       "iso": "CHN",
       "country": "China",
-      "count": 280
+      "count": 213
     },
     {
       "iso": "USA",
       "country": "United States of America",
-      "count": 135
+      "count": 122
     },
     {
       "iso": "CAN",
       "country": "Canada",
-      "count": 88
+      "count": 82
     },
     {
       "iso": "JPN",
       "country": "Japan",
-      "count": 76
+      "count": 64
     },
     {
       "iso": "DEU",
       "country": "Germany",
-      "count": 68
+      "count": 63
     },
     {
       "iso": "ITA",
       "country": "Italy",
-      "count": 54
+      "count": 50
     },
     {
       "iso": "ESP",
       "country": "Spain",
-      "count": 53
+      "count": 49
     },
     {
       "iso": "FRA",
       "country": "France",
-      "count": 51
-    },
-    {
-      "iso": "IND",
-      "country": "India",
-      "count": 50
+      "count": 49
     },
     {
       "iso": "GRC",
       "country": "Greece",
-      "count": 49
+      "count": 47
     },
     {
       "iso": "POL",
       "country": "Poland",
-      "count": 48
+      "count": 46
     },
     {
       "iso": "DNK",
       "country": "Denmark",
-      "count": 46
-    },
-    {
-      "iso": "AUT",
-      "country": "Austria",
-      "count": 45
-    },
-    {
-      "iso": "BEL",
-      "country": "Belgium",
-      "count": 45
+      "count": 44
     },
     {
       "iso": "HUN",
       "country": "Hungary",
-      "count": 44
+      "count": 42
     },
     {
-      "iso": "FIN",
-      "country": "Finland",
-      "count": 43
+      "iso": "IND",
+      "country": "India",
+      "count": 42
     },
     {
-      "iso": "LTU",
-      "country": "Lithuania",
-      "count": 43
+      "iso": "BEL",
+      "country": "Belgium",
+      "count": 41
     },
     {
       "iso": "SVN",
       "country": "Slovenia",
-      "count": 43
+      "count": 41
     },
     {
       "iso": "SVK",
       "country": "Slovakia",
-      "count": 42
+      "count": 40
     },
     {
-      "iso": "CZE",
-      "country": "Czechia",
-      "count": 42
-    },
-    {
-      "iso": "ROU",
-      "country": "Romania",
-      "count": 42
+      "iso": "AUT",
+      "country": "Austria",
+      "count": 40
     },
     {
       "iso": "BGR",
       "country": "Bulgaria",
-      "count": 42
+      "count": 40
     },
     {
       "iso": "HRV",
       "country": "Croatia",
-      "count": 42
+      "count": 40
     },
     {
-      "iso": "SWE",
-      "country": "Sweden",
-      "count": 41
+      "iso": "CZE",
+      "country": "Czechia",
+      "count": 40
     },
     {
-      "iso": "NLD",
-      "country": "Netherlands",
-      "count": 41
+      "iso": "FIN",
+      "country": "Finland",
+      "count": 40
+    },
+    {
+      "iso": "LTU",
+      "country": "Lithuania",
+      "count": 40
     },
     {
       "iso": "EST",
       "country": "Estonia",
-      "count": 41
+      "count": 39
     },
     {
       "iso": "LVA",
       "country": "Latvia",
-      "count": 41
+      "count": 39
+    },
+    {
+      "iso": "ROU",
+      "country": "Romania",
+      "count": 39
+    },
+    {
+      "iso": "NLD",
+      "country": "Netherlands",
+      "count": 38
     },
     {
       "iso": "PRT",
       "country": "Portugal",
-      "count": 41
+      "count": 38
+    },
+    {
+      "iso": "SWE",
+      "country": "Sweden",
+      "count": 38
     },
     {
       "iso": "LUX",
       "country": "Luxembourg",
-      "count": 39
-    },
-    {
-      "iso": "RUS",
-      "country": "Russia",
-      "count": 38
+      "count": 37
     },
     {
       "iso": "CYP",
       "country": "Cyprus",
-      "count": 38
+      "count": 36
     },
     {
       "iso": "IRL",
       "country": "Ireland",
-      "count": 38
+      "count": 36
     },
     {
       "iso": "MLT",
       "country": "Malta",
-      "count": 38
+      "count": 36
     },
     {
-      "iso": "AUS",
-      "country": "Australia",
-      "count": 33
+      "iso": "RUS",
+      "country": "Russia",
+      "count": 25
     },
     {
       "iso": "GBR",
       "country": "United Kingdom",
-      "count": 30
-    },
-    {
-      "iso": "KOR",
-      "country": "Republic of Korea",
-      "count": 27
-    },
-    {
-      "iso": "TUR",
-      "country": "Turkiye",
       "count": 24
+    },
+    {
+      "iso": "AUS",
+      "country": "Australia",
+      "count": 23
     },
     {
       "iso": "CHE",
@@ -4236,29 +4737,34 @@
       "count": 23
     },
     {
+      "iso": "KOR",
+      "country": "Republic of Korea",
+      "count": 23
+    },
+    {
       "iso": "ARG",
       "country": "Argentina",
-      "count": 19
+      "count": 17
+    },
+    {
+      "iso": "TUR",
+      "country": "Turkiye",
+      "count": 16
     },
     {
       "iso": "BRA",
       "country": "Brazil",
-      "count": 18
+      "count": 16
     },
     {
       "iso": "IDN",
       "country": "Indonesia",
-      "count": 15
+      "count": 11
     },
     {
       "iso": "NGA",
       "country": "Nigeria",
-      "count": 13
-    },
-    {
-      "iso": "PAK",
-      "country": "Pakistan",
-      "count": 10
+      "count": 11
     },
     {
       "iso": "MEX",
@@ -4266,14 +4772,14 @@
       "count": 10
     },
     {
-      "iso": "THA",
-      "country": "Thailand",
+      "iso": "PAK",
+      "country": "Pakistan",
       "count": 8
     },
     {
-      "iso": "EGY",
-      "country": "Egypt",
-      "count": 8
+      "iso": "MYS",
+      "country": "Malaysia",
+      "count": 7
     },
     {
       "iso": "PER",
@@ -4283,41 +4789,26 @@
     {
       "iso": "VNM",
       "country": "Vietnam",
-      "count": 7
+      "count": 5
     },
     {
-      "iso": "MYS",
-      "country": "Malaysia",
-      "count": 7
+      "iso": "THA",
+      "country": "Thailand",
+      "count": 5
     },
     {
-      "iso": "PHL",
-      "country": "Philippines",
+      "iso": "EGY",
+      "country": "Egypt",
       "count": 4
     },
     {
       "iso": "UKR",
       "country": "Ukraine",
-      "count": 4
+      "count": 3
     },
     {
       "iso": "ZAF",
       "country": "South Africa",
-      "count": 4
-    },
-    {
-      "iso": "MOZ",
-      "country": "Mozambique",
-      "count": 3
-    },
-    {
-      "iso": "KEN",
-      "country": "Kenya",
-      "count": 3
-    },
-    {
-      "iso": "NER",
-      "country": "Niger",
       "count": 3
     },
     {
@@ -4326,33 +4817,13 @@
       "count": 3
     },
     {
-      "iso": "BLR",
-      "country": "Belarus",
-      "count": 2
+      "iso": "PHL",
+      "country": "Philippines",
+      "count": 3
     },
     {
-      "iso": "GMB",
-      "country": "Gambia",
-      "count": 2
-    },
-    {
-      "iso": "MMR",
-      "country": "Myanmar",
-      "count": 2
-    },
-    {
-      "iso": "NOR",
-      "country": "Norway",
-      "count": 2
-    },
-    {
-      "iso": "VEN",
-      "country": "Venezuela",
-      "count": 2
-    },
-    {
-      "iso": "ZWE",
-      "country": "Zimbabwe",
+      "iso": "BGD",
+      "country": "Bangladesh",
       "count": 2
     },
     {
@@ -4361,13 +4832,13 @@
       "count": 2
     },
     {
-      "iso": "AGO",
-      "country": "Angola",
+      "iso": "BLR",
+      "country": "Belarus",
       "count": 2
     },
     {
-      "iso": "BGD",
-      "country": "Bangladesh",
+      "iso": "NER",
+      "country": "Niger",
       "count": 2
     },
     {
@@ -4376,9 +4847,14 @@
       "count": 2
     },
     {
-      "iso": "SGP",
-      "country": "Singapore",
-      "count": 1
+      "iso": "VEN",
+      "country": "Venezuela",
+      "count": 2
+    },
+    {
+      "iso": "MOZ",
+      "country": "Mozambique",
+      "count": 2
     },
     {
       "iso": "NZL",
@@ -4386,28 +4862,8 @@
       "count": 1
     },
     {
-      "iso": "CHL",
-      "country": "Chile",
-      "count": 1
-    },
-    {
-      "iso": "TKM",
-      "country": "Turkmenistan",
-      "count": 1
-    },
-    {
-      "iso": "BOL",
-      "country": "Bolivia",
-      "count": 1
-    },
-    {
-      "iso": "LKA",
-      "country": "Sri Lanka",
-      "count": 1
-    },
-    {
-      "iso": "KAZ",
-      "country": "Kazakhstan",
+      "iso": "ZWE",
+      "country": "Zimbabwe",
       "count": 1
     },
     {
@@ -4416,248 +4872,88 @@
       "count": 1
     },
     {
-      "iso": "BEN",
-      "country": "Benin",
-      "count": 1
-    },
-    {
-      "iso": "BWA",
-      "country": "Botswana",
-      "count": 1
-    },
-    {
-      "iso": "BFA",
-      "country": "Burkina Faso",
-      "count": 1
-    },
-    {
-      "iso": "BDI",
-      "country": "Burundi",
-      "count": 1
-    },
-    {
-      "iso": "CPV",
-      "country": "Cape Verde",
-      "count": 1
-    },
-    {
-      "iso": "CAF",
-      "country": "Central African Republic",
-      "count": 1
-    },
-    {
-      "iso": "TCD",
-      "country": "Chad",
-      "count": 1
-    },
-    {
-      "iso": "COG",
-      "country": "Congo",
-      "count": 1
-    },
-    {
-      "iso": "DJI",
-      "country": "Djibouti",
-      "count": 1
-    },
-    {
-      "iso": "GNQ",
-      "country": "Equatorial Guinea",
-      "count": 1
-    },
-    {
-      "iso": "ERI",
-      "country": "Eritrea",
-      "count": 1
-    },
-    {
-      "iso": "ETH",
-      "country": "Ethiopia",
-      "count": 1
-    },
-    {
-      "iso": "GAB",
-      "country": "Gabon",
-      "count": 1
-    },
-    {
-      "iso": "GHA",
-      "country": "Ghana",
-      "count": 1
-    },
-    {
-      "iso": "GIN",
-      "country": "Guinea",
-      "count": 1
-    },
-    {
-      "iso": "GNB",
-      "country": "Guinea-Bissau",
-      "count": 1
-    },
-    {
-      "iso": "CIV",
-      "country": "Ivory Coast",
-      "count": 1
-    },
-    {
-      "iso": "LSO",
-      "country": "Lesotho",
-      "count": 1
-    },
-    {
-      "iso": "LBR",
-      "country": "Liberia",
-      "count": 1
-    },
-    {
-      "iso": "MDG",
-      "country": "Madagascar",
-      "count": 1
-    },
-    {
-      "iso": "MWI",
-      "country": "Malawi",
-      "count": 1
-    },
-    {
-      "iso": "MLI",
-      "country": "Mali",
-      "count": 1
-    },
-    {
-      "iso": "MRT",
-      "country": "Mauritania",
-      "count": 1
-    },
-    {
-      "iso": "MUS",
-      "country": "Mauritius",
-      "count": 1
-    },
-    {
-      "iso": "MAR",
-      "country": "Morocco",
-      "count": 1
-    },
-    {
-      "iso": "NAM",
-      "country": "Namibia",
-      "count": 1
-    },
-    {
-      "iso": "SDN",
-      "country": "Republic of the Sudan",
-      "count": 1
-    },
-    {
-      "iso": "RWA",
-      "country": "Rwanda",
-      "count": 1
-    },
-    {
-      "iso": "STP",
-      "country": "Sao Tome & Principe",
-      "count": 1
-    },
-    {
-      "iso": "SEN",
-      "country": "Senegal",
-      "count": 1
-    },
-    {
-      "iso": "SYC",
-      "country": "Seychelles",
-      "count": 1
-    },
-    {
-      "iso": "SLE",
-      "country": "Sierra Leone",
-      "count": 1
-    },
-    {
-      "iso": "SSD",
-      "country": "South Sudan",
-      "count": 1
-    },
-    {
-      "iso": "TZA",
-      "country": "Tanzania",
-      "count": 1
-    },
-    {
-      "iso": "TGO",
-      "country": "Togo",
-      "count": 1
-    },
-    {
-      "iso": "TUN",
-      "country": "Tunisia",
-      "count": 1
-    },
-    {
-      "iso": "UGA",
-      "country": "Uganda",
-      "count": 1
-    },
-    {
-      "iso": "ZMB",
-      "country": "Zambia",
-      "count": 1
-    },
-    {
       "iso": "HKG",
       "country": "Hong Kong",
+      "count": 1
+    },
+    {
+      "iso": "GMB",
+      "country": "Gambia",
+      "count": 1
+    },
+    {
+      "iso": "MMR",
+      "country": "Myanmar",
+      "count": 1
+    },
+    {
+      "iso": "KEN",
+      "country": "Kenya",
+      "count": 1
+    },
+    {
+      "iso": "TKM",
+      "country": "Turkmenistan",
+      "count": 1
+    },
+    {
+      "iso": "LKA",
+      "country": "Sri Lanka",
+      "count": 1
+    },
+    {
+      "iso": "CHL",
+      "country": "Chile",
       "count": 1
     }
   ],
   "fossil_vs_green_trend": [
     {
       "year": 2020,
-      "fossil": 178,
-      "green": 626
+      "fossil": 141,
+      "green": 583
     },
     {
       "year": 2021,
-      "fossil": 159,
-      "green": 533
+      "fossil": 119,
+      "green": 489
     },
     {
       "year": 2022,
-      "fossil": 300,
-      "green": 685
+      "fossil": 259,
+      "green": 656
     },
     {
       "year": 2023,
-      "fossil": 305,
-      "green": 898
+      "fossil": 257,
+      "green": 829
     },
     {
       "year": 2024,
-      "fossil": 257,
-      "green": 726
+      "fossil": 212,
+      "green": 671
     },
     {
       "year": 2025,
-      "fossil": 251,
-      "green": 724
+      "fossil": 217,
+      "green": 684
     },
     {
       "year": 2026,
-      "fossil": 150,
-      "green": 276
+      "fossil": 132,
+      "green": 262
     }
   ],
   "trade_remedies": [
     {
       "iso": "USA",
       "country": "United States of America",
-      "count": 22
+      "count": 18
     },
     {
       "iso": "IND",
       "country": "India",
-      "count": 19
+      "count": 12
     },
     {
       "iso": "AUS",
@@ -4667,87 +4963,87 @@
     {
       "iso": "AUT",
       "country": "Austria",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "BEL",
       "country": "Belgium",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "BGR",
       "country": "Bulgaria",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "HRV",
       "country": "Croatia",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "CYP",
       "country": "Cyprus",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "CZE",
       "country": "Czechia",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "DNK",
       "country": "Denmark",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "EST",
       "country": "Estonia",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "FIN",
       "country": "Finland",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "FRA",
       "country": "France",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "DEU",
       "country": "Germany",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "GRC",
       "country": "Greece",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "HUN",
       "country": "Hungary",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "IRL",
       "country": "Ireland",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "ITA",
       "country": "Italy",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "LVA",
       "country": "Latvia",
-      "count": 7
+      "count": 6
     },
     {
       "iso": "LTU",
       "country": "Lithuania",
-      "count": 7
+      "count": 6
     }
   ],
   "mineral_export_restrictions": {
@@ -4837,7 +5133,36 @@
         "count": 7
       }
     ],
-    "nickel": [],
+    "nickel": [
+      {
+        "year": 2020,
+        "count": 10
+      },
+      {
+        "year": 2021,
+        "count": 8
+      },
+      {
+        "year": 2022,
+        "count": 47
+      },
+      {
+        "year": 2023,
+        "count": 54
+      },
+      {
+        "year": 2024,
+        "count": 31
+      },
+      {
+        "year": 2025,
+        "count": 43
+      },
+      {
+        "year": 2026,
+        "count": 11
+      }
+    ],
     "graphite": [
       {
         "year": 2020,
