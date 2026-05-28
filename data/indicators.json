@@ -4048,217 +4048,242 @@
     {
       "iso": "CHN",
       "country": "China",
-      "count": 199
+      "count": 280
     },
     {
       "iso": "USA",
       "country": "United States of America",
-      "count": 118
+      "count": 135
     },
     {
       "iso": "CAN",
       "country": "Canada",
-      "count": 71
+      "count": 88
     },
     {
       "iso": "JPN",
       "country": "Japan",
-      "count": 47
+      "count": 76
     },
     {
       "iso": "DEU",
       "country": "Germany",
-      "count": 46
+      "count": 68
     },
     {
       "iso": "ITA",
       "country": "Italy",
-      "count": 39
-    },
-    {
-      "iso": "POL",
-      "country": "Poland",
-      "count": 38
+      "count": 54
     },
     {
       "iso": "ESP",
       "country": "Spain",
-      "count": 36
-    },
-    {
-      "iso": "GRC",
-      "country": "Greece",
-      "count": 34
-    },
-    {
-      "iso": "FIN",
-      "country": "Finland",
-      "count": 33
-    },
-    {
-      "iso": "LTU",
-      "country": "Lithuania",
-      "count": 33
-    },
-    {
-      "iso": "BEL",
-      "country": "Belgium",
-      "count": 33
-    },
-    {
-      "iso": "IND",
-      "country": "India",
-      "count": 32
-    },
-    {
-      "iso": "AUT",
-      "country": "Austria",
-      "count": 32
-    },
-    {
-      "iso": "SVK",
-      "country": "Slovakia",
-      "count": 32
-    },
-    {
-      "iso": "CZE",
-      "country": "Czechia",
-      "count": 32
-    },
-    {
-      "iso": "HRV",
-      "country": "Croatia",
-      "count": 32
+      "count": 53
     },
     {
       "iso": "FRA",
       "country": "France",
-      "count": 32
+      "count": 51
     },
     {
-      "iso": "SWE",
-      "country": "Sweden",
-      "count": 31
+      "iso": "IND",
+      "country": "India",
+      "count": 50
     },
     {
-      "iso": "ROU",
-      "country": "Romania",
-      "count": 31
+      "iso": "GRC",
+      "country": "Greece",
+      "count": 49
     },
     {
-      "iso": "EST",
-      "country": "Estonia",
-      "count": 31
-    },
-    {
-      "iso": "HUN",
-      "country": "Hungary",
-      "count": 31
-    },
-    {
-      "iso": "LVA",
-      "country": "Latvia",
-      "count": 31
-    },
-    {
-      "iso": "NLD",
-      "country": "Netherlands",
-      "count": 30
-    },
-    {
-      "iso": "BGR",
-      "country": "Bulgaria",
-      "count": 30
+      "iso": "POL",
+      "country": "Poland",
+      "count": 48
     },
     {
       "iso": "DNK",
       "country": "Denmark",
-      "count": 30
+      "count": 46
     },
     {
-      "iso": "PRT",
-      "country": "Portugal",
-      "count": 30
+      "iso": "AUT",
+      "country": "Austria",
+      "count": 45
+    },
+    {
+      "iso": "BEL",
+      "country": "Belgium",
+      "count": 45
+    },
+    {
+      "iso": "HUN",
+      "country": "Hungary",
+      "count": 44
+    },
+    {
+      "iso": "FIN",
+      "country": "Finland",
+      "count": 43
+    },
+    {
+      "iso": "LTU",
+      "country": "Lithuania",
+      "count": 43
     },
     {
       "iso": "SVN",
       "country": "Slovenia",
-      "count": 30
+      "count": 43
     },
     {
-      "iso": "CYP",
-      "country": "Cyprus",
-      "count": 28
+      "iso": "SVK",
+      "country": "Slovakia",
+      "count": 42
     },
     {
-      "iso": "IRL",
-      "country": "Ireland",
-      "count": 28
+      "iso": "CZE",
+      "country": "Czechia",
+      "count": 42
+    },
+    {
+      "iso": "ROU",
+      "country": "Romania",
+      "count": 42
+    },
+    {
+      "iso": "BGR",
+      "country": "Bulgaria",
+      "count": 42
+    },
+    {
+      "iso": "HRV",
+      "country": "Croatia",
+      "count": 42
+    },
+    {
+      "iso": "SWE",
+      "country": "Sweden",
+      "count": 41
+    },
+    {
+      "iso": "NLD",
+      "country": "Netherlands",
+      "count": 41
+    },
+    {
+      "iso": "EST",
+      "country": "Estonia",
+      "count": 41
+    },
+    {
+      "iso": "LVA",
+      "country": "Latvia",
+      "count": 41
+    },
+    {
+      "iso": "PRT",
+      "country": "Portugal",
+      "count": 41
     },
     {
       "iso": "LUX",
       "country": "Luxembourg",
-      "count": 28
-    },
-    {
-      "iso": "MLT",
-      "country": "Malta",
-      "count": 28
+      "count": 39
     },
     {
       "iso": "RUS",
       "country": "Russia",
-      "count": 27
+      "count": 38
+    },
+    {
+      "iso": "CYP",
+      "country": "Cyprus",
+      "count": 38
+    },
+    {
+      "iso": "IRL",
+      "country": "Ireland",
+      "count": 38
+    },
+    {
+      "iso": "MLT",
+      "country": "Malta",
+      "count": 38
     },
     {
       "iso": "AUS",
       "country": "Australia",
+      "count": 33
+    },
+    {
+      "iso": "GBR",
+      "country": "United Kingdom",
+      "count": 30
+    },
+    {
+      "iso": "KOR",
+      "country": "Republic of Korea",
       "count": 27
     },
     {
       "iso": "TUR",
       "country": "Turkiye",
-      "count": 23
-    },
-    {
-      "iso": "KOR",
-      "country": "Republic of Korea",
-      "count": 18
+      "count": 24
     },
     {
       "iso": "CHE",
       "country": "Switzerland",
+      "count": 23
+    },
+    {
+      "iso": "ARG",
+      "country": "Argentina",
+      "count": 19
+    },
+    {
+      "iso": "BRA",
+      "country": "Brazil",
       "count": 18
     },
     {
       "iso": "IDN",
       "country": "Indonesia",
-      "count": 13
-    },
-    {
-      "iso": "GBR",
-      "country": "United Kingdom",
-      "count": 13
-    },
-    {
-      "iso": "ARG",
-      "country": "Argentina",
-      "count": 12
-    },
-    {
-      "iso": "MEX",
-      "country": "Mexico",
-      "count": 9
-    },
-    {
-      "iso": "PAK",
-      "country": "Pakistan",
-      "count": 8
+      "count": 15
     },
     {
       "iso": "NGA",
       "country": "Nigeria",
+      "count": 13
+    },
+    {
+      "iso": "PAK",
+      "country": "Pakistan",
+      "count": 10
+    },
+    {
+      "iso": "MEX",
+      "country": "Mexico",
+      "count": 10
+    },
+    {
+      "iso": "THA",
+      "country": "Thailand",
       "count": 8
+    },
+    {
+      "iso": "EGY",
+      "country": "Egypt",
+      "count": 8
+    },
+    {
+      "iso": "PER",
+      "country": "Peru",
+      "count": 7
+    },
+    {
+      "iso": "VNM",
+      "country": "Vietnam",
+      "count": 7
     },
     {
       "iso": "MYS",
@@ -4266,23 +4291,18 @@
       "count": 7
     },
     {
-      "iso": "THA",
-      "country": "Thailand",
-      "count": 6
-    },
-    {
-      "iso": "PER",
-      "country": "Peru",
-      "count": 6
-    },
-    {
-      "iso": "VNM",
-      "country": "Vietnam",
+      "iso": "PHL",
+      "country": "Philippines",
       "count": 4
     },
     {
       "iso": "UKR",
       "country": "Ukraine",
+      "count": 4
+    },
+    {
+      "iso": "ZAF",
+      "country": "South Africa",
       "count": 4
     },
     {
@@ -4301,8 +4321,8 @@
       "count": 3
     },
     {
-      "iso": "ZAF",
-      "country": "South Africa",
+      "iso": "IRQ",
+      "country": "Iraq",
       "count": 3
     },
     {
@@ -4336,19 +4356,24 @@
       "count": 2
     },
     {
+      "iso": "ARE",
+      "country": "United Arab Emirates",
+      "count": 2
+    },
+    {
       "iso": "AGO",
       "country": "Angola",
       "count": 2
     },
     {
-      "iso": "EGY",
-      "country": "Egypt",
+      "iso": "BGD",
+      "country": "Bangladesh",
       "count": 2
     },
     {
-      "iso": "PHL",
-      "country": "Philippines",
-      "count": 1
+      "iso": "TWN",
+      "country": "Chinese Taipei",
+      "count": 2
     },
     {
       "iso": "SGP",
@@ -4363,11 +4388,6 @@
     {
       "iso": "CHL",
       "country": "Chile",
-      "count": 1
-    },
-    {
-      "iso": "BRA",
-      "country": "Brazil",
       "count": 1
     },
     {
@@ -4393,11 +4413,6 @@
     {
       "iso": "SAU",
       "country": "Saudi Arabia",
-      "count": 1
-    },
-    {
-      "iso": "ARE",
-      "country": "United Arab Emirates",
       "count": 1
     },
     {
@@ -4589,6 +4604,11 @@
       "iso": "ZMB",
       "country": "Zambia",
       "count": 1
+    },
+    {
+      "iso": "HKG",
+      "country": "Hong Kong",
+      "count": 1
     }
   ],
   "fossil_vs_green_trend": [
@@ -4599,32 +4619,32 @@
     },
     {
       "year": 2021,
-      "fossil": 158,
+      "fossil": 159,
       "green": 533
     },
     {
       "year": 2022,
-      "fossil": 298,
+      "fossil": 300,
       "green": 685
     },
     {
       "year": 2023,
-      "fossil": 292,
+      "fossil": 305,
       "green": 898
     },
     {
       "year": 2024,
-      "fossil": 194,
+      "fossil": 257,
       "green": 726
     },
     {
       "year": 2025,
-      "fossil": 48,
+      "fossil": 251,
       "green": 724
     },
     {
       "year": 2026,
-      "fossil": 0,
+      "fossil": 150,
       "green": 276
     }
   ],
@@ -4787,7 +4807,36 @@
         "count": 11
       }
     ],
-    "cobalt": [],
+    "cobalt": [
+      {
+        "year": 2020,
+        "count": 8
+      },
+      {
+        "year": 2021,
+        "count": 8
+      },
+      {
+        "year": 2022,
+        "count": 43
+      },
+      {
+        "year": 2023,
+        "count": 52
+      },
+      {
+        "year": 2024,
+        "count": 27
+      },
+      {
+        "year": 2025,
+        "count": 33
+      },
+      {
+        "year": 2026,
+        "count": 7
+      }
+    ],
     "nickel": [],
     "graphite": [
       {
