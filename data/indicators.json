@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-27",
+  "last_updated": "2026-05-28",
   "data_notes": "Dynamic indicators derived from the Global Trade Alert database (globaltradealert.org). All counts reflect announced interventions from 1 January 2020. HS 281410 appears in both green goods (Other) and petrochemicals; interventions on this code count toward both. FTA data is static and updated manually.",
   "fta_country_pairs": [
     {
@@ -828,7 +828,7 @@
       "iso": "CHN",
       "country": "China",
       "year": 2026,
-      "harmful": 38,
+      "harmful": 41,
       "liberalising": 6
     },
     {
@@ -3545,7 +3545,7 @@
       "country": "Thailand",
       "year": 2026,
       "harmful": 0,
-      "liberalising": 1
+      "liberalising": 5
     },
     {
       "iso": "TUN",
@@ -3909,7 +3909,7 @@
     {
       "iso": "CHN",
       "country": "China",
-      "count": 1374
+      "count": 1377
     },
     {
       "iso": "AUS",
@@ -3929,7 +3929,7 @@
     {
       "iso": "DEU",
       "country": "Germany",
-      "count": 360
+      "count": 361
     },
     {
       "iso": "ITA",
@@ -4040,8 +4040,8 @@
     },
     {
       "year": 2026,
-      "harmful": 371,
-      "liberalising": 138
+      "harmful": 375,
+      "liberalising": 142
     }
   ],
   "fossil_fuel_support": [
@@ -4645,7 +4645,7 @@
     {
       "year": 2026,
       "fossil": 150,
-      "green": 272
+      "green": 276
     }
   ],
   "trade_remedies": [
@@ -4751,97 +4751,35 @@
     }
   ],
   "mineral_export_restrictions": {
-    "lithium": [],
-    "copper": [
+    "lithium": [
       {
         "year": 2020,
-        "count": 10
+        "count": 4
       },
       {
         "year": 2021,
-        "count": 9
+        "count": 1
       },
       {
         "year": 2022,
-        "count": 31
+        "count": 17
       },
       {
         "year": 2023,
-        "count": 27
+        "count": 15
       },
       {
         "year": 2024,
-        "count": 23
+        "count": 13
       },
       {
         "year": 2025,
-        "count": 52
-      },
-      {
-        "year": 2026,
-        "count": 11
+        "count": 12
       }
     ],
-    "cobalt": [
-      {
-        "year": 2020,
-        "count": 8
-      },
-      {
-        "year": 2021,
-        "count": 8
-      },
-      {
-        "year": 2022,
-        "count": 43
-      },
-      {
-        "year": 2023,
-        "count": 52
-      },
-      {
-        "year": 2024,
-        "count": 27
-      },
-      {
-        "year": 2025,
-        "count": 33
-      },
-      {
-        "year": 2026,
-        "count": 7
-      }
-    ],
-    "nickel": [
-      {
-        "year": 2020,
-        "count": 10
-      },
-      {
-        "year": 2021,
-        "count": 8
-      },
-      {
-        "year": 2022,
-        "count": 47
-      },
-      {
-        "year": 2023,
-        "count": 54
-      },
-      {
-        "year": 2024,
-        "count": 31
-      },
-      {
-        "year": 2025,
-        "count": 43
-      },
-      {
-        "year": 2026,
-        "count": 11
-      }
-    ],
+    "copper": [],
+    "cobalt": [],
+    "nickel": [],
     "graphite": [],
     "rare_earths": [
       {
