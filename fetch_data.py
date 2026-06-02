@@ -126,45 +126,69 @@ def get_product_ids(r):
 
 
 # ── API FETCH ──────────────────────────────────────────────────────────────
+CHUNK_SIZE = 20  # HS codes per request — keeps payloads small and avoids 502s
+
+def _fetch_page(body: dict) -> list:
+    """Single page request with retry. Returns parsed JSON or []."""
+    for attempt in range(3):
+        try:
+            resp = requests.post(BASE_URL, headers=HEADERS, json=body, timeout=180)
+            resp.raise_for_status()
+            return resp.json()
+        except requests.RequestException as exc:
+            if attempt == 2:
+                print(f"\n  ✗ API error: {exc}", file=sys.stderr)
+                return []
+            time.sleep(5 * (attempt + 1))
+    return []
+
+
 def fetch_all(hs_codes: list, label: str = "") -> list:
     """
-    Paginated fetch of all interventions touching any of hs_codes since DATE_FROM.
-    Returns a flat list of intervention dicts.
+    Fetches all interventions for hs_codes since DATE_FROM.
+
+    HS codes are chunked into groups of CHUNK_SIZE to keep request payloads
+    small and avoid 502 errors. Results are deduplicated by intervention_id
+    so interventions affecting multiple chunks are counted only once.
+    Requests are sequential with a 0.5s pause to respect the 2 req/s rate limit.
     """
-    records = []
-    offset  = 0
-    req = {
-        "affected_products":   hs_codes,
-        "announcement_period": [DATE_FROM, None],
-    }
+    seen_ids    = set()
+    all_records = []
+    chunks      = [hs_codes[i:i + CHUNK_SIZE] for i in range(0, len(hs_codes), CHUNK_SIZE)]
+    n_chunks    = len(chunks)
 
-    # Requests are sequential (one page at a time) to comply with the
-    # rate limit of 2 req/s with burst=5 nodelay.
-    while True:
-        body = {"limit": PAGE_SIZE, "offset": offset, "request_data": req}
-        for attempt in range(3):
-            try:
-                resp = requests.post(BASE_URL, headers=HEADERS, json=body, timeout=180)
-                resp.raise_for_status()
-                page = resp.json()
+    for c_idx, chunk in enumerate(chunks):
+        offset = 0
+        req = {
+            "affected_products":   chunk,
+            "announcement_period": [DATE_FROM, None],
+        }
+        while True:
+            print(f"    {label}: chunk {c_idx+1}/{n_chunks}, offset {offset}, "
+                  f"{len(all_records)} unique records so far...", end="\r")
+
+            page = _fetch_page({"limit": PAGE_SIZE, "offset": offset, "request_data": req})
+
+            if not page:
                 break
-            except requests.RequestException as exc:
-                if attempt == 2:
-                    print(f"\n  ✗ API error (offset={offset}): {exc}", file=sys.stderr)
-                    return records
-                time.sleep(5 * (attempt + 1))
 
-        if not page:
-            break
-        records.extend(page)
-        print(f"    {label} {len(records)} records…", end="\r")
-        if len(page) < PAGE_SIZE:
-            break
-        offset += PAGE_SIZE
-        time.sleep(0.5)  # 2 req/s rate limit
+            for r in page:
+                rid = r.get("intervention_id")
+                if rid not in seen_ids:
+                    seen_ids.add(rid)
+                    all_records.append(r)
 
-    print()
-    return records
+            if len(page) < PAGE_SIZE:
+                break
+
+            offset += PAGE_SIZE
+            time.sleep(0.5)  # rate limit: 2 req/s between pages
+
+        time.sleep(0.5)  # rate limit: 2 req/s between chunks
+
+    print(f"\n    {label}: {len(all_records)} unique records")
+    return all_records
+
 
 
 # ── AGGREGATION ────────────────────────────────────────────────────────────
@@ -416,4 +440,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+    
