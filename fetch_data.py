@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
 """
 fetch_data.py  —  Trade Policy and Green Transition Monitor
-Fetches intervention records from the GTA v1 data API and aggregates
-into indicators for the dashboard.
+Fetches ALL intervention records since 2020-01-01 from the GTA API in one
+paginated pull, then filters and aggregates in Python to build each indicator.
 
 API docs: https://github.com/global-trade-alert/docs/blob/main/.api/gta-data.md
-Endpoint: POST https://api.globaltradealert.org/api/v1/data/
+Endpoint: POST https://api-staging.globaltradealert.org/api/v1/data/
 Auth:     Authorization: APIKey {key}
 """
 import os, json, csv, sys, time
 from datetime import date
 from collections import defaultdict
 import requests
+import openpyxl
+from openpyxl.styles import Font, PatternFill, Alignment
+import openpyxl
+from openpyxl.styles import Font, PatternFill, Alignment
 
 # ── CONFIG ─────────────────────────────────────────────────────────────────
 API_KEY = os.environ.get("GTA_API_KEY", "")
@@ -21,7 +25,7 @@ if not API_KEY:
 BASE_URL  = "https://api-staging.globaltradealert.org/api/v1/data/"
 HEADERS   = {"Authorization": f"APIKey {API_KEY}", "Content-Type": "application/json"}
 DATE_FROM = "2020-01-01"
-PAGE_SIZE = 1000
+PAGE_SIZE = 100   # keep individual responses small for server stability
 
 
 # ── HS CODE DEFINITIONS ────────────────────────────────────────────────────
@@ -75,7 +79,8 @@ MINERAL_HS = {
     "graphite":   [250410, 250490],
     "rare_earths":[280530, 284610, 284690],
 }
-ALL_MINERALS_HS = _dedup([c for codes in MINERAL_HS.values() for c in codes])
+ALL_MINERALS_HS  = _dedup([c for codes in MINERAL_HS.values() for c in codes])
+ALL_MINERALS_SET = set(ALL_MINERALS_HS)
 
 COAL_HS  = [270111,270112,270119,270120,270210,270220,270300,270400]
 OIL_HS   = [270900,271012,271019,271020,271112,271113,271114,271119,
@@ -86,12 +91,17 @@ PETRO_HS = [290121,290122,290123,290124,290211,290220,290230,290241,290242,
             290532,291521,291611,291612,291736,292910,281410,281420,310210,
             310230,310240,390110,390120,390210,390230,390311,390319,390330,
             390410,390690,390760,400219,400220,400259]
-FOSSIL_HS = _dedup(COAL_HS + OIL_HS + GAS_HS + PETRO_HS)
+FOSSIL_HS  = _dedup(COAL_HS + OIL_HS + GAS_HS + PETRO_HS)
+FOSSIL_SET = set(FOSSIL_HS)
 
-ALL_GREEN_HS = _dedup(GREEN_GOODS_HS + GREEN_FUELS_HS + ALL_MINERALS_HS)
+ALL_GREEN_HS  = _dedup(GREEN_GOODS_HS + GREEN_FUELS_HS + ALL_MINERALS_HS)
+ALL_GREEN_SET = set(ALL_GREEN_HS)
+
+# Per-mineral sets for export restriction indicator
+MINERAL_SETS = {k: set(v) for k, v in MINERAL_HS.items()}
 
 
-# ── FILTER HELPERS ─────────────────────────────────────────────────────────
+# ── INTERVENTION FILTER SETS ───────────────────────────────────────────────
 IMPORT_BARRIER_TYPES = {
     "Import tariff","Import quota","Import ban","Import tariff quota",
     "Import licensing requirement","Import price benchmark",
@@ -106,102 +116,89 @@ TRADE_REMEDY_TYPES = {
     "Anti-dumping","Anti-subsidy","Safeguard","Anti-circumvention",
 }
 
-def is_subsidy(r):
-    return "ubsidi" in r.get("mast_chapter", "")
 
-def is_harmful(r):
-    return r.get("gta_evaluation", "") in ("Red", "Amber")
-
-def is_liberalising(r):
-    return r.get("gta_evaluation", "") == "Green"
-
-def get_product_ids(r):
-    """Return set of HS codes from an intervention record (handles both access levels)."""
+# ── RECORD HELPERS ─────────────────────────────────────────────────────────
+def get_product_ids(r: dict) -> set:
+    """Return set of HS codes from a record (handles basic and full access formats)."""
     prods = r.get("affected_products", [])
     if not prods:
         return set()
-    if isinstance(prods[0], dict):          # full access: list of objects
+    if isinstance(prods[0], dict):      # full access: list of objects
         return {p["product_id"] for p in prods}
-    return set(prods)                       # basic access: list of integers
+    return set(prods)                   # basic access: list of integers
+
+def get_year(r: dict) -> int:
+    return int(r["date_announced"][:4])
+
+def is_harmful(r: dict) -> bool:
+    return r.get("gta_evaluation", "") in ("Red", "Amber")
+
+def is_liberalising(r: dict) -> bool:
+    return r.get("gta_evaluation", "") == "Green"
+
+def is_subsidy(r: dict) -> bool:
+    return "ubsidi" in r.get("mast_chapter", "")
+
+def is_in_force(r: dict) -> bool:
+    return r.get("is_in_force") == 1
 
 
 # ── API FETCH ──────────────────────────────────────────────────────────────
-CHUNK_SIZE = 20  # HS codes per request — keeps payloads small and avoids 502s
-
-def _fetch_page(body: dict) -> list:
-    """Single page request with retry. Returns parsed JSON or []."""
-    for attempt in range(3):
-        try:
-            resp = requests.post(BASE_URL, headers=HEADERS, json=body, timeout=180)
-            resp.raise_for_status()
-            return resp.json()
-        except requests.RequestException as exc:
-            if attempt == 2:
-                print(f"\n  ✗ API error: {exc}", file=sys.stderr)
-                return []
-            time.sleep(5 * (attempt + 1))
-    return []
-
-
-def fetch_all(hs_codes: list, label: str = "") -> list:
+def fetch_all_since_2020() -> list:
     """
-    Fetches all interventions for hs_codes since DATE_FROM.
-
-    HS codes are chunked into groups of CHUNK_SIZE to keep request payloads
-    small and avoid 502 errors. Results are deduplicated by intervention_id
-    so interventions affecting multiple chunks are counted only once.
-    Requests are sequential with a 0.5s pause to respect the 2 req/s rate limit.
+    Single paginated pull of ALL interventions announced since DATE_FROM.
+    No product filter — filtering happens in Python after the fetch.
+    Sequential requests with 1s pause to respect the rate limit.
     """
-    seen_ids    = set()
-    all_records = []
-    chunks      = [hs_codes[i:i + CHUNK_SIZE] for i in range(0, len(hs_codes), CHUNK_SIZE)]
-    n_chunks    = len(chunks)
+    records = []
+    offset  = 0
 
-    for c_idx, chunk in enumerate(chunks):
-        offset = 0
-        req = {
-            "affected_products":   chunk,
-            "announcement_period": [DATE_FROM, None],
+    print(f"  Fetching all interventions since {DATE_FROM}…")
+    while True:
+        body = {
+            "limit":  PAGE_SIZE,
+            "offset": offset,
+            "request_data": {"announcement_period": [DATE_FROM, None]},
         }
-        while True:
-            print(f"    {label}: chunk {c_idx+1}/{n_chunks}, offset {offset}, "
-                  f"{len(all_records)} unique records so far...", end="\r")
-
-            page = _fetch_page({"limit": PAGE_SIZE, "offset": offset, "request_data": req})
-
-            if not page:
+        # Request with retry
+        page = []
+        for attempt in range(3):
+            try:
+                resp = requests.post(BASE_URL, headers=HEADERS, json=body, timeout=180)
+                resp.raise_for_status()
+                page = resp.json()
                 break
+            except requests.RequestException as exc:
+                if attempt == 2:
+                    print(f"\n  ✗ API error at offset {offset}: {exc}", file=sys.stderr)
+                    return records
+                time.sleep(10 * (attempt + 1))
 
-            for r in page:
-                rid = r.get("intervention_id")
-                if rid not in seen_ids:
-                    seen_ids.add(rid)
-                    all_records.append(r)
+        if not page:
+            break
 
-            if len(page) < PAGE_SIZE:
-                break
+        records.extend(page)
+        print(f"  {len(records)} records fetched…", end="\r")
 
-            offset += PAGE_SIZE
-            time.sleep(0.5)  # rate limit: 2 req/s between pages
+        if len(page) < PAGE_SIZE:
+            break
 
-        time.sleep(0.5)  # rate limit: 2 req/s between chunks
+        offset += PAGE_SIZE
+        time.sleep(1.0)  # 1 req/s — sequential, rate-limit compliant
 
-    print(f"\n    {label}: {len(all_records)} unique records")
-    return all_records
-
+    print(f"\n  Total: {len(records)} records\n")
+    return records
 
 
 # ── AGGREGATION ────────────────────────────────────────────────────────────
 
-def compute_net_policy_stance(green_records: list) -> list:
-    """Liberalising minus harmful on GREEN GOODS only, per (implementer, year)."""
+def compute_net_policy_stance(records: list) -> list:
+    """Liberalising minus harmful on GREEN GOODS per (implementer, year)."""
     agg = defaultdict(lambda: {"harmful": 0, "liberalising": 0, "country": ""})
-
-    for r in green_records:
-        # Restrict to green goods only (exclude hydrogen / minerals)
+    for r in records:
         if not (get_product_ids(r) & GREEN_GOODS_SET):
             continue
-        year  = int(r["date_announced"][:4])
+        year  = get_year(r)
         eval_ = r.get("gta_evaluation", "")
         for jur in r.get("implementing_jurisdictions", []):
             iso = jur.get("iso", "")
@@ -212,7 +209,6 @@ def compute_net_policy_stance(green_records: list) -> list:
                 agg[(iso, year)]["harmful"]      += 1
             elif eval_ == "Green":
                 agg[(iso, year)]["liberalising"] += 1
-
     return sorted(
         [{"iso": iso, "country": d["country"], "year": year,
           "harmful": d["harmful"], "liberalising": d["liberalising"]}
@@ -221,14 +217,12 @@ def compute_net_policy_stance(green_records: list) -> list:
     )
 
 
-def compute_green_sector_support(green_records: list) -> list:
-    """
-    Harmful subsidies (MAST L) + liberalising import barriers + liberalising
-    export controls on green goods / hydrogen / minerals — per implementer.
-    """
+def compute_green_sector_support(records: list) -> list:
+    """Harmful subsidies + liberalising import/export barriers on green/hydrogen/minerals."""
     sup = defaultdict(lambda: {"country": "", "count": 0})
-
-    for r in green_records:
+    for r in records:
+        if not (get_product_ids(r) & ALL_GREEN_SET):
+            continue
         itype = r.get("intervention_type", "")
         qualifies = (
             (is_subsidy(r) and is_harmful(r)) or
@@ -242,18 +236,19 @@ def compute_green_sector_support(green_records: list) -> list:
             if iso:
                 sup[iso]["country"] = jur.get("name", "")
                 sup[iso]["count"]  += 1
-
     out = [{"iso": iso, "country": d["country"], "count": d["count"]}
            for iso, d in sup.items()]
     out.sort(key=lambda x: -x["count"])
     return out[:20]
 
 
-def compute_green_industrial_growth(green_records: list) -> list:
+def compute_green_industrial_growth(records: list) -> list:
     """Annual counts of all interventions on green/hydrogen/minerals."""
     agg = defaultdict(lambda: {"harmful": 0, "liberalising": 0})
-    for r in green_records:
-        year  = int(r["date_announced"][:4])
+    for r in records:
+        if not (get_product_ids(r) & ALL_GREEN_SET):
+            continue
+        year  = get_year(r)
         eval_ = r.get("gta_evaluation", "")
         if eval_ in ("Red", "Amber"):
             agg[year]["harmful"]      += 1
@@ -263,11 +258,13 @@ def compute_green_industrial_growth(green_records: list) -> list:
             for y, d in sorted(agg.items())]
 
 
-def compute_fossil_fuel_support(fossil_records: list) -> list:
-    """Currently in-force subsidy measures on fossil fuels, per implementer."""
+def compute_fossil_fuel_support(records: list) -> list:
+    """In-force subsidy measures on fossil fuels per implementer."""
     sup = defaultdict(lambda: {"country": "", "count": 0})
-    for r in fossil_records:
-        if not (is_subsidy(r) and r.get("is_in_force") == 1):
+    for r in records:
+        if not (get_product_ids(r) & FOSSIL_SET):
+            continue
+        if not (is_subsidy(r) and is_in_force(r)):
             continue
         for jur in r.get("implementing_jurisdictions", []):
             iso = jur.get("iso", "")
@@ -280,25 +277,30 @@ def compute_fossil_fuel_support(fossil_records: list) -> list:
     return out
 
 
-def compute_fossil_vs_green_trend(fossil_records: list, green_records: list) -> list:
+def compute_fossil_vs_green_trend(records: list) -> list:
     """Annual MAST-L counts: fossil fuels vs green/hydrogen/minerals."""
     fossil_by_year = defaultdict(int)
     green_by_year  = defaultdict(int)
-    for r in fossil_records:
-        if is_subsidy(r):
-            fossil_by_year[int(r["date_announced"][:4])] += 1
-    for r in green_records:
-        if is_subsidy(r):
-            green_by_year[int(r["date_announced"][:4])] += 1
+    for r in records:
+        if not is_subsidy(r):
+            continue
+        prods = get_product_ids(r)
+        year  = get_year(r)
+        if prods & FOSSIL_SET:
+            fossil_by_year[year] += 1
+        if prods & ALL_GREEN_SET:
+            green_by_year[year]  += 1
     years = sorted(set(fossil_by_year) | set(green_by_year))
-    return [{"year": y, "fossil": fossil_by_year.get(y, 0), "green": green_by_year.get(y, 0)}
+    return [{"year": y,
+             "fossil": fossil_by_year.get(y, 0),
+             "green":  green_by_year.get(y, 0)}
             for y in years]
 
 
-def compute_trade_remedies(green_records: list) -> list:
-    """Trade remedies (AD/AS/SG/AC) on green goods, per implementer."""
+def compute_trade_remedies(records: list) -> list:
+    """Trade remedies on green goods per implementer."""
     sup = defaultdict(lambda: {"country": "", "count": 0})
-    for r in green_records:
+    for r in records:
         if r.get("intervention_type", "") not in TRADE_REMEDY_TYPES:
             continue
         if not (get_product_ids(r) & GREEN_GOODS_SET):
@@ -314,19 +316,100 @@ def compute_trade_remedies(green_records: list) -> list:
     return out[:20]
 
 
-def compute_mineral_export_restrictions(mineral_records: dict) -> dict:
+def compute_mineral_export_restrictions(records: list) -> dict:
     """Export controls per mineral per year."""
     out = {}
-    for mineral, records in mineral_records.items():
+    for mineral, mineral_set in MINERAL_SETS.items():
         by_year = defaultdict(int)
         for r in records:
-            if r.get("intervention_type", "") in EXPORT_CONTROL_TYPES:
-                by_year[int(r["date_announced"][:4])] += 1
+            if r.get("intervention_type", "") not in EXPORT_CONTROL_TYPES:
+                continue
+            if get_product_ids(r) & mineral_set:
+                by_year[get_year(r)] += 1
         out[mineral] = [{"year": y, "count": c} for y, c in sorted(by_year.items())]
     return out
 
 
-# ── CSV EXPORT ─────────────────────────────────────────────────────────────
+# ── GTA INTERVENTIONS XLSX ─────────────────────────────────────────────────
+# "Relevant" = intervention whose affected products overlap with any of the
+# HS sets used in the indicators (green goods, green fuels, minerals, fossils).
+RELEVANT_SET = ALL_GREEN_SET | FOSSIL_SET
+
+XLSX_COLUMNS = [
+    ("intervention_id",           "Intervention ID"),
+    ("intervention_url",          "URL"),
+    ("date_announced",            "Date Announced"),
+    ("gta_evaluation",            "GTA Evaluation"),
+    ("intervention_type",         "Intervention Type"),
+    ("mast_chapter",              "MAST Chapter"),
+    ("is_in_force",               "In Force"),
+    ("implementing_jurisdictions","Implementing Jurisdictions"),
+    ("affected_products",         "Affected HS Codes"),
+]
+
+def write_gta_xlsx(records: list):
+    """
+    Write data/gta_interventions.xlsx — one row per relevant intervention.
+    Implementing jurisdictions and HS codes are comma-separated within their cells.
+    """
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "GTA Interventions"
+
+    hdr_font  = Font(bold=True, color="FFFFFF")
+    hdr_fill  = PatternFill("solid", fgColor="0F2240")
+    hdr_align = Alignment(horizontal="center", vertical="center", wrap_text=True)
+
+    headers = [col[1] for col in XLSX_COLUMNS]
+    for col_idx, header in enumerate(headers, start=1):
+        cell = ws.cell(row=1, column=col_idx, value=header)
+        cell.font      = hdr_font
+        cell.fill      = hdr_fill
+        cell.alignment = hdr_align
+    ws.row_dimensions[1].height = 30
+
+    col_widths = [16, 40, 16, 14, 30, 24, 10, 50, 50]
+    for col_idx, width in enumerate(col_widths, start=1):
+        ws.column_dimensions[openpyxl.utils.get_column_letter(col_idx)].width = width
+
+    row_idx  = 2
+    seen_ids = set()
+    for r in records:
+        rid = r.get("intervention_id")
+        if rid in seen_ids:
+            continue
+        if not (get_product_ids(r) & RELEVANT_SET):
+            continue
+        seen_ids.add(rid)
+
+        jurisdictions = ", ".join(
+            j.get("name", "") for j in r.get("implementing_jurisdictions", [])
+            if j.get("name")
+        )
+        hs_codes = ", ".join(str(p) for p in sorted(get_product_ids(r)))
+        in_force = "Yes" if r.get("is_in_force") == 1 else "No"
+
+        row_data = [
+            r.get("intervention_id", ""),
+            r.get("intervention_url", ""),
+            r.get("date_announced", ""),
+            r.get("gta_evaluation", ""),
+            r.get("intervention_type", ""),
+            r.get("mast_chapter", ""),
+            in_force,
+            jurisdictions,
+            hs_codes,
+        ]
+        for col_idx, value in enumerate(row_data, start=1):
+            ws.cell(row=row_idx, column=col_idx, value=value).alignment = Alignment(vertical="top")
+        row_idx += 1
+
+    ws.freeze_panes = "A2"
+    wb.save("data/gta_interventions.xlsx")
+    print(f"  ✓ data/gta_interventions.xlsx written ({row_idx - 2} interventions)")
+
+
+# ── INDICATORS CSV ──────────────────────────────────────────────────────────
 def write_csv(indicators: dict):
     rows = []
     for r in indicators.get("net_policy_stance", []):
@@ -360,7 +443,6 @@ def write_csv(indicators: dict):
             rows.append({"indicator":"mineral_export_restrictions","country":"Global",
                          "iso":"WLD","year":r["year"],"value":r["count"],
                          "sub_value":mineral})
-
     with open("data/indicators_export.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["indicator","country","iso","year","value","sub_value"])
         w.writeheader()
@@ -392,24 +474,13 @@ def main():
     print("=== Trade Policy and Green Transition Monitor — data pipeline ===")
     print(f"Run date: {date.today().isoformat()}\n")
 
-    # Fetch 1: all green goods / fuels / minerals
-    print("Fetch 1/3  All green interventions (goods + fuels + minerals)…")
-    green_records = fetch_all(ALL_GREEN_HS, label="green")
-    print(f"  → {len(green_records)} records total\n")
+    # Single fetch — all interventions since 2020, no product filter
+    records = fetch_all_since_2020()
 
-    # Fetch 2: all fossil fuel interventions
-    print("Fetch 2/3  All fossil fuel interventions…")
-    fossil_records = fetch_all(FOSSIL_HS, label="fossil")
-    print(f"  → {len(fossil_records)} records total\n")
+    if not records:
+        sys.exit("ERROR: No records returned. Check API key and connectivity.")
 
-    # Fetch 3: per-mineral (for export restrictions trend)
-    print("Fetch 3/3  Per-mineral export restriction data…")
-    mineral_records = {}
-    for mineral, hs_codes in MINERAL_HS.items():
-        print(f"  → {mineral}…")
-        mineral_records[mineral] = fetch_all(hs_codes, label=mineral)
-
-    print("\nAggregating indicators…")
+    print("Aggregating indicators…")
     indicators = {
         "last_updated": date.today().isoformat(),
         "data_notes": (
@@ -421,19 +492,20 @@ def main():
         ),
         "fta_country_pairs":            FTA_COUNTRY_PAIRS,
         "fta_total_pairs":              len(FTA_COUNTRY_PAIRS),
-        "net_policy_stance":            compute_net_policy_stance(green_records),
-        "green_sector_support":         compute_green_sector_support(green_records),
-        "green_industrial_growth":      compute_green_industrial_growth(green_records),
-        "fossil_fuel_support":          compute_fossil_fuel_support(fossil_records),
-        "fossil_vs_green_trend":        compute_fossil_vs_green_trend(fossil_records, green_records),
-        "trade_remedies":               compute_trade_remedies(green_records),
-        "mineral_export_restrictions":  compute_mineral_export_restrictions(mineral_records),
+        "net_policy_stance":            compute_net_policy_stance(records),
+        "green_sector_support":         compute_green_sector_support(records),
+        "green_industrial_growth":      compute_green_industrial_growth(records),
+        "fossil_fuel_support":          compute_fossil_fuel_support(records),
+        "fossil_vs_green_trend":        compute_fossil_vs_green_trend(records),
+        "trade_remedies":               compute_trade_remedies(records),
+        "mineral_export_restrictions":  compute_mineral_export_restrictions(records),
     }
 
     os.makedirs("data", exist_ok=True)
     with open("data/indicators.json", "w") as f:
         json.dump(indicators, f, indent=2)
     print(f"✓ data/indicators.json written ({date.today().isoformat()})")
+    write_gta_xlsx(records)
     write_csv(indicators)
     print("\n=== Pipeline complete ===")
 
