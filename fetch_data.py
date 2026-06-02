@@ -18,7 +18,7 @@ API_KEY = os.environ.get("GTA_API_KEY", "")
 if not API_KEY:
     sys.exit("ERROR: GTA_API_KEY environment variable not set.")
 
-BASE_URL  = "https://api.globaltradealert.org/api/v1/data/"
+BASE_URL  = "https://api-staging.globaltradealert.org/api/v1/data/"
 HEADERS   = {"Authorization": f"APIKey {API_KEY}", "Content-Type": "application/json"}
 DATE_FROM = "2020-01-01"
 PAGE_SIZE = 1000
