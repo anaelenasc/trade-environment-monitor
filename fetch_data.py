@@ -18,7 +18,7 @@ API_KEY = os.environ.get("GTA_API_KEY", "")
 if not API_KEY:
     sys.exit("ERROR: GTA_API_KEY environment variable not set.")
 
-BASE_URL  = "https://api-staging.globaltradealert.org/api/v1/data/"
+BASE_URL  = "https://api.globaltradealert.org/api/v1/data/"
 HEADERS   = {"Authorization": f"APIKey {API_KEY}", "Content-Type": "application/json"}
 DATE_FROM = "2020-01-01"
 PAGE_SIZE = 1000
@@ -115,7 +115,6 @@ def is_harmful(r):
 def is_liberalising(r):
     return r.get("gta_evaluation", "") == "Green"
 
-
 def get_product_ids(r):
     """Return set of HS codes from an intervention record (handles both access levels)."""
     prods = r.get("affected_products", [])
@@ -127,61 +126,44 @@ def get_product_ids(r):
 
 
 # ── API FETCH ──────────────────────────────────────────────────────────────
-def _fetch_page(hs_codes: list, offset: int, label: str) -> list | None:
-    """
-    Single paginated request. Returns the page list, [] for no results,
-    or None on a hard API error (after 3 retries).
-    """
-    req  = {"affected_products": hs_codes, "announcement_period": [DATE_FROM, None]}
-    body = {"limit": PAGE_SIZE, "offset": offset, "request_data": req}
-    for attempt in range(3):
-        try:
-            resp = requests.post(BASE_URL, headers=HEADERS, json=body, timeout=180)
-            resp.raise_for_status()
-            page = resp.json()
-            return page if isinstance(page, list) else []
-        except requests.RequestException as exc:
-            status = getattr(getattr(exc, "response", None), "status_code", "–")
-            if attempt == 2:
-                print(f"\n  ✗ API error (offset={offset}, HTTP {status}): {exc}",
-                      file=sys.stderr)
-                return None
-            time.sleep(5 * (attempt + 1))
-    return None
-
-
 def fetch_all(hs_codes: list, label: str = "") -> list:
     """
-    Paginated fetch for hs_codes. Automatically batches codes in groups of
-    BATCH_SIZE so a single invalid code cannot silently zero out the whole
-    fetch. Results are deduplicated by intervention id across batches.
+    Paginated fetch of all interventions touching any of hs_codes since DATE_FROM.
+    Returns a flat list of intervention dicts.
     """
-    BATCH_SIZE = 8
-    batches = [hs_codes[i:i+BATCH_SIZE] for i in range(0, len(hs_codes), BATCH_SIZE)]
-    all_records: dict[int, dict] = {}   # id → record, for dedup
+    records = []
+    offset  = 0
+    req = {
+        "affected_products":   hs_codes,
+        "announcement_period": [DATE_FROM, None],
+    }
 
-    for b_idx, batch in enumerate(batches):
-        offset = 0
-        batch_label = f"{label}[b{b_idx+1}/{len(batches)}]" if len(batches) > 1 else label
-        while True:
-            page = _fetch_page(batch, offset, batch_label)
-            if page is None:            # hard error — skip this batch
+    # Requests are sequential (one page at a time) to comply with the
+    # rate limit of 2 req/s with burst=5 nodelay.
+    while True:
+        body = {"limit": PAGE_SIZE, "offset": offset, "request_data": req}
+        for attempt in range(3):
+            try:
+                resp = requests.post(BASE_URL, headers=HEADERS, json=body, timeout=180)
+                resp.raise_for_status()
+                page = resp.json()
                 break
-            if not page:                # empty page — done with this batch
-                break
-            for r in page:
-                rid = r.get("id") or r.get("intervention_id")
-                if rid:
-                    all_records[rid] = r
-                else:
-                    all_records[id(r)] = r
-            print(f"    {batch_label} {len(all_records)} records…", end="\r")
-            if len(page) < PAGE_SIZE:
-                break
-            offset += PAGE_SIZE
+            except requests.RequestException as exc:
+                if attempt == 2:
+                    print(f"\n  ✗ API error (offset={offset}): {exc}", file=sys.stderr)
+                    return records
+                time.sleep(5 * (attempt + 1))
 
-    records = list(all_records.values())
-    print(f"    {label}: {len(records)} unique records fetched")
+        if not page:
+            break
+        records.extend(page)
+        print(f"    {label} {len(records)} records…", end="\r")
+        if len(page) < PAGE_SIZE:
+            break
+        offset += PAGE_SIZE
+        time.sleep(0.5)  # 2 req/s rate limit
+
+    print()
     return records
 
 
@@ -308,63 +290,15 @@ def compute_trade_remedies(green_records: list) -> list:
     return out[:20]
 
 
-def _itype_matches(r, type_set):
-    """
-    Check intervention_type against a set, handling both string (v2 API)
-    and list (v1 API inconsistency) return values.
-    """
-    itype = r.get("intervention_type", "")
-    if isinstance(itype, list):
-        return any(t in type_set for t in itype)
-    return itype in type_set
-
-
-def compute_mineral_export_restrictions(mineral_records: dict, all_mineral_records: list) -> dict:
-    """
-    Export controls per mineral per year, plus an 'all' aggregate.
-
-    Per-mineral: each mineral's dedicated fetch, deduplicated by intervention id.
-    All-minerals: computed from all_mineral_records (already fetched as part of
-    green_records), filtered to mineral HS codes and deduplicated — avoids
-    double-counting interventions that cover multiple minerals.
-
-    Diagnostic output is printed per mineral to help identify fetch vs filter issues.
-    """
-
-    def _series(records, label=""):
-        by_year = defaultdict(set)
-        seen_itypes = set()
-        skipped = 0
-        for r in records:
-            itype = r.get("intervention_type", "")
-            seen_itypes.add(str(itype)[:60])
-            if not _itype_matches(r, EXPORT_CONTROL_TYPES):
-                skipped += 1
-                continue
-            announced = r.get("date_announced")
-            if not announced:
-                continue
-            year = int(str(announced)[:4])
-            rid  = r.get("id") or r.get("intervention_id") or id(r)
-            by_year[year].add(rid)
-        matched = sum(len(v) for v in by_year.values())
-        print(f"    {label}: {len(records)} records fetched, "
-              f"{matched} export controls matched, {skipped} skipped")
-        if len(records) > 0 and matched == 0:
-            print(f"      ↳ intervention types seen: {sorted(seen_itypes)[:10]}")
-        return [{"year": y, "count": len(ids)} for y, ids in sorted(by_year.items())]
-
+def compute_mineral_export_restrictions(mineral_records: dict) -> dict:
+    """Export controls per mineral per year."""
     out = {}
-    print("  Mineral export restriction counts:")
     for mineral, records in mineral_records.items():
-        out[mineral] = _series(records, label=mineral)
-
-    # All-minerals aggregate — deduplicated across minerals
-    mineral_set = set(ALL_MINERALS_HS)
-    mineral_records_all = [r for r in all_mineral_records
-                           if get_product_ids(r) & mineral_set]
-    out["all"] = _series(mineral_records_all, label="all minerals")
-
+        by_year = defaultdict(int)
+        for r in records:
+            if r.get("intervention_type", "") in EXPORT_CONTROL_TYPES:
+                by_year[int(r["date_announced"][:4])] += 1
+        out[mineral] = [{"year": y, "count": c} for y, c in sorted(by_year.items())]
     return out
 
 
@@ -411,100 +345,22 @@ def write_csv(indicators: dict):
 
 
 # ── STATIC FTA DATA ─────────────────────────────────────────────────────────
-# ── STATIC FTA DATA (source: CLAIRK database) ─────────────────────────────
-# Total agreements tracked: 64
-FTA_TOTAL_PAIRS = 64
-
 FTA_COUNTRY_PAIRS = [
-    # EU (19 agreements — shown via bloc/bilateral nodes)
-    {"from":"EU","to":"Canada",         "agreement":"CETA",                          "year":2017,"provisions":1},
-    {"from":"EU","to":"Israel",         "agreement":"EU-Israel Association",         "year":2000,"provisions":1},
-    {"from":"EU","to":"C. America",     "agreement":"Central America-EU Association","year":2013,"provisions":2},
-    {"from":"EU","to":"ESA",            "agreement":"ESA-EU Interim EPA",            "year":2012,"provisions":1},
-    {"from":"EU","to":"Kenya",          "agreement":"EU-Kenya EPA",                  "year":2023,"provisions":1},
-    {"from":"EU","to":"W. Balkans",     "agreement":"EU Stabilisation & Association Agreements","year":2006,"provisions":5,
-     "countries":"Albania, Bosnia-Herzegovina, Kosovo, North Macedonia, Serbia"},
-    {"from":"EU","to":"Mediterr.",      "agreement":"EU Association Agreements",     "year":2002,"provisions":9,
-     "countries":"Algeria, Azerbaijan, Egypt, Iraq, Jordan, Lebanon, Morocco, Palestinian Authority, Tunisia"},
-    # Korea
-    {"from":"Korea","to":"US",          "agreement":"Korea-US FTA",            "year":2012,"provisions":1},
-    {"from":"Korea","to":"Australia",   "agreement":"Australia-Korea FTA",     "year":2014,"provisions":1},
-    {"from":"Korea","to":"Israel",      "agreement":"Israel-Korea FTA",        "year":2021,"provisions":1},
-    {"from":"Korea","to":"NZ",          "agreement":"Korea-NZ FTA",            "year":2015,"provisions":2},
-    {"from":"Korea","to":"Peru",        "agreement":"Korea-Peru FTA",          "year":2011,"provisions":4},
-    {"from":"Korea","to":"Colombia",    "agreement":"Colombia-Korea FTA",      "year":2016,"provisions":1},
-    {"from":"Korea","to":"C. America",  "agreement":"Central America-Korea FTA","year":2019,"provisions":1},
-    # Canada
-    {"from":"Canada","to":"US",         "agreement":"USMCA",                   "year":2020,"provisions":2},
-    {"from":"Canada","to":"Israel",     "agreement":"Canada-Israel FTA",       "year":1997,"provisions":1},
-    {"from":"Canada","to":"Chile",      "agreement":"CPTPP",                   "year":2018,"provisions":2},
-    {"from":"Canada","to":"NZ",         "agreement":"CPTPP",                   "year":2018,"provisions":2},
-    {"from":"Canada","to":"Peru",       "agreement":"CPTPP + Canada-Peru FTA", "year":2018,"provisions":4},
-    {"from":"Canada","to":"Colombia",   "agreement":"Canada-Colombia FTA",     "year":2011,"provisions":2},
-    {"from":"Canada","to":"Japan",      "agreement":"CPTPP",                   "year":2018,"provisions":2},
-    {"from":"Canada","to":"Mediterr.",  "agreement":"Canada-Jordan FTA",       "year":2012,"provisions":1,
-     "countries":"Jordan"},
-    # UK
-    {"from":"UK","to":"Australia",      "agreement":"Australia-UK FTA",        "year":2023,"provisions":3},
-    {"from":"UK","to":"NZ",             "agreement":"NZ-UK FTA",               "year":2023,"provisions":2},
-    {"from":"UK","to":"ESA",            "agreement":"ESA-UK EPA",              "year":2021,"provisions":1},
-    {"from":"UK","to":"Kenya",          "agreement":"Kenya-UK EPA",            "year":2021,"provisions":1},
-    {"from":"UK","to":"India",          "agreement":"India-UK FTA",            "year":2024,"provisions":2},
-    # US
-    {"from":"US","to":"Australia",      "agreement":"Australia-US FTA",        "year":2005,"provisions":1},
-    {"from":"US","to":"Chile",          "agreement":"Chile-US FTA",            "year":2004,"provisions":3},
-    {"from":"US","to":"Peru",           "agreement":"Peru-US TPA",             "year":2009,"provisions":1},
-    {"from":"US","to":"Colombia",       "agreement":"Colombia-US TPA",         "year":2012,"provisions":1},
-    {"from":"US","to":"C. America",     "agreement":"CAFTA-DR",                "year":2006,"provisions":1},
-    {"from":"US","to":"Oman",           "agreement":"Oman-US FTA",             "year":2009,"provisions":1},
-    {"from":"US","to":"Singapore",      "agreement":"Singapore-US FTA",        "year":2004,"provisions":1},
-    {"from":"US","to":"Panama",         "agreement":"Panama-US TPA",           "year":2012,"provisions":1},
-    {"from":"US","to":"Mediterr.",      "agreement":"Morocco-US FTA",          "year":2006,"provisions":1,
-     "countries":"Morocco"},
-    # CPTPP bilateral pairs
-    {"from":"Australia","to":"Chile",   "agreement":"CPTPP","year":2018,"provisions":2},
-    {"from":"Australia","to":"NZ",      "agreement":"CPTPP","year":2018,"provisions":2},
-    {"from":"Australia","to":"Peru",    "agreement":"CPTPP","year":2018,"provisions":2},
-    {"from":"Australia","to":"Japan",   "agreement":"CPTPP","year":2018,"provisions":2},
-    {"from":"Chile","to":"NZ",          "agreement":"CPTPP","year":2018,"provisions":2},
-    {"from":"Chile","to":"Peru",        "agreement":"CPTPP","year":2018,"provisions":2},
-    {"from":"Chile","to":"Japan",       "agreement":"CPTPP","year":2018,"provisions":2},
-    {"from":"NZ","to":"Peru",           "agreement":"CPTPP","year":2018,"provisions":2},
-    {"from":"NZ","to":"Japan",          "agreement":"CPTPP","year":2018,"provisions":2},
-    {"from":"Peru","to":"Japan",        "agreement":"CPTPP","year":2018,"provisions":2},
-    # Israel
-    {"from":"Israel","to":"Colombia",   "agreement":"Colombia-Israel FTA","year":2020,"provisions":1},
-    # UAE
-    {"from":"UAE","to":"Australia",     "agreement":"Australia-UAE CEPA","year":2023,"provisions":2},
-    {"from":"UAE","to":"NZ",            "agreement":"NZ-UAE CEPA",        "year":2023,"provisions":1},
-    {"from":"UAE","to":"Chile",         "agreement":"Chile-UAE CEPA",     "year":2024,"provisions":1},
+    {"from":"EU",    "to":"Japan",       "agreement":"EU-Japan EPA",        "year":2019,"provisions":25},
+    {"from":"EU",    "to":"Canada",      "agreement":"CETA",                "year":2017,"provisions":31},
+    {"from":"EU",    "to":"South Korea", "agreement":"EU-South Korea FTA",  "year":2011,"provisions":18},
+    {"from":"EU",    "to":"Singapore",   "agreement":"EU-Singapore FTA",    "year":2019,"provisions":12},
+    {"from":"EU",    "to":"UK",          "agreement":"EU-UK TCA",           "year":2021,"provisions":40},
+    {"from":"EU",    "to":"New Zealand", "agreement":"EU-New Zealand FTA",  "year":2024,"provisions":15},
+    {"from":"US",    "to":"Canada",      "agreement":"USMCA",               "year":2020,"provisions":20},
+    {"from":"US",    "to":"Mexico",      "agreement":"USMCA",               "year":2020,"provisions":18},
+    {"from":"Japan", "to":"Australia",   "agreement":"JAEPA",               "year":2015,"provisions":10},
+    {"from":"Japan", "to":"UK",          "agreement":"Japan-UK EPA",        "year":2021,"provisions":22},
+    {"from":"UK",    "to":"Australia",   "agreement":"UK-Australia FTA",    "year":2023,"provisions":24},
+    {"from":"UK",    "to":"New Zealand", "agreement":"UK-NZ FTA",           "year":2023,"provisions":19},
+    {"from":"Canada","to":"Australia",   "agreement":"CPTPP",               "year":2018,"provisions":8},
+    {"from":"Japan", "to":"Mexico",      "agreement":"Japan-Mexico EPA",    "year":2005,"provisions":7},
 ]
-
-EU_MEMBERS = ["AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA",
-               "DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD",
-               "POL","PRT","ROU","SVK","SVN","ESP","SWE"]
-
-FTA_COVERAGE = (
-    [{"iso": iso, "count": 19} for iso in EU_MEMBERS] +
-    [{"iso":"USA","count":11},{"iso":"KOR","count":8},{"iso":"CAN","count":8},
-     {"iso":"NZL","count":6},{"iso":"ISR","count":6},{"iso":"GBR","count":5},
-     {"iso":"AUS","count":5},{"iso":"PER","count":4},{"iso":"PAN","count":4},
-     {"iso":"MYS","count":4},{"iso":"GTM","count":4},{"iso":"COL","count":4},
-     {"iso":"CHL","count":4},{"iso":"ARE","count":3},{"iso":"CHE","count":3},
-     {"iso":"SGP","count":3},{"iso":"NIC","count":3},{"iso":"MEX","count":3},
-     {"iso":"JPN","count":3},{"iso":"HND","count":3},{"iso":"SLV","count":3},
-     {"iso":"CRI","count":3},{"iso":"ZWE","count":2},{"iso":"ZMB","count":2},
-     {"iso":"UKR","count":2},{"iso":"SYC","count":2},{"iso":"MAR","count":2},
-     {"iso":"MUS","count":2},{"iso":"MDG","count":2},{"iso":"KEN","count":2},
-     {"iso":"JOR","count":2},{"iso":"ISL","count":2},{"iso":"COM","count":2},
-     {"iso":"TWN","count":2},{"iso":"CHN","count":2},{"iso":"VNM","count":1},
-     {"iso":"TUR","count":1},{"iso":"TUN","count":1},{"iso":"SRB","count":1},
-     {"iso":"OMN","count":1},{"iso":"NOR","count":1},{"iso":"MKD","count":1},
-     {"iso":"LBN","count":1},{"iso":"IRQ","count":1},{"iso":"IND","count":1},
-     {"iso":"EGY","count":1},{"iso":"DOM","count":1},{"iso":"BRN","count":1},
-     {"iso":"BIH","count":1},{"iso":"AZE","count":1},{"iso":"DZA","count":1},
-     {"iso":"ALB","count":1}]
-)
 
 
 # ── MAIN ────────────────────────────────────────────────────────────────────
@@ -540,15 +396,14 @@ def main():
             "FTA data is static and updated manually."
         ),
         "fta_country_pairs":            FTA_COUNTRY_PAIRS,
-        "fta_total_pairs":              FTA_TOTAL_PAIRS,
-        "fta_coverage":                 FTA_COVERAGE,
+        "fta_total_pairs":              len(FTA_COUNTRY_PAIRS),
         "net_policy_stance":            compute_net_policy_stance(green_records),
         "green_sector_support":         compute_green_sector_support(green_records),
         "green_industrial_growth":      compute_green_industrial_growth(green_records),
         "fossil_fuel_support":          compute_fossil_fuel_support(fossil_records),
         "fossil_vs_green_trend":        compute_fossil_vs_green_trend(fossil_records, green_records),
         "trade_remedies":               compute_trade_remedies(green_records),
-        "mineral_export_restrictions":  compute_mineral_export_restrictions(mineral_records, green_records),
+        "mineral_export_restrictions":  compute_mineral_export_restrictions(mineral_records),
     }
 
     os.makedirs("data", exist_ok=True)
