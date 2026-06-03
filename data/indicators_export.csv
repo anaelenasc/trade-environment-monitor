@@ -765,3 +765,10 @@ mineral_export_restrictions,Global,WLD,2023,13,rare_earths
 mineral_export_restrictions,Global,WLD,2024,13,rare_earths
 mineral_export_restrictions,Global,WLD,2025,30,rare_earths
 mineral_export_restrictions,Global,WLD,2026,4,rare_earths
+mineral_export_restrictions,Global,WLD,2020,39,all
+mineral_export_restrictions,Global,WLD,2021,32,all
+mineral_export_restrictions,Global,WLD,2022,170,all
+mineral_export_restrictions,Global,WLD,2023,177,all
+mineral_export_restrictions,Global,WLD,2024,117,all
+mineral_export_restrictions,Global,WLD,2025,193,all
+mineral_export_restrictions,Global,WLD,2026,42,all
