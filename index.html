@@ -108,7 +108,7 @@
     position: relative; z-index: 10;
   }
   .about-card p {
-    font-size: 0.7rem; font-weight: 400; color: var(--slate);
+    font-size: 0.83rem; font-weight: 400; color: var(--slate);
     line-height: 1.7; font-family: var(--font-body);
   }
 
@@ -370,9 +370,9 @@
         </svg>
       </a>
       <div class="header-brand-text">
-        <h1>Trade Policy and the Green Transition Monitor</h1>
+        <h1>Trade and Industrial Policy for the Green Transition Monitor</h1>
         <div class="header-sub-row">
-          <p class="header-sub">Assessing trade policy's role in the green transition</p>
+          <p class="header-sub">Assessing how trade and industrial policy shape the green transition</p>
           <div class="header-actions">
             <span class="last-updated" id="last-updated-display">Data loading…</span>
             <div class="dl-buttons">
@@ -395,8 +395,8 @@
   <!-- NAV TAGS: fixed with header, centered -->
   <div class="nav-section">
     <div class="nav-tags-wrapper">
-      <a class="nav-tag" href="#section-commitments">Green Commitments</a>
       <a class="nav-tag" href="#section-behaviour">Green Transition Policy Behaviour</a>
+      <a class="nav-tag" href="#section-commitments">Green Commitments</a>
       <a class="nav-tag" href="#section-fossil">Fossil Fuel Persistence</a>
       <a class="nav-tag" href="#section-protection">Green Protectionism</a>
       <a class="nav-tag" href="#methodology">Methodology</a>
@@ -409,7 +409,7 @@
 <!-- ABOUT CARD: not sticky, scrolls away -->
 <div class="about-standalone">
   <div class="about-card">
-    <p>This dashboard tracks how trade policy is shaping the global green transition. Its purpose is diagnostic: to assess the extent to which governments' trade and industrial policy choices support or undermine the shift away from fossil fuels. All indicators and visualisations are derived directly from GTA intervention records and CLAIRK's coding of FTA environmental provisions. Data is refreshed daily, except for FTA-related information.</p>
+    <p>This dashboard tracks how trade policy is shaping the global green transition. Its purpose is diagnostic: to assess the extent to which governments' trade and industrial policy choices support or undermine the shift away from fossil fuels. All indicators and visualisations are derived directly from <a href="https://globaltradealert.org/" target="_blank" style="color:var(--teal);text-decoration:none;font-weight:500;">GTA</a> intervention records and <a href="https://clairk.digitalpolicyalert.org/" target="_blank" style="color:var(--teal);text-decoration:none;font-weight:500;">CLAIRK's database</a> of FTA environmental provisions. Data is refreshed daily, except for FTA-related information.</p>
   </div>
 </div>
 
@@ -419,44 +419,7 @@
 <div id="main-content">
 
   <!-- ═══════════════════════════════════════════
-       SECTION 1: GREEN COMMITMENTS
-  ═══════════════════════════════════════════ -->
-  <div class="section-card" id="section-commitments">
-    <h2 class="section-title">Green Commitments</h2>
-    <p class="section-desc">This section tracks trade agreements that incorporate environmental provisions and the expanding network of bilateral green commitments.</p>
-
-    <div class="card-grid col3">
-      <div class="card">
-        <div class="card-title">Environmental Provisions in Trade Agreements</div>
-        <div class="card-sub">Network of FTA pairs with environmental provisions. Ribbon width = number of provisions. Hover any arc or chord for details. C. America and ESA shown as negotiating blocs; W. Balkans and Mediterr. aggregate bilateral EU agreements.</div>
-        <div class="chart-wrap" id="chord-wrap"></div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:1rem;">
-        <div class="card" style="text-align:center;padding:1.6rem 1.4rem;">
-          <div class="card-title">Agreements Tracked</div>
-          <div class="card-sub">FTAs with at least one environmental provision</div>
-          <div class="stat-number" id="fta-stat">—</div>
-          <div class="stat-label">agreements</div>
-        </div>
-        <div class="card" style="flex:1;">
-          <div class="card-title">Geographical Breadth</div>
-          <div class="card-sub">Countries party to FTAs with environmental provisions. Darker shading = more agreements. EU member states share 19 EU-level agreements.</div>
-          <div class="legend" style="margin-bottom:0.5rem;align-items:center;gap:0.6rem;">
-            <span style="font-size:0.68rem;color:var(--muted);font-family:var(--font-mono);">1</span>
-            <div style="width:60px;height:5px;border-radius:3px;background:linear-gradient(to right,#E8EEF5,#1874CD);flex-shrink:0;"></div>
-            <span style="font-size:0.68rem;color:var(--muted);font-family:var(--font-mono);">19</span>
-          </div>
-          <div class="chart-wrap" id="fta-map-wrap"></div>
-        </div>
-      </div>
-    </div>
-    <div class="section-footer">
-      <span class="section-source">Source: Clairk Database</span>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════
-       SECTION 2: GREEN TRANSITION POLICY BEHAVIOUR
+       SECTION 1: GREEN TRANSITION POLICY BEHAVIOUR
   ═══════════════════════════════════════════ -->
   <div class="section-card" id="section-behaviour">
     <h2 class="section-title">Green Transition Policy Behaviour</h2>
@@ -465,8 +428,8 @@
     <!-- All 3 indicators side by side in one row -->
     <div class="card-grid" style="grid-template-columns: 1fr 1fr 1fr;">
       <div class="card">
-        <div class="card-title">Net Policy Orientation on Green Goods</div>
-        <div class="card-sub">Liberalising minus harmful interventions per implementing jurisdiction. Positive = net liberalising; negative = net harmful.</div>
+        <div class="card-title">Net Policy Stance on Green Goods</div>
+        <div class="card-sub">Shows whether each jurisdiction has adopted more liberalising or more harmful trade interventions affecting green goods since 2020. Allows for year range adjustment.</div>
         <div class="slider-row">
           <span class="slider-label">Year range</span>
           <div class="slider-track">
@@ -488,12 +451,12 @@
       </div>
       <div class="card">
         <div class="card-title">Top Implementers — Green Sector Support</div>
-        <div class="card-sub">Harmful subsidies (MAST L) + liberalising import barriers and export controls on green goods, hydrogen, and strategic minerals. Cumulative since 2020.</div>
+        <div class="card-sub">Shows the jurisdictions that have adopted the largest number of support measures targeting green goods, hydrogen, and strategic minerals since 2020.</div>
         <div class="chart-wrap" id="green-support-wrap"></div>
       </div>
       <div class="card">
         <div class="card-title">Growth of Green Industrial Policy</div>
-        <div class="card-sub">Annual counts of all interventions on green goods, hydrogen, and strategic minerals since 2020.</div>
+        <div class="card-sub">Shows the annual evolution of trade and industrial policy interventions affecting green goods, hydrogen, and strategic minerals.</div>
         <div class="legend">
           <div class="legend-item"><div class="legend-line" style="background:#B6242E;"></div>Harmful</div>
           <div class="legend-item"><div class="legend-line" style="background:#1E752A;"></div>Liberalising</div>
@@ -507,6 +470,43 @@
   </div>
 
   <!-- ═══════════════════════════════════════════
+       SECTION 2: GREEN COMMITMENTS
+  ═══════════════════════════════════════════ -->
+  <div class="section-card" id="section-commitments">
+    <h2 class="section-title">Green Commitments</h2>
+    <p class="section-desc">This section tracks trade agreements that incorporate environmental provisions and the expanding network of bilateral green commitments.</p>
+
+    <div class="card-grid col3">
+      <div class="card">
+        <div class="card-title">Environmental Provisions in Trade Agreements</div>
+        <div class="card-sub">Shows which country pairs are covered by free trade agreements containing environmental provisions.</div>
+        <div class="chart-wrap" id="chord-wrap"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="card" style="text-align:center;padding:1.6rem 1.4rem;">
+          <div class="card-title">Agreements Tracked</div>
+          <div class="card-sub">Shows the total number of FTAs where an environmental-related provision was found.</div>
+          <div class="stat-number" id="fta-stat">—</div>
+          <div class="stat-label">agreements</div>
+        </div>
+        <div class="card" style="flex:1;">
+          <div class="card-title">Geographical Breadth</div>
+          <div class="card-sub">Shows which countries are party to at least one free trade agreement containing environmental provisions.</div>
+          <div class="legend" style="margin-bottom:0.5rem;align-items:center;gap:0.6rem;">
+            <span style="font-size:0.68rem;color:var(--muted);font-family:var(--font-mono);">1</span>
+            <div style="width:60px;height:5px;border-radius:3px;background:linear-gradient(to right,#E8EEF5,#1874CD);flex-shrink:0;"></div>
+            <span style="font-size:0.68rem;color:var(--muted);font-family:var(--font-mono);">19</span>
+          </div>
+          <div class="chart-wrap" id="fta-map-wrap"></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-footer">
+      <span class="section-source">Source: Clairk Database</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
        SECTION 3: FOSSIL FUEL PERSISTENCE
   ═══════════════════════════════════════════ -->
   <div class="section-card" id="section-fossil">
@@ -516,12 +516,12 @@
     <div class="card-grid col2">
       <div class="card">
         <div class="card-title">Active Fossil Fuel Subsidies</div>
-        <div class="card-sub">Cumulative count of in-force subsidy interventions (MAST L) on coal, oil, gas, and petrochemicals since 2020, per implementing jurisdiction.</div>
+        <div class="card-sub">Shows the number of currently active subsidy measures supporting coal, oil, gas, and petrochemicals by implementing jurisdiction.</div>
         <div class="chart-wrap" id="fossil-map-wrap"></div>
       </div>
       <div class="card">
         <div class="card-title">Fossil Fuel vs Green Subsidy Trends</div>
-        <div class="card-sub">Annual counts of subsidy interventions (MAST L): fossil fuels vs green goods, hydrogen, and strategic minerals.</div>
+        <div class="card-sub">Compares the annual number of subsidy measures supporting fossil fuel sectors with those supporting green goods, hydrogen, and strategic minerals.</div>
         <div class="legend">
           <div class="legend-item"><div class="legend-line" style="background:#003366;"></div>Fossil fuels</div>
           <div class="legend-item"><div class="legend-line" style="background:#1874CD;"></div>Green goods &amp; minerals</div>
@@ -544,12 +544,12 @@
     <div class="card-grid col2">
       <div class="card">
         <div class="card-title">Leading Users of Trade Remedies on Green Goods</div>
-        <div class="card-sub">Cumulative anti-dumping, anti-subsidy, safeguard, and anti-circumvention interventions where at least one affected product is a green good. Since 2020.</div>
+        <div class="card-sub">Shows the jurisdictions that have used trade remedy instruments most frequently on green goods since 2020.</div>
         <div class="chart-wrap" id="remedies-wrap"></div>
       </div>
       <div class="card">
         <div class="card-title">Export Restrictions on Energy Transition Minerals</div>
-        <div class="card-sub">Annual count of export controls since 2020. Both all minerals and by mineral.</div>
+        <div class="card-sub">Shows the evolution of export controls affecting strategic minerals used in the energy transition. Allows for mineral selection.</div>
         <select class="mineral-select" id="mineral-select">
           <option value="all" selected>All minerals</option>
           <option value="lithium">Lithium</option>
@@ -577,9 +577,10 @@
     <div class="meth-sub">
       <h3 class="meth-sub-title">About the data</h3>
       <div class="meth-about-text">
-        <p>The indicators in this dashboard are built using two types of data. Dynamic indicators are derived directly from the Global Trade Alert database and refreshed daily via the GTA API. Static indicators are based on CLAIRK's database coding of environmental provisions in free trade agreements. This data is only updated periodically.</p>
-        <p>All dynamic indicators include measures covering the product groups specified in the "product groups" section. All product groups use the HS Nomenclature 2022 version at 6 digits. The trade instruments covered have been grouped into different policy categories as specified in the section "policy groups". Only measures with an announcement date from 1 January 2020 are included.</p>
-        <p>The GTA evaluates each intervention as Red (almost certainly harmful to foreign commercial interests), Amber (likely harmful), or Green (almost certainly liberalising). In this dashboard, "harmful" refers to Red and Amber interventions combined; "liberalising" refers to Green interventions. The underlying dataset and all indicators can be downloaded using the buttons in the banner above.</p>
+        <p>The dashboard combines static data on free trade agreements with dynamic intervention-level data from the GTA API.</p>
+        <p>Indicators based on static data use the attached FTA information and are downloadable through the "FTA information" button. Indicators based on dynamic data use GTA intervention-level records and are downloadable through the "GTA data" button.</p>
+        <p>All dynamic indicators include measures covering the product groups specified in the "Product groups" section. All product groups use the HS Nomenclature 2022 version at the 6-digit level. The trade instruments covered by the dashboard are grouped into different policy categories, as specified in the "Policy groups" section.</p>
+        <p>For GTA-based indicators, the relevant records are filtered to interventions announced from 1 January 2020 onward. The core GTA fields used are intervention ID, announcement date, implementing jurisdiction, GTA evaluation, intervention type, MAST chapter, affected jurisdiction, affected product, in-force status, and rationale.</p>
       </div>
     </div>
 
@@ -594,11 +595,15 @@
             <div class="meth-grid">
               <div class="meth-card">
                 <h4>Environmental Provisions in Trade Agreements</h4>
-                <p>Static dataset based on CLAIRK's coding. A "country pair" is counted once per bilateral FTA. Chord ribbon width is proportional to the number of environmental provisions in the agreement.</p>
+                <p>This indicator is built using data from the CLAIRK database. Each observation identifies a free trade agreement, the partner countries covered by that agreement, the agreement year, and whether the agreement includes environmental commitments. The indicator displays country pairs where an agreement contains relevant environmental provisions. In the chord diagram, each link represents a country pair covered by such an agreement. Hover tooltips show the agreement name and year, allowing users to identify the legal instrument behind each country-pair connection.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Agreements Tracked</h4>
+                <p>This indicator is calculated using data from the CLAIRK database. It counts the total number of distinct agreements containing environmental commitments.</p>
               </div>
               <div class="meth-card">
                 <h4>Geographical Breadth</h4>
-                <p>World map showing countries party to at least one FTA with environmental provisions. Colour intensity reflects the number of qualifying agreements per country. EU member states are each assigned the full count of EU-level agreements (19), as all member states are bound by them equally. Source: CLAIRK database.</p>
+                <p>This indicator is calculated using the CLAIRK database. Each country is counted as covered if it is party to at least one qualifying agreement. The world map colours countries according to the number of qualifying agreements to which they are party, with stronger colour intensity indicating a higher count. For EU-level agreements, each EU member state is assigned the full count of EU-level agreements (currently 19), because all EU member states are bound by those agreements equally.</p>
               </div>
             </div>
           </div>
@@ -609,16 +614,16 @@
           <div class="meth-details-body">
             <div class="meth-grid">
               <div class="meth-card">
-                <h4>Net Policy Orientation on Green Goods</h4>
-                <p>Count of liberalising interventions minus harmful interventions on green goods HS codes, per implementing jurisdiction. Positive = net liberalising; negative = net harmful.</p>
+                <h4>Net Policy Stance on Green Goods</h4>
+                <p>This indicator is calculated using GTA intervention-level data for interventions announced from 1 January 2020 onward and affecting the relevant green goods product categories. For each implementing jurisdiction and year, the number of liberalising interventions (green GTA evaluation) and harmful interventions (red or amber GTA evaluation) are counted. The net policy stance equals liberalising minus harmful interventions. A positive value indicates more liberalising than harmful interventions; a negative value indicates the opposite. The main map displays cumulative values since 2020, while the year-range slider filters the underlying intervention data by announcement year.</p>
               </div>
               <div class="meth-card">
                 <h4>Top Implementers — Green Sector Support</h4>
-                <p>Combines: (a) harmful subsidies (MAST L) on green goods, hydrogen, and strategic minerals; (b) liberalising import barriers on the same products; (c) liberalising export controls on the same products. Cumulative since January 2020.</p>
+                <p>This indicator is calculated using GTA intervention-level data from 1 January 2020 onward. It counts qualifying green sector support measures by implementing jurisdiction. A measure is included if it affects green goods, hydrogen, or strategic minerals and falls into one of the following categories: (a) harmful subsidies — red or amber GTA evaluation under MAST Chapter L; (b) liberalising import barrier measures — green GTA evaluation with intervention type: import tariff, import quota, import ban, import tariff quota, import licensing requirement, import price benchmark, minimum import price, or other import charges; (c) liberalising export control measures — green GTA evaluation with intervention type: export ban, export quota, export tax, export tariff quota, export licensing requirement, export price benchmark, or local supply for exports. The indicator displays the ten jurisdictions with the highest cumulative counts since 2020.</p>
               </div>
               <div class="meth-card">
                 <h4>Growth of Green Industrial Policy</h4>
-                <p>Annual counts of all intervention types (harmful and liberalising) affecting green goods, hydrogen, and strategic minerals HS codes, announced since 2020.</p>
+                <p>This indicator is calculated using GTA intervention-level data for interventions announced from 1 January 2020 onward. It counts, by announcement year, all interventions affecting green goods, hydrogen, or strategic minerals. The resulting annual counts are displayed as a trend line to show whether policy activity affecting sectors central to the green transition has increased, decreased, or remained stable over time.</p>
               </div>
             </div>
           </div>
@@ -630,11 +635,11 @@
             <div class="meth-grid">
               <div class="meth-card">
                 <h4>Active Fossil Fuel Subsidies</h4>
-                <p>Cumulative count of in-force subsidy interventions (MAST Chapter L) on coal, oil, gas, and petrochemicals HS codes per implementing jurisdiction, restricted to measures currently in force.</p>
+                <p>This indicator is calculated using GTA intervention-level data. It includes interventions announced from 1 January 2020 onward that affect coal, oil, gas, or petrochemical products and are classified as subsidies under MAST Chapter L. Only interventions marked as currently in force are counted. The indicator aggregates the cumulative number of active fossil fuel support measures by implementing jurisdiction and displays the results on a country map.</p>
               </div>
               <div class="meth-card">
                 <h4>Fossil Fuel vs Green Subsidy Trends</h4>
-                <p>Annual counts of subsidy interventions (MAST Chapter L) on fossil fuel HS codes versus green goods, hydrogen, and strategic mineral HS codes.</p>
+                <p>This indicator is calculated using GTA intervention-level data from 1 January 2020 onward. It creates two annual series. The fossil fuel support series counts MAST Chapter L subsidy interventions supporting coal, oil, gas, or petrochemicals. The green support series counts MAST Chapter L subsidy interventions supporting green goods, hydrogen, or strategic minerals. The two series are displayed together as a trend line to compare the persistence of fossil fuel support with the evolution of support for sectors linked to the green transition.</p>
               </div>
             </div>
           </div>
@@ -646,11 +651,11 @@
             <div class="meth-grid">
               <div class="meth-card">
                 <h4>Leading Users of Trade Remedies on Green Goods</h4>
-                <p>Cumulative counts of anti-dumping, anti-subsidy, safeguard, and anti-circumvention interventions where at least one affected product falls within the green goods HS code list.</p>
+                <p>This indicator is calculated using GTA intervention-level data for interventions announced from 1 January 2020 onward. It includes interventions where at least one affected product is classified as a green good and where the intervention type is a trade remedy instrument: anti-dumping measures, anti-subsidy measures, safeguards, or anti-circumvention measures. The indicator counts qualifying interventions by implementing jurisdiction, aggregates them cumulatively from 2020 onward, and displays the ten jurisdictions with the highest number of trade remedy interventions affecting green goods.</p>
               </div>
               <div class="meth-card">
                 <h4>Export Restrictions on Energy Transition Minerals</h4>
-                <p>Annual counts of export control interventions on HS codes for lithium, copper, cobalt, nickel, graphite, and rare earths separately.</p>
+                <p>This indicator is calculated using GTA intervention-level data from 1 January 2020 onward. It includes export control interventions affecting lithium, cobalt, nickel, copper, graphite, and rare earths. The relevant export control types are export ban, export quota, export tax, export tariff quota, export licensing requirement, export price benchmark, and local supply for exports. The indicator counts qualifying export control interventions by announcement year. A dropdown filter allows users to select a specific mineral or view the aggregate across all covered strategic minerals.</p>
               </div>
             </div>
           </div>
@@ -662,52 +667,120 @@
     <!-- Product groups -->
     <div class="meth-sub">
       <h3 class="meth-sub-title">Product groups</h3>
-      <div class="product-grid">
+      <div class="meth-accordion">
 
-        <!-- Col 1: Green Goods — spans full height of the middle stack -->
-        <div class="product-card product-card-tall">
-          <h4>Green Goods</h4>
-          <div class="product-subcategory"><div class="product-subcat-label">Batteries</div><div class="hs-codes">850610, 850630, 850640, 850650, 850660, 850680, 850690, 850710, 850720, 850730, 850750, 850760, 850780, 850790</div></div>
-          <div class="product-subcategory"><div class="product-subcat-label">Fuel Cell Batteries</div><div class="hs-codes">840590, 850690</div></div>
-          <div class="product-subcategory"><div class="product-subcat-label">Other Green Goods</div><div class="hs-codes">870380, 854142, 854143, 850231, 280410, 854330, 252100, 252220, 281610, 701990, 841410, 841430, 841440, 841480, 841490, 841780, 841960, 841989, 842139, 842199, 842490, 851411, 851419, 851420, 851431, 851432, 851439, 851490, 280110, 281511, 281512, 281830, 282010, 282090, 282410, 283210, 283220, 283510, 283524, 283525, 283526, 283527, 283528, 283529, 380210, 392690, 580190, 730900, 731010, 731021, 731029, 732510, 848110, 848130, 848140, 848180, 902610, 902620</div></div>
-          <div class="product-subcategory"><div class="product-subcat-label">Solar Energy Products</div><div class="hs-codes">392690, 700991, 700992, 711590, 730431, 730441, 730451, 730890, 741121, 741122, 741129, 761090, 830630, 841280, 841989, 841990, 847989, 850110, 850120, 850131, 850132, 850133, 850134, 850161, 850162, 850163, 850164, 850180, 850239, 850300, 850440, 854142, 854143, 900190, 900290, 900580, 901380</div></div>
-          <div class="product-subcategory"><div class="product-subcat-label">Wind Energy Products</div><div class="hs-codes">730820, 730890, 841290, 848210, 848220, 848230, 848240, 848250, 848260, 848280, 848340, 850161, 850162, 850163, 850164, 850231, 850421, 850422, 850423, 850431, 850432, 850433, 850434, 853710, 853720, 854442, 854449, 854460, 902830, 903020, 903021, 903022, 903023, 903024, 903025, 903026, 903027, 903028, 903029, 903039, 903289</div></div>
-        </div>
+        <details class="meth-details">
+          <summary class="meth-details-title">Green Goods</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>Batteries</h4>
+                <p class="hs-codes">850610, 850630, 850640, 850650, 850660, 850680, 850690, 850710, 850720, 850730, 850750, 850760, 850780, 850790</p>
+              </div>
+              <div class="meth-card">
+                <h4>Fuel Cell Batteries</h4>
+                <p class="hs-codes">840590, 850690</p>
+              </div>
+              <div class="meth-card">
+                <h4>Other Green Goods</h4>
+                <p class="hs-codes">870380, 854142, 854143, 850231, 280410, 854330, 252100, 252220, 281610, 701990, 841410, 841430, 841440, 841480, 841490, 841780, 841960, 841989, 842139, 842199, 842490, 851411, 851419, 851420, 851431, 851432, 851439, 851490, 280110, 281511, 281512, 281830, 282010, 282090, 282410, 283210, 283220, 283510, 283524, 283525, 283526, 283527, 283528, 283529, 380210, 392690, 580190, 730900, 731010, 731021, 731029, 732510, 848110, 848130, 848140, 848180, 902610, 902620</p>
+              </div>
+              <div class="meth-card">
+                <h4>Solar Energy Products</h4>
+                <p class="hs-codes">392690, 700991, 700992, 711590, 730431, 730441, 730451, 730890, 741121, 741122, 741129, 761090, 830630, 841280, 841989, 841990, 847989, 850110, 850120, 850131, 850132, 850133, 850134, 850161, 850162, 850163, 850164, 850180, 850239, 850300, 850440, 854142, 854143, 900190, 900290, 900580, 901380</p>
+              </div>
+              <div class="meth-card">
+                <h4>Wind Energy Products</h4>
+                <p class="hs-codes">730820, 730890, 841290, 848210, 848220, 848230, 848240, 848250, 848260, 848280, 848340, 850161, 850162, 850163, 850164, 850231, 850421, 850422, 850423, 850431, 850432, 850433, 850434, 853710, 853720, 854442, 854449, 854460, 902830, 903020, 903021, 903022, 903023, 903024, 903025, 903026, 903027, 903028, 903029, 903039, 903289</p>
+              </div>
+            </div>
+          </div>
+        </details>
 
-        <!-- Col 2: three compact cards stacked vertically -->
-        <div class="product-col-stack">
-          <div class="product-card">
-            <h4>Green Fuels</h4>
-            <div class="product-subcategory"><div class="product-subcat-label">Biofuel</div><div class="hs-codes">382600</div></div>
-            <div class="product-subcategory"><div class="product-subcat-label">Hydrogen</div><div class="hs-codes">280410</div></div>
+        <details class="meth-details">
+          <summary class="meth-details-title">Green Fuels</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>Biofuel</h4>
+                <p class="hs-codes">382600</p>
+              </div>
+              <div class="meth-card">
+                <h4>Hydrogen</h4>
+                <p class="hs-codes">280410</p>
+              </div>
+            </div>
           </div>
-          <div class="product-card">
-            <h4>Fossil Fuels</h4>
-            <div class="product-subcategory"><div class="product-subcat-label">Coal</div><div class="hs-codes">270111, 270112, 270119, 270120, 270210, 270220, 270300, 270400</div></div>
-            <div class="product-subcategory"><div class="product-subcat-label">Oil</div><div class="hs-codes">270900, 271012, 271019, 271020, 271112, 271113, 271114, 271119, 271121, 271129, 271210, 271220, 271290, 271311, 271312, 271320, 271390</div></div>
-            <div class="product-subcategory"><div class="product-subcat-label">Gas</div><div class="hs-codes">271111, 271112, 271113, 271114, 271119, 271121, 271129</div></div>
-          </div>
-          <div class="product-card">
-            <h4>Petrochemicals</h4>
-            <div class="product-subcategory"><div class="hs-codes">290121, 290122, 290123, 290124, 290211, 290220, 290230, 290241, 290242, 290243, 290244, 290250, 290511, 290512, 290513, 290514, 290515, 290516, 290519, 290522, 290529, 290531, 290532, 291521, 291611, 291612, 291736, 292910, 281420, 310210, 310230, 310240, 390110, 390120, 390210, 390230, 390311, 390319, 390330, 390410, 390690, 390760, 400219, 400220, 400259</div></div>
-          </div>
-        </div>
+        </details>
 
-        <!-- Col 3: Strategic Minerals — spans full height of the middle stack -->
-        <div class="product-card product-card-tall">
-          <h4>Strategic Minerals</h4>
-          <div class="product-subcategory"><div class="product-subcat-label">Lithium</div><div class="hs-codes">282520, 283691</div></div>
-          <div class="product-subcategory"><div class="product-subcat-label">Copper</div><div class="hs-codes">260300, 262030, 282550, 282741, 283325, 740100, 740200, 740300, 740400, 740500, 740610, 740620, 740710, 740721, 740729, 740811, 740819, 740821, 740822, 740823, 740824, 740825, 740826, 740827, 740828, 740829, 740911, 740912, 740913, 740914, 740919, 740921, 740922, 740931, 740940, 740990, 741011, 741012, 741013, 741014</div></div>
-          <div class="product-subcategory"><div class="product-subcat-label">Cobalt</div><div class="hs-codes">260500, 282200, 810520, 810530, 810590</div></div>
-          <div class="product-subcategory"><div class="product-subcat-label">Nickel</div><div class="hs-codes">260400, 282540, 282735, 283324, 720260, 750110, 750120, 750210, 750220, 750300, 750400, 750511, 750512, 750521, 750522, 750610, 750620</div></div>
-          <div class="product-subcategory"><div class="product-subcat-label">Graphite</div><div class="hs-codes">250410, 250490</div></div>
-          <div class="product-subcategory"><div class="product-subcat-label">Rare Earths</div><div class="hs-codes">280530, 284610, 284690</div></div>
-        </div>
+        <details class="meth-details">
+          <summary class="meth-details-title">Fossil Fuels</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>Coal</h4>
+                <p class="hs-codes">270111, 270112, 270119, 270120, 270210, 270220, 270300, 270400</p>
+              </div>
+              <div class="meth-card">
+                <h4>Oil</h4>
+                <p class="hs-codes">270900, 271012, 271019, 271020, 271112, 271113, 271114, 271119, 271121, 271129, 271210, 271220, 271290, 271311, 271312, 271320, 271390</p>
+              </div>
+              <div class="meth-card">
+                <h4>Gas</h4>
+                <p class="hs-codes">271111, 271112, 271113, 271114, 271119, 271121, 271129</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Petrochemicals</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>HS Codes</h4>
+                <p class="hs-codes">290121, 290122, 290123, 290124, 290211, 290220, 290230, 290241, 290242, 290243, 290244, 290250, 290511, 290512, 290513, 290514, 290515, 290516, 290519, 290522, 290529, 290531, 290532, 291521, 291611, 291612, 291736, 292910, 281420, 310210, 310230, 310240, 390110, 390120, 390210, 390230, 390311, 390319, 390330, 390410, 390690, 390760, 400219, 400220, 400259</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Strategic Minerals</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>Lithium</h4>
+                <p class="hs-codes">282520, 283691</p>
+              </div>
+              <div class="meth-card">
+                <h4>Copper</h4>
+                <p class="hs-codes">260300, 262030, 282550, 282741, 283325, 740100, 740200, 740300, 740400, 740500, 740610, 740620, 740710, 740721, 740729, 740811, 740819, 740821, 740822, 740823, 740824, 740825, 740826, 740827, 740828, 740829, 740911, 740912, 740913, 740914, 740919, 740921, 740922, 740931, 740940, 740990, 741011, 741012, 741013, 741014</p>
+              </div>
+              <div class="meth-card">
+                <h4>Cobalt</h4>
+                <p class="hs-codes">260500, 282200, 810520, 810530, 810590</p>
+              </div>
+              <div class="meth-card">
+                <h4>Nickel</h4>
+                <p class="hs-codes">260400, 282540, 282735, 283324, 720260, 750110, 750120, 750210, 750220, 750300, 750400, 750511, 750512, 750521, 750522, 750610, 750620</p>
+              </div>
+              <div class="meth-card">
+                <h4>Graphite</h4>
+                <p class="hs-codes">250410, 250490</p>
+              </div>
+              <div class="meth-card">
+                <h4>Rare Earths</h4>
+                <p class="hs-codes">280530, 284610, 284690</p>
+              </div>
+            </div>
+          </div>
+        </details>
 
       </div>
     </div>
 
-    <!-- Policy groups: revised text -->
+        <!-- Policy groups: revised text -->
     <div class="meth-sub" style="margin-bottom:0;">
       <h3 class="meth-sub-title">Policy groups</h3>
       <div class="policy-grid">
@@ -799,7 +872,7 @@ const SAMPLE_DATA = {
     // EU
     {from:"EU", to:"Canada",          agreement:"CETA",                          year:2017, provisions:1},
     {from:"EU", to:"Israel",          agreement:"EU-Israel Association",         year:2000, provisions:1},
-    {from:"EU", to:"C. America", agreement:"Central America-EU Association",year:2013, provisions:2},
+    {from:"EU", to:"C. America", agreement:"Central America-EU Association",year:2013, provisions:1},
     {from:"EU", to:"ESA",   agreement:"ESA-EU Interim EPA",            year:2012, provisions:1},
     {from:"EU", to:"Kenya",           agreement:"EU-Kenya EPA",                  year:2023, provisions:1},
     {from:"EU", to:"W. Balkans",      agreement:"EU Stabilisation & Association Agreements", year:2006, provisions:5,
@@ -810,29 +883,29 @@ const SAMPLE_DATA = {
     {from:"Korea", to:"US",   agreement:"Korea-US FTA",             year:2012, provisions:1},
     {from:"Korea", to:"Australia",       agreement:"Australia-Korea FTA",       year:2014, provisions:1},
     {from:"Korea", to:"Israel",          agreement:"Israel-Korea FTA",          year:2021, provisions:1},
-    {from:"Korea", to:"NZ",     agreement:"Korea-NZ FTA",              year:2015, provisions:2},
-    {from:"Korea", to:"Peru",            agreement:"Korea-Peru FTA",            year:2011, provisions:4},
+    {from:"Korea", to:"NZ",     agreement:"Korea-NZ FTA",              year:2015, provisions:1},
+    {from:"Korea", to:"Peru",            agreement:"Korea-Peru FTA",            year:2011, provisions:1},
     {from:"Korea", to:"Colombia",        agreement:"Colombia-Korea FTA",        year:2016, provisions:1},
     {from:"Korea", to:"C. America", agreement:"Central America-Korea FTA", year:2019, provisions:1},
     // Canada
-    {from:"Canada", to:"US", agreement:"USMCA",                  year:2020, provisions:2},
+    {from:"Canada", to:"US", agreement:"USMCA",                  year:2020, provisions:1},
     {from:"Canada", to:"Israel",        agreement:"Canada-Israel FTA",       year:1997, provisions:1},
-    {from:"Canada", to:"Chile",         agreement:"CPTPP",                   year:2018, provisions:2},
-    {from:"Canada", to:"NZ",   agreement:"CPTPP",                   year:2018, provisions:2},
-    {from:"Canada", to:"Peru",          agreement:"CPTPP + Canada-Peru FTA", year:2018, provisions:4},
-    {from:"Canada", to:"Colombia",      agreement:"Canada-Colombia FTA",     year:2011, provisions:2},
-    {from:"Canada", to:"Japan",         agreement:"CPTPP",                   year:2018, provisions:2},
+    {from:"Canada", to:"Chile",         agreement:"CPTPP",                   year:2018, provisions:1},
+    {from:"Canada", to:"NZ",   agreement:"CPTPP",                   year:2018, provisions:1},
+    {from:"Canada", to:"Peru",          agreement:"CPTPP + Canada-Peru FTA", year:2018, provisions:1},
+    {from:"Canada", to:"Colombia",      agreement:"Canada-Colombia FTA",     year:2011, provisions:1},
+    {from:"Canada", to:"Japan",         agreement:"CPTPP",                   year:2018, provisions:1},
     {from:"Canada", to:"Mediterr.", agreement:"Canada-Jordan FTA",       year:2012, provisions:1,
       countries:"Jordan"},
     // United Kingdom
-    {from:"UK", to:"Australia",     agreement:"Australia-UK FTA", year:2023, provisions:3},
-    {from:"UK", to:"NZ",   agreement:"NZ-UK FTA",        year:2023, provisions:2},
+    {from:"UK", to:"Australia",     agreement:"Australia-UK FTA", year:2023, provisions:1},
+    {from:"UK", to:"NZ",   agreement:"NZ-UK FTA",        year:2023, provisions:1},
     {from:"UK", to:"ESA", agreement:"ESA-UK EPA",       year:2021, provisions:1},
     {from:"UK", to:"Kenya",         agreement:"Kenya-UK EPA",     year:2021, provisions:1},
-    {from:"UK", to:"India",         agreement:"India-UK FTA",     year:2024, provisions:2},
+    {from:"UK", to:"India",         agreement:"India-UK FTA",     year:2024, provisions:1},
     // United States
     {from:"US", to:"Australia",       agreement:"Australia-US FTA",  year:2005, provisions:1},
-    {from:"US", to:"Chile",           agreement:"Chile-US FTA",      year:2004, provisions:3},
+    {from:"US", to:"Chile",           agreement:"Chile-US FTA",      year:2004, provisions:1},
     {from:"US", to:"Peru",            agreement:"Peru-US TPA",        year:2009, provisions:1},
     {from:"US", to:"Colombia",        agreement:"Colombia-US TPA",   year:2012, provisions:1},
     {from:"US", to:"C. America", agreement:"CAFTA-DR",          year:2006, provisions:1},
@@ -842,20 +915,20 @@ const SAMPLE_DATA = {
     {from:"US", to:"Mediterr.",   agreement:"Morocco-US FTA",    year:2006, provisions:1,
       countries:"Morocco"},
     // CPTPP bilateral pairs
-    {from:"Australia", to:"Chile",       agreement:"CPTPP", year:2018, provisions:2},
-    {from:"Australia", to:"NZ", agreement:"CPTPP", year:2018, provisions:2},
-    {from:"Australia", to:"Peru",        agreement:"CPTPP", year:2018, provisions:2},
-    {from:"Australia", to:"Japan",       agreement:"CPTPP", year:2018, provisions:2},
-    {from:"Chile",     to:"NZ", agreement:"CPTPP", year:2018, provisions:2},
-    {from:"Chile",     to:"Peru",        agreement:"CPTPP", year:2018, provisions:2},
-    {from:"Chile",     to:"Japan",       agreement:"CPTPP", year:2018, provisions:2},
-    {from:"NZ", to:"Peru",      agreement:"CPTPP", year:2018, provisions:2},
-    {from:"NZ", to:"Japan",     agreement:"CPTPP", year:2018, provisions:2},
-    {from:"Peru",      to:"Japan",       agreement:"CPTPP", year:2018, provisions:2},
+    {from:"Australia", to:"Chile",       agreement:"CPTPP", year:2018, provisions:1},
+    {from:"Australia", to:"NZ", agreement:"CPTPP", year:2018, provisions:1},
+    {from:"Australia", to:"Peru",        agreement:"CPTPP", year:2018, provisions:1},
+    {from:"Australia", to:"Japan",       agreement:"CPTPP", year:2018, provisions:1},
+    {from:"Chile",     to:"NZ", agreement:"CPTPP", year:2018, provisions:1},
+    {from:"Chile",     to:"Peru",        agreement:"CPTPP", year:2018, provisions:1},
+    {from:"Chile",     to:"Japan",       agreement:"CPTPP", year:2018, provisions:1},
+    {from:"NZ", to:"Peru",      agreement:"CPTPP", year:2018, provisions:1},
+    {from:"NZ", to:"Japan",     agreement:"CPTPP", year:2018, provisions:1},
+    {from:"Peru",      to:"Japan",       agreement:"CPTPP", year:2018, provisions:1},
     // Israel
     {from:"Israel", to:"Colombia", agreement:"Colombia-Israel FTA", year:2020, provisions:1},
     // UAE
-    {from:"UAE", to:"Australia",   agreement:"Australia-UAE CEPA", year:2023, provisions:2},
+    {from:"UAE", to:"Australia",   agreement:"Australia-UAE CEPA", year:2023, provisions:1},
     {from:"UAE", to:"NZ", agreement:"NZ-UAE CEPA",        year:2023, provisions:1},
     {from:"UAE", to:"Chile",       agreement:"Chile-UAE CEPA",     year:2024, provisions:1}
   ],
@@ -1356,7 +1429,7 @@ function renderMineralTrend(mineral) {
 // ═══════════════════════════════════════════════════════
 //  DOWNLOAD HELPERS
 // ═══════════════════════════════════════════════════════
-function downloadJSON() { const a = document.createElement("a"); a.href = "data/gta_interventions.xlsx"; a.download = `GTA_Green_Transition_Interventions_${DATA?.last_updated||"latest"}.xlsx`; a.click(); }
+function downloadJSON() { const a = document.createElement("a"); a.href = "data/indicators.json"; a.download = `GTA_Green_Transition_Data_${DATA?.last_updated||"latest"}.json`; a.click(); }
 function downloadCSV()  { const a = document.createElement("a"); a.href = "data/indicators_export.csv"; a.download = `GTA_Green_Transition_Indicators_${DATA?.last_updated||"latest"}.csv`; a.click(); }
 function downloadFTAData() {
   const rows = [["from","to","agreement","year","provisions"]];
