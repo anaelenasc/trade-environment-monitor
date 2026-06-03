@@ -400,7 +400,19 @@ def compute_fossil_vs_green_trend(records: list) -> list:
             for y in years]
 
 
+# EU member state ISO codes — trade remedies are EU Commission competence
+EU_MEMBERS = {
+    "AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA",
+    "DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD",
+    "POL","PRT","ROU","SVK","SVN","ESP","SWE",
+}
+
 def compute_trade_remedies(records: list) -> list:
+    """
+    Trade remedies on green goods per implementer.
+    EU member states are consolidated into a single 'EU' entry since
+    trade remedies are managed exclusively by the EU Commission.
+    """
     sup = defaultdict(lambda: {"country": "", "count": 0})
     for r in records:
         if (r.get("intervention_type") or "") not in TRADE_REMEDY_TYPES:
@@ -409,7 +421,13 @@ def compute_trade_remedies(records: list) -> list:
             continue
         for jur in r.get("implementing_jurisdictions", []):
             iso = jur.get("iso", "")
-            if iso:
+            if not iso:
+                continue
+            # Consolidate all EU member states under a single EU entry
+            if iso in EU_MEMBERS:
+                sup["EUN"]["country"] = "European Union"
+                sup["EUN"]["count"]  += 1
+            else:
                 sup[iso]["country"] = jur.get("name", "")
                 sup[iso]["count"]  += 1
     out = [{"iso": iso, "country": d["country"], "count": d["count"]}
@@ -599,4 +617,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-  
