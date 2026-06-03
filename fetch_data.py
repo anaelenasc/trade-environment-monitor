@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 """
 fetch_data.py  —  Trade Policy and Green Transition Monitor
-Fetches ALL intervention records since 2020-01-01 from the GTA API in one
-paginated pull, then filters and aggregates in Python to build each indicator.
+Daily incremental update pipeline.
 
-API docs: https://github.com/global-trade-alert/docs/blob/main/.api/gta-data.md
-Endpoint: POST https://api-staging.globaltradealert.org/api/v1/data/
-Auth:     Authorization: APIKey {key}
+Strategy:
+  1. Load data/records_cache.json (built once by seed_cache.py)
+  2. Fetch only records published since last_fetched via date_published filter
+  3. Upsert into cache by intervention_id
+  4. Recompute all indicators from the full cache
+  5. Write data/indicators.json and data/interventions_download.csv
+
+First-run fallback: if no cache exists, fetches everything since DATE_FROM
+(same as the original approach) and builds the cache from scratch.
 """
 import os, json, csv, sys, time
 from datetime import date
 from collections import defaultdict
 import requests
-import openpyxl
-from openpyxl.styles import Font, PatternFill, Alignment
-import openpyxl
-from openpyxl.styles import Font, PatternFill, Alignment
 
 # ── CONFIG ─────────────────────────────────────────────────────────────────
 API_KEY = os.environ.get("GTA_API_KEY", "")
@@ -25,7 +26,8 @@ if not API_KEY:
 BASE_URL  = "https://api-staging.globaltradealert.org/api/v1/data/"
 HEADERS   = {"Authorization": f"APIKey {API_KEY}", "Content-Type": "application/json"}
 DATE_FROM = "2020-01-01"
-PAGE_SIZE = 100   # keep individual responses small for server stability
+PAGE_SIZE = 100
+CACHE_PATH = "data/records_cache.json"
 
 
 # ── HS CODE DEFINITIONS ────────────────────────────────────────────────────
@@ -62,9 +64,9 @@ _WIND = [
 GREEN_GOODS_HS  = _dedup(_BATTERIES + _FUEL_CELL + _OTHER_GREEN + _SOLAR + _WIND)
 GREEN_GOODS_SET = set(GREEN_GOODS_HS)
 
-HYDROGEN_HS    = [280410]
-BIOFUEL_HS     = [382600]
-GREEN_FUELS_HS = _dedup(HYDROGEN_HS + BIOFUEL_HS)
+HYDROGEN_HS     = [280410]
+BIOFUEL_HS      = [382600]
+GREEN_FUELS_HS  = _dedup(HYDROGEN_HS + BIOFUEL_HS)
 
 MINERAL_HS = {
     "lithium":    [282520, 283691],
@@ -81,6 +83,7 @@ MINERAL_HS = {
 }
 ALL_MINERALS_HS  = _dedup([c for codes in MINERAL_HS.values() for c in codes])
 ALL_MINERALS_SET = set(ALL_MINERALS_HS)
+MINERAL_SETS     = {k: set(v) for k, v in MINERAL_HS.items()}
 
 COAL_HS  = [270111,270112,270119,270120,270210,270220,270300,270400]
 OIL_HS   = [270900,271012,271019,271020,271112,271113,271114,271119,
@@ -89,16 +92,14 @@ GAS_HS   = [271111,271112,271113,271114,271119,271121,271129]
 PETRO_HS = [290121,290122,290123,290124,290211,290220,290230,290241,290242,
             290243,290244,290250,290511,290512,290513,290514,290516,290531,
             290532,291521,291611,291612,291736,292910,281410,281420,310210,
-            310230,310240,390110,390120,390210,390230,390311,390319,390330,
+            310230,310240,390110,390120,390210,390230,390311,390319,290330,
             390410,390690,390760,400219,400220,400259]
 FOSSIL_HS  = _dedup(COAL_HS + OIL_HS + GAS_HS + PETRO_HS)
 FOSSIL_SET = set(FOSSIL_HS)
 
 ALL_GREEN_HS  = _dedup(GREEN_GOODS_HS + GREEN_FUELS_HS + ALL_MINERALS_HS)
 ALL_GREEN_SET = set(ALL_GREEN_HS)
-
-# Per-mineral sets for export restriction indicator
-MINERAL_SETS = {k: set(v) for k, v in MINERAL_HS.items()}
+RELEVANT_SET  = ALL_GREEN_SET | FOSSIL_SET
 
 
 # ── INTERVENTION FILTER SETS ───────────────────────────────────────────────
@@ -116,90 +117,196 @@ TRADE_REMEDY_TYPES = {
     "Anti-dumping","Anti-subsidy","Safeguard","Anti-circumvention",
 }
 
+# ── NAME → ISO (used when normalising API records missing iso field) ────────
+NAME_ISO = {
+    "Afghanistan":"AFG","Albania":"ALB","Algeria":"DZA","Angola":"AGO",
+    "Anguilla":"AIA","Antigua & Barbuda":"ATG","Argentina":"ARG","Armenia":"ARM",
+    "Australia":"AUS","Austria":"AUT","Azerbaijan":"AZE","Bahamas":"BHS",
+    "Bahrain":"BHR","Bangladesh":"BGD","Belarus":"BLR","Belgium":"BEL",
+    "Belize":"BLZ","Benin":"BEN","Bermuda":"BMU","Bhutan":"BTN","Bolivia":"BOL",
+    "Bosnia & Herzegovina":"BIH","Botswana":"BWA","Brazil":"BRA",
+    "Brunei Darussalam":"BRN","Bulgaria":"BGR","Burkina Faso":"BFA",
+    "Burundi":"BDI","Cambodia":"KHM","Cameroon":"CMR","Canada":"CAN",
+    "Cape Verde":"CPV","Central African Republic":"CAF","Chad":"TCD",
+    "Chile":"CHL","China":"CHN","Chinese Taipei":"TWN","Colombia":"COL",
+    "Comoros":"COM","Congo":"COG","Costa Rica":"CRI","Croatia":"HRV",
+    "Cuba":"CUB","Cyprus":"CYP","Czechia":"CZE","DR Congo":"COD",
+    "Denmark":"DNK","Djibouti":"DJI","Dominican Republic":"DOM","Ecuador":"ECU",
+    "Egypt":"EGY","El Salvador":"SLV","Equatorial Guinea":"GNQ","Eritrea":"ERI",
+    "Estonia":"EST","Eswatini":"SWZ","Ethiopia":"ETH","Faeroe Islands":"FRO",
+    "Fiji":"FJI","Finland":"FIN","France":"FRA","Gabon":"GAB","Gambia":"GMB",
+    "Georgia":"GEO","Germany":"DEU","Ghana":"GHA","Greece":"GRC",
+    "Guatemala":"GTM","Guinea":"GIN","Guinea-Bissau":"GNB","Guyana":"GUY",
+    "Haiti":"HTI","Honduras":"HND","Hong Kong":"HKG","Hungary":"HUN",
+    "Iceland":"ISL","India":"IND","Indonesia":"IDN","Iran":"IRN","Iraq":"IRQ",
+    "Ireland":"IRL","Israel":"ISR","Italy":"ITA","Ivory Coast":"CIV",
+    "Jamaica":"JAM","Japan":"JPN","Jordan":"JOR","Kazakhstan":"KAZ",
+    "Kenya":"KEN","Kuwait":"KWT","Kyrgyzstan":"KGZ","Lao":"LAO","Latvia":"LVA",
+    "Lebanon":"LBN","Lesotho":"LSO","Liberia":"LBR","Libya":"LBY",
+    "Liechtenstein":"LIE","Lithuania":"LTU","Luxembourg":"LUX",
+    "Macedonia":"MKD","Madagascar":"MDG","Malawi":"MWI","Malaysia":"MYS",
+    "Maldives":"MDV","Mali":"MLI","Malta":"MLT","Mauritania":"MRT",
+    "Mauritius":"MUS","Mexico":"MEX","Mongolia":"MNG","Montenegro":"MNE",
+    "Montserrat":"MSR","Morocco":"MAR","Mozambique":"MOZ","Myanmar":"MMR",
+    "Namibia":"NAM","Nepal":"NPL","Netherlands":"NLD","New Caledonia":"NCL",
+    "New Zealand":"NZL","Nicaragua":"NIC","Niger":"NER","Nigeria":"NGA",
+    "Norway":"NOR","Oman":"OMN","Pakistan":"PAK","Panama":"PAN",
+    "Paraguay":"PRY","Peru":"PER","Philippines":"PHL","Poland":"POL",
+    "Portugal":"PRT","Qatar":"QAT","Republic of Korea":"KOR",
+    "Republic of Moldova":"MDA","Republic of the Sudan":"SDN","Romania":"ROU",
+    "Russia":"RUS","Rwanda":"RWA","Saint Kitts & Nevis":"KNA",
+    "Saint Lucia":"LCA","Saint Vincent & the Grenadines":"VCT","Samoa":"WSM",
+    "Sao Tome & Principe":"STP","Saudi Arabia":"SAU","Senegal":"SEN",
+    "Serbia":"SRB","Seychelles":"SYC","Sierra Leone":"SLE","Singapore":"SGP",
+    "Slovakia":"SVK","Slovenia":"SVN","Solomon Islands":"SLB","Somalia":"SOM",
+    "South Africa":"ZAF","South Sudan":"SSD","Spain":"ESP","Sri Lanka":"LKA",
+    "State of Palestine":"PSE","Suriname":"SUR","Sweden":"SWE",
+    "Switzerland":"CHE","Syria":"SYR","Tajikistan":"TJK","Tanzania":"TZA",
+    "Thailand":"THA","Togo":"TGO","Trinidad & Tobago":"TTO","Tunisia":"TUN",
+    "Turkiye":"TUR","Turkmenistan":"TKM","Turks & Caicos Islands":"TCA",
+    "Uganda":"UGA","Ukraine":"UKR","United Arab Emirates":"ARE",
+    "United Kingdom":"GBR","United States of America":"USA","Uruguay":"URY",
+    "Uzbekistan":"UZB","Venezuela":"VEN","Vietnam":"VNM",
+    "Western Sahara":"ESH","Yemen":"YEM","Zambia":"ZMB","Zimbabwe":"ZWE",
+}
+
 
 # ── RECORD HELPERS ─────────────────────────────────────────────────────────
 def get_product_ids(r: dict) -> set:
-    """Return set of HS codes from a record (handles basic and full access formats)."""
     prods = r.get("affected_products", [])
     if not prods:
         return set()
-    if isinstance(prods[0], dict):      # full access: list of objects
+    if isinstance(prods[0], dict):
         return {p["product_id"] for p in prods}
-    return set(prods)                   # basic access: list of integers
+    return set(prods)
 
 def get_year(r: dict) -> int:
     return int(r["date_announced"][:4])
 
 def is_harmful(r: dict) -> bool:
-    return r.get("gta_evaluation", "") in ("Red", "Amber")
+    return (r.get("gta_evaluation") or "") in ("Red", "Amber")
 
 def is_liberalising(r: dict) -> bool:
-    return r.get("gta_evaluation", "") == "Green"
+    return (r.get("gta_evaluation") or "") == "Green"
 
 def is_subsidy(r: dict) -> bool:
-    return "ubsidi" in r.get("mast_chapter", "")
+    return "ubsidi" in (r.get("mast_chapter") or "")
 
 def is_in_force(r: dict) -> bool:
     return r.get("is_in_force") == 1
 
 
+# ── NORMALISE API RECORD ───────────────────────────────────────────────────
+def normalise_api_record(r: dict) -> dict:
+    """
+    Normalise an API response record to the cache format.
+    Ensures implementing_jurisdictions always has iso codes,
+    and affected_products is always a list of integers.
+    """
+    # Normalise jurisdictions: add iso if missing
+    jurs = []
+    for j in r.get("implementing_jurisdictions", []):
+        name = j.get("name", "")
+        iso  = j.get("iso", "") or NAME_ISO.get(name, "")
+        jurs.append({"name": name, "iso": iso})
+
+    # Normalise products to list of ints
+    raw_prods = r.get("affected_products", [])
+    if raw_prods and isinstance(raw_prods[0], dict):
+        prods = [p["product_id"] for p in raw_prods]
+    else:
+        prods = [int(p) for p in raw_prods if p is not None]
+
+    return {
+        "intervention_id":            r.get("intervention_id"),
+        "intervention_url":           r.get("intervention_url", ""),
+        "gta_evaluation":             r.get("gta_evaluation") or "",
+        "implementing_jurisdictions": jurs,
+        "intervention_type":          r.get("intervention_type") or "",
+        "mast_chapter":               r.get("mast_chapter") or "",
+        "affected_products":          prods,
+        "date_announced":             r.get("date_announced", ""),
+        "is_in_force":                r.get("is_in_force", 0),
+    }
+
+
+# ── CACHE ──────────────────────────────────────────────────────────────────
+def load_cache() -> tuple[dict, str | None]:
+    """Returns (records_dict, last_fetched_date_or_None)."""
+    if not os.path.exists(CACHE_PATH):
+        print(f"  No cache found at {CACHE_PATH} — will do full fetch.")
+        return {}, None
+    with open(CACHE_PATH) as f:
+        cache = json.load(f)
+    records      = cache.get("records", {})
+    last_fetched = cache.get("last_fetched", None)
+    print(f"  Cache loaded: {len(records)} records, last fetched {last_fetched}")
+    return records, last_fetched
+
+
+def save_cache(records: dict):
+    os.makedirs("data", exist_ok=True)
+    cache = {"last_fetched": date.today().isoformat(), "records": records}
+    with open(CACHE_PATH, "w") as f:
+        json.dump(cache, f, separators=(",", ":"))
+    size_mb = os.path.getsize(CACHE_PATH) / 1e6
+    print(f"  ✓ Cache saved: {len(records)} records ({size_mb:.1f} MB)")
+
+
 # ── API FETCH ──────────────────────────────────────────────────────────────
-def fetch_all_since_2020() -> list:
+def _fetch_page(body: dict) -> list:
+    for attempt in range(3):
+        try:
+            resp = requests.post(BASE_URL, headers=HEADERS, json=body, timeout=180)
+            resp.raise_for_status()
+            return resp.json()
+        except requests.RequestException as exc:
+            if attempt == 2:
+                print(f"\n  ✗ API error: {exc}", file=sys.stderr)
+                return []
+            time.sleep(10 * (attempt + 1))
+    return []
+
+
+def fetch_records(since_date: str | None) -> list:
     """
-    Single paginated pull of ALL interventions announced since DATE_FROM.
-    No product filter — filtering happens in Python after the fetch.
-    Sequential requests with 1s pause to respect the rate limit.
+    Fetch interventions announced since DATE_FROM.
+    If since_date is provided, also filter by date_published >= since_date
+    so only new/updated records are returned.
     """
+    req = {"announcement_period": [DATE_FROM, None]}
+    if since_date:
+        req["date_published"] = [since_date, None]
+        print(f"  Incremental fetch: published on or after {since_date}…")
+    else:
+        print(f"  Full fetch: all interventions since {DATE_FROM}…")
+
     records = []
     offset  = 0
-
-    print(f"  Fetching all interventions since {DATE_FROM}…")
     while True:
-        body = {
-            "limit":  PAGE_SIZE,
-            "offset": offset,
-            "request_data": {"announcement_period": [DATE_FROM, None]},
-        }
-        # Request with retry
-        page = []
-        for attempt in range(3):
-            try:
-                resp = requests.post(BASE_URL, headers=HEADERS, json=body, timeout=180)
-                resp.raise_for_status()
-                page = resp.json()
-                break
-            except requests.RequestException as exc:
-                if attempt == 2:
-                    print(f"\n  ✗ API error at offset {offset}: {exc}", file=sys.stderr)
-                    return records
-                time.sleep(10 * (attempt + 1))
-
+        body = {"limit": PAGE_SIZE, "offset": offset, "request_data": req}
+        page = _fetch_page(body)
         if not page:
             break
-
         records.extend(page)
         print(f"  {len(records)} records fetched…", end="\r")
-
         if len(page) < PAGE_SIZE:
             break
-
         offset += PAGE_SIZE
-        time.sleep(1.0)  # 1 req/s — sequential, rate-limit compliant
+        time.sleep(1.0)
 
-    print(f"\n  Total: {len(records)} records\n")
+    print(f"\n  → {len(records)} records fetched")
     return records
 
 
 # ── AGGREGATION ────────────────────────────────────────────────────────────
-
 def compute_net_policy_stance(records: list) -> list:
-    """Liberalising minus harmful on GREEN GOODS per (implementer, year)."""
     agg = defaultdict(lambda: {"harmful": 0, "liberalising": 0, "country": ""})
     for r in records:
         if not (get_product_ids(r) & GREEN_GOODS_SET):
             continue
         year  = get_year(r)
-        eval_ = r.get("gta_evaluation", "")
+        eval_ = r.get("gta_evaluation") or ""
         for jur in r.get("implementing_jurisdictions", []):
             iso = jur.get("iso", "")
             if not iso:
@@ -218,12 +325,11 @@ def compute_net_policy_stance(records: list) -> list:
 
 
 def compute_green_sector_support(records: list) -> list:
-    """Harmful subsidies + liberalising import/export barriers on green/hydrogen/minerals."""
     sup = defaultdict(lambda: {"country": "", "count": 0})
     for r in records:
         if not (get_product_ids(r) & ALL_GREEN_SET):
             continue
-        itype = r.get("intervention_type", "")
+        itype = r.get("intervention_type") or ""
         qualifies = (
             (is_subsidy(r) and is_harmful(r)) or
             (itype in IMPORT_BARRIER_TYPES and is_liberalising(r)) or
@@ -243,13 +349,12 @@ def compute_green_sector_support(records: list) -> list:
 
 
 def compute_green_industrial_growth(records: list) -> list:
-    """Annual counts of all interventions on green/hydrogen/minerals."""
     agg = defaultdict(lambda: {"harmful": 0, "liberalising": 0})
     for r in records:
         if not (get_product_ids(r) & ALL_GREEN_SET):
             continue
         year  = get_year(r)
-        eval_ = r.get("gta_evaluation", "")
+        eval_ = r.get("gta_evaluation") or ""
         if eval_ in ("Red", "Amber"):
             agg[year]["harmful"]      += 1
         elif eval_ == "Green":
@@ -259,7 +364,6 @@ def compute_green_industrial_growth(records: list) -> list:
 
 
 def compute_fossil_fuel_support(records: list) -> list:
-    """In-force subsidy measures on fossil fuels per implementer."""
     sup = defaultdict(lambda: {"country": "", "count": 0})
     for r in records:
         if not (get_product_ids(r) & FOSSIL_SET):
@@ -278,7 +382,6 @@ def compute_fossil_fuel_support(records: list) -> list:
 
 
 def compute_fossil_vs_green_trend(records: list) -> list:
-    """Annual MAST-L counts: fossil fuels vs green/hydrogen/minerals."""
     fossil_by_year = defaultdict(int)
     green_by_year  = defaultdict(int)
     for r in records:
@@ -298,10 +401,9 @@ def compute_fossil_vs_green_trend(records: list) -> list:
 
 
 def compute_trade_remedies(records: list) -> list:
-    """Trade remedies on green goods per implementer."""
     sup = defaultdict(lambda: {"country": "", "count": 0})
     for r in records:
-        if r.get("intervention_type", "") not in TRADE_REMEDY_TYPES:
+        if (r.get("intervention_type") or "") not in TRADE_REMEDY_TYPES:
             continue
         if not (get_product_ids(r) & GREEN_GOODS_SET):
             continue
@@ -317,12 +419,11 @@ def compute_trade_remedies(records: list) -> list:
 
 
 def compute_mineral_export_restrictions(records: list) -> dict:
-    """Export controls per mineral per year."""
     out = {}
     for mineral, mineral_set in MINERAL_SETS.items():
         by_year = defaultdict(int)
         for r in records:
-            if r.get("intervention_type", "") not in EXPORT_CONTROL_TYPES:
+            if (r.get("intervention_type") or "") not in EXPORT_CONTROL_TYPES:
                 continue
             if get_product_ids(r) & mineral_set:
                 by_year[get_year(r)] += 1
@@ -330,87 +431,49 @@ def compute_mineral_export_restrictions(records: list) -> dict:
     return out
 
 
-# ── GTA INTERVENTIONS XLSX ─────────────────────────────────────────────────
-# "Relevant" = intervention whose affected products overlap with any of the
-# HS sets used in the indicators (green goods, green fuels, minerals, fossils).
-RELEVANT_SET = ALL_GREEN_SET | FOSSIL_SET
-
-XLSX_COLUMNS = [
-    ("intervention_id",           "Intervention ID"),
-    ("intervention_url",          "URL"),
-    ("date_announced",            "Date Announced"),
-    ("gta_evaluation",            "GTA Evaluation"),
-    ("intervention_type",         "Intervention Type"),
-    ("mast_chapter",              "MAST Chapter"),
-    ("is_in_force",               "In Force"),
-    ("implementing_jurisdictions","Implementing Jurisdictions"),
-    ("affected_products",         "Affected HS Codes"),
-]
-
-def write_gta_xlsx(records: list):
+# ── DOWNLOAD CSV ───────────────────────────────────────────────────────────
+def write_interventions_csv(records_dict: dict):
     """
-    Write data/gta_interventions.xlsx — one row per relevant intervention.
-    Implementing jurisdictions and HS codes are comma-separated within their cells.
+    Write data/interventions_download.csv — one row per relevant intervention.
+    Jurisdictions and HS codes are comma-separated within their cells.
     """
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    ws.title = "GTA Interventions"
-
-    hdr_font  = Font(bold=True, color="FFFFFF")
-    hdr_fill  = PatternFill("solid", fgColor="0F2240")
-    hdr_align = Alignment(horizontal="center", vertical="center", wrap_text=True)
-
-    headers = [col[1] for col in XLSX_COLUMNS]
-    for col_idx, header in enumerate(headers, start=1):
-        cell = ws.cell(row=1, column=col_idx, value=header)
-        cell.font      = hdr_font
-        cell.fill      = hdr_fill
-        cell.alignment = hdr_align
-    ws.row_dimensions[1].height = 30
-
-    col_widths = [16, 40, 16, 14, 30, 24, 10, 50, 50]
-    for col_idx, width in enumerate(col_widths, start=1):
-        ws.column_dimensions[openpyxl.utils.get_column_letter(col_idx)].width = width
-
-    row_idx  = 2
-    seen_ids = set()
-    for r in records:
-        rid = r.get("intervention_id")
-        if rid in seen_ids:
-            continue
+    fieldnames = [
+        "intervention_id", "intervention_url", "date_announced",
+        "gta_evaluation", "intervention_type", "mast_chapter",
+        "is_in_force", "implementing_jurisdictions", "affected_hs_codes",
+    ]
+    rows = []
+    for r in records_dict.values():
         if not (get_product_ids(r) & RELEVANT_SET):
             continue
-        seen_ids.add(rid)
+        rows.append({
+            "intervention_id":          r.get("intervention_id", ""),
+            "intervention_url":         r.get("intervention_url", ""),
+            "date_announced":           r.get("date_announced", ""),
+            "gta_evaluation":           r.get("gta_evaluation", ""),
+            "intervention_type":        r.get("intervention_type", ""),
+            "mast_chapter":             r.get("mast_chapter", ""),
+            "is_in_force":              "Yes" if r.get("is_in_force") == 1 else "No",
+            "implementing_jurisdictions": ", ".join(
+                j.get("name", "") for j in r.get("implementing_jurisdictions", [])
+                if j.get("name")
+            ),
+            "affected_hs_codes": ", ".join(
+                str(p) for p in sorted(get_product_ids(r))
+            ),
+        })
 
-        jurisdictions = ", ".join(
-            j.get("name", "") for j in r.get("implementing_jurisdictions", [])
-            if j.get("name")
-        )
-        hs_codes = ", ".join(str(p) for p in sorted(get_product_ids(r)))
-        in_force = "Yes" if r.get("is_in_force") == 1 else "No"
+    rows.sort(key=lambda x: x["date_announced"], reverse=True)
 
-        row_data = [
-            r.get("intervention_id", ""),
-            r.get("intervention_url", ""),
-            r.get("date_announced", ""),
-            r.get("gta_evaluation", ""),
-            r.get("intervention_type", ""),
-            r.get("mast_chapter", ""),
-            in_force,
-            jurisdictions,
-            hs_codes,
-        ]
-        for col_idx, value in enumerate(row_data, start=1):
-            ws.cell(row=row_idx, column=col_idx, value=value).alignment = Alignment(vertical="top")
-        row_idx += 1
-
-    ws.freeze_panes = "A2"
-    wb.save("data/gta_interventions.xlsx")
-    print(f"  ✓ data/gta_interventions.xlsx written ({row_idx - 2} interventions)")
+    with open("data/interventions_download.csv", "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w.writeheader()
+        w.writerows(rows)
+    print(f"  ✓ data/interventions_download.csv written ({len(rows)} interventions)")
 
 
-# ── INDICATORS CSV ──────────────────────────────────────────────────────────
-def write_csv(indicators: dict):
+# ── INDICATORS CSV ─────────────────────────────────────────────────────────
+def write_indicators_csv(indicators: dict):
     rows = []
     for r in indicators.get("net_policy_stance", []):
         rows.append({"indicator":"net_policy_stance","country":r["country"],
@@ -422,8 +485,7 @@ def write_csv(indicators: dict):
                      "value":r["count"],"sub_value":""})
     for r in indicators.get("fossil_fuel_support", []):
         rows.append({"indicator":"fossil_fuel_support_active","country":r["country"],
-                     "iso":r["iso"],"year":"in_force",
-                     "value":r["count"],"sub_value":""})
+                     "iso":r["iso"],"year":"in_force","value":r["count"],"sub_value":""})
     for r in indicators.get("trade_remedies", []):
         rows.append({"indicator":"trade_remedies_on_green_goods","country":r["country"],
                      "iso":r["iso"],"year":"cumulative_since_2020",
@@ -443,7 +505,7 @@ def write_csv(indicators: dict):
             rows.append({"indicator":"mineral_export_restrictions","country":"Global",
                          "iso":"WLD","year":r["year"],"value":r["count"],
                          "sub_value":mineral})
-    with open("data/indicators_export.csv", "w", newline="") as f:
+    with open("data/indicators_export.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["indicator","country","iso","year","value","sub_value"])
         w.writeheader()
         w.writerows(rows)
@@ -474,13 +536,36 @@ def main():
     print("=== Trade Policy and Green Transition Monitor — data pipeline ===")
     print(f"Run date: {date.today().isoformat()}\n")
 
-    # Single fetch — all interventions since 2020, no product filter
-    records = fetch_all_since_2020()
+    # 1. Load cache
+    print("Loading cache…")
+    records_dict, last_fetched = load_cache()
 
-    if not records:
-        sys.exit("ERROR: No records returned. Check API key and connectivity.")
+    # 2. Fetch new/updated records from API
+    print("\nFetching from API…")
+    new_records = fetch_records(since_date=last_fetched)
 
-    print("Aggregating indicators…")
+    # 3. Upsert into cache
+    updated = 0
+    added   = 0
+    for r in new_records:
+        normalised = normalise_api_record(r)
+        rid = str(normalised["intervention_id"])
+        if rid in records_dict:
+            updated += 1
+        else:
+            added += 1
+        records_dict[rid] = normalised
+
+    print(f"  Upserted: {added} new, {updated} updated. Cache total: {len(records_dict)}")
+
+    # 4. Save updated cache
+    print("\nSaving cache…")
+    save_cache(records_dict)
+
+    # 5. Compute indicators from full cache
+    print("\nAggregating indicators…")
+    records_list = list(records_dict.values())
+
     indicators = {
         "last_updated": date.today().isoformat(),
         "data_notes": (
@@ -492,24 +577,27 @@ def main():
         ),
         "fta_country_pairs":            FTA_COUNTRY_PAIRS,
         "fta_total_pairs":              len(FTA_COUNTRY_PAIRS),
-        "net_policy_stance":            compute_net_policy_stance(records),
-        "green_sector_support":         compute_green_sector_support(records),
-        "green_industrial_growth":      compute_green_industrial_growth(records),
-        "fossil_fuel_support":          compute_fossil_fuel_support(records),
-        "fossil_vs_green_trend":        compute_fossil_vs_green_trend(records),
-        "trade_remedies":               compute_trade_remedies(records),
-        "mineral_export_restrictions":  compute_mineral_export_restrictions(records),
+        "net_policy_stance":            compute_net_policy_stance(records_list),
+        "green_sector_support":         compute_green_sector_support(records_list),
+        "green_industrial_growth":      compute_green_industrial_growth(records_list),
+        "fossil_fuel_support":          compute_fossil_fuel_support(records_list),
+        "fossil_vs_green_trend":        compute_fossil_vs_green_trend(records_list),
+        "trade_remedies":               compute_trade_remedies(records_list),
+        "mineral_export_restrictions":  compute_mineral_export_restrictions(records_list),
     }
 
     os.makedirs("data", exist_ok=True)
     with open("data/indicators.json", "w") as f:
         json.dump(indicators, f, indent=2)
-    print(f"✓ data/indicators.json written ({date.today().isoformat()})")
-    write_gta_xlsx(records)
-    write_csv(indicators)
+    print(f"  ✓ data/indicators.json written")
+
+    # 6. Write download files
+    print("\nWriting download files…")
+    write_interventions_csv(records_dict)
+    write_indicators_csv(indicators)
+
     print("\n=== Pipeline complete ===")
 
 
 if __name__ == "__main__":
     main()
-    
