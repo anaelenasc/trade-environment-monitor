@@ -1491,7 +1491,13 @@ async function init() {
     const res = await fetch("data/indicators.json");
     if (res.ok) indicatorsData = await res.json();
   } catch (e) { /* no live data file — use sample */ }
-  DATA = indicatorsData || SAMPLE_DATA;
+  // Dynamic indicators come from indicators.json; FTA data always from SAMPLE_DATA
+  DATA = {
+    ...(indicatorsData || SAMPLE_DATA),
+    fta_country_pairs: SAMPLE_DATA.fta_country_pairs,
+    fta_total_pairs:   SAMPLE_DATA.fta_total_pairs,
+    fta_coverage:      SAMPLE_DATA.fta_coverage,
+  };
 
   // Load world topology
   try {
