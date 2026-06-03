@@ -4556,6 +4556,11 @@
   ],
   "trade_remedies": [
     {
+      "iso": "EUN",
+      "country": "European Union",
+      "count": 189
+    },
+    {
       "iso": "USA",
       "country": "United States of America",
       "count": 22
@@ -4571,89 +4576,84 @@
       "count": 10
     },
     {
-      "iso": "AUT",
-      "country": "Austria",
-      "count": 7
+      "iso": "SAU",
+      "country": "Saudi Arabia",
+      "count": 5
     },
     {
-      "iso": "BEL",
-      "country": "Belgium",
-      "count": 7
+      "iso": "BHR",
+      "country": "Bahrain",
+      "count": 4
     },
     {
-      "iso": "BGR",
-      "country": "Bulgaria",
-      "count": 7
+      "iso": "KWT",
+      "country": "Kuwait",
+      "count": 4
     },
     {
-      "iso": "HRV",
-      "country": "Croatia",
-      "count": 7
+      "iso": "OMN",
+      "country": "Oman",
+      "count": 4
     },
     {
-      "iso": "CYP",
-      "country": "Cyprus",
-      "count": 7
+      "iso": "QAT",
+      "country": "Qatar",
+      "count": 4
     },
     {
-      "iso": "CZE",
-      "country": "Czechia",
-      "count": 7
+      "iso": "ARE",
+      "country": "United Arab Emirates",
+      "count": 4
     },
     {
-      "iso": "DNK",
-      "country": "Denmark",
-      "count": 7
+      "iso": "TUR",
+      "country": "Turkiye",
+      "count": 4
     },
     {
-      "iso": "EST",
-      "country": "Estonia",
-      "count": 7
+      "iso": "UKR",
+      "country": "Ukraine",
+      "count": 3
     },
     {
-      "iso": "FIN",
-      "country": "Finland",
-      "count": 7
+      "iso": "CAN",
+      "country": "Canada",
+      "count": 3
     },
     {
-      "iso": "FRA",
-      "country": "France",
-      "count": 7
+      "iso": "ARG",
+      "country": "Argentina",
+      "count": 3
     },
     {
-      "iso": "DEU",
-      "country": "Germany",
-      "count": 7
+      "iso": "EGY",
+      "country": "Egypt",
+      "count": 2
     },
     {
-      "iso": "GRC",
-      "country": "Greece",
-      "count": 7
+      "iso": "GBR",
+      "country": "United Kingdom",
+      "count": 2
     },
     {
-      "iso": "HUN",
-      "country": "Hungary",
-      "count": 7
+      "iso": "KOR",
+      "country": "Republic of Korea",
+      "count": 2
     },
     {
-      "iso": "IRL",
-      "country": "Ireland",
-      "count": 7
+      "iso": "PHL",
+      "country": "Philippines",
+      "count": 1
     },
     {
-      "iso": "ITA",
-      "country": "Italy",
-      "count": 7
+      "iso": "COL",
+      "country": "Colombia",
+      "count": 1
     },
     {
-      "iso": "LVA",
-      "country": "Latvia",
-      "count": 7
-    },
-    {
-      "iso": "LTU",
-      "country": "Lithuania",
-      "count": 7
+      "iso": "IDN",
+      "country": "Indonesia",
+      "count": 1
     }
   ],
   "mineral_export_restrictions": {
