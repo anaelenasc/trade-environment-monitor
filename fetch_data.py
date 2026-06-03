@@ -575,8 +575,6 @@ def main():
             "and petrochemicals; interventions on this code count toward both. "
             "FTA data is static and updated manually."
         ),
-        "fta_country_pairs":            FTA_COUNTRY_PAIRS,
-        "fta_total_pairs":              len(FTA_COUNTRY_PAIRS),
         "net_policy_stance":            compute_net_policy_stance(records_list),
         "green_sector_support":         compute_green_sector_support(records_list),
         "green_industrial_growth":      compute_green_industrial_growth(records_list),
@@ -601,3 +599,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+  
