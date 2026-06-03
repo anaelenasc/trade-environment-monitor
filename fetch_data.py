@@ -424,7 +424,8 @@ def compute_trade_remedies(records: list) -> list:
     ONCE per intervention regardless of how many member states are listed,
     since trade remedies are managed exclusively by the EU Commission.
     """
-    sup = defaultdict(lambda: {"country": "", "count": 0})
+    sup     = defaultdict(lambda: {"country": "", "count": 0})
+    eu_seen = set()  # deduplicates EU measures across 27 member state records
     for r in records:
         if (r.get("intervention_type") or "") not in TRADE_REMEDY_TYPES:
             continue
@@ -443,8 +444,19 @@ def compute_trade_remedies(records: list) -> list:
                     non_eu[iso] = jur.get("name", "")
         # Count EU once per intervention
         if has_eu:
-            sup["EUN"]["country"] = "European Union"
-            sup["EUN"]["count"]  += 1
+            # Deduplicate EU measures: GTA stores one record per member state
+            # for each EU measure, so we use a composite key to count each
+            # real measure only once.
+            eu_key = (
+                r.get("date_announced", ""),
+                r.get("intervention_type") or "",
+                r.get("gta_evaluation") or "",
+                tuple(sorted(get_product_ids(r))),
+            )
+            if eu_key not in eu_seen:
+                eu_seen.add(eu_key)
+                sup["EUN"]["country"] = "European Union"
+                sup["EUN"]["count"]  += 1
         # Count each non-EU implementer once per intervention
         for iso, name in non_eu.items():
             sup[iso]["country"] = name
@@ -466,6 +478,12 @@ def compute_mineral_export_restrictions(records: list) -> dict:
             if get_product_ids(r) & mineral_set:
                 by_year[get_year(r)] += 1
         out[mineral] = [{"year": y, "count": c} for y, c in sorted(by_year.items())]
+    # Aggregate across all minerals for the "all" dropdown option
+    all_by_year = defaultdict(int)
+    for mineral_data in out.values():
+        for entry in mineral_data:
+            all_by_year[entry["year"]] += entry["count"]
+    out["all"] = [{"year": y, "count": c} for y, c in sorted(all_by_year.items())]
     return out
 
 
