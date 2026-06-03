@@ -1455,9 +1455,20 @@ function renderFossilMap() {
 function renderMineralTrend(mineral) {
   const wrap = document.getElementById("mineral-trend-wrap");
   wrap.innerHTML = "";
-  const data = (DATA.mineral_export_restrictions || {})[mineral] || [];
+  const restrictions = DATA.mineral_export_restrictions || {};
+  let data = restrictions[mineral] || [];
+
+  // If "all" requested but not pre-computed, sum individual minerals by year
+  if (mineral === "all" && !data.length) {
+    const byYear = {};
+    Object.entries(restrictions).forEach(([k, series]) => {
+      series.forEach(d => { byYear[d.year] = (byYear[d.year] || 0) + d.count; });
+    });
+    data = Object.keys(byYear).sort().map(y => ({year: +y, count: byYear[y]}));
+  }
+
   if (!data.length) { wrap.innerHTML = '<div class="no-data">No data available</div>'; return; }
-  renderLineChart("mineral-trend-wrap", [{key: mineral, label: MINERAL_LABELS[mineral], values: data}], {[mineral]: GTA_BLUE});
+  renderLineChart("mineral-trend-wrap", [{key: mineral, label: MINERAL_LABELS[mineral] || mineral, values: data}], {[mineral]: GTA_BLUE});
 }
 
 // ═══════════════════════════════════════════════════════
