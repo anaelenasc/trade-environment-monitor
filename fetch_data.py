@@ -400,18 +400,29 @@ def compute_fossil_vs_green_trend(records: list) -> list:
             for y in years]
 
 
-# EU member state ISO codes — trade remedies are EU Commission competence
-EU_MEMBERS = {
+# EU member state identifiers — ISO codes AND names (handles empty ISO in cache)
+EU_MEMBER_ISOS = {
     "AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA",
     "DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD",
     "POL","PRT","ROU","SVK","SVN","ESP","SWE",
 }
+EU_MEMBER_NAMES = {
+    "Austria","Belgium","Bulgaria","Croatia","Cyprus","Czechia",
+    "Denmark","Estonia","Finland","France","Germany","Greece",
+    "Hungary","Ireland","Italy","Latvia","Lithuania","Luxembourg",
+    "Malta","Netherlands","Poland","Portugal","Romania","Slovakia",
+    "Slovenia","Spain","Sweden",
+}
+
+def _is_eu_member(jur: dict) -> bool:
+    return jur.get("iso","") in EU_MEMBER_ISOS or jur.get("name","") in EU_MEMBER_NAMES
 
 def compute_trade_remedies(records: list) -> list:
     """
     Trade remedies on green goods per implementer.
-    EU member states are consolidated into a single 'EU' entry since
-    trade remedies are managed exclusively by the EU Commission.
+    EU member states are consolidated into a single 'EU' entry — counted
+    ONCE per intervention regardless of how many member states are listed,
+    since trade remedies are managed exclusively by the EU Commission.
     """
     sup = defaultdict(lambda: {"country": "", "count": 0})
     for r in records:
@@ -419,17 +430,26 @@ def compute_trade_remedies(records: list) -> list:
             continue
         if not (get_product_ids(r) & GREEN_GOODS_SET):
             continue
+        # Determine unique implementers for this intervention,
+        # collapsing all EU member states into one "EU" entry
+        has_eu   = False
+        non_eu   = {}
         for jur in r.get("implementing_jurisdictions", []):
-            iso = jur.get("iso", "")
-            if not iso:
-                continue
-            # Consolidate all EU member states under a single EU entry
-            if iso in EU_MEMBERS:
-                sup["EUN"]["country"] = "European Union"
-                sup["EUN"]["count"]  += 1
+            if _is_eu_member(jur):
+                has_eu = True
             else:
-                sup[iso]["country"] = jur.get("name", "")
-                sup[iso]["count"]  += 1
+                iso = jur.get("iso", "")
+                if iso:
+                    non_eu[iso] = jur.get("name", "")
+        # Count EU once per intervention
+        if has_eu:
+            sup["EUN"]["country"] = "European Union"
+            sup["EUN"]["count"]  += 1
+        # Count each non-EU implementer once per intervention
+        for iso, name in non_eu.items():
+            sup[iso]["country"] = name
+            sup[iso]["count"]  += 1
+
     out = [{"iso": iso, "country": d["country"], "count": d["count"]}
            for iso, d in sup.items()]
     out.sort(key=lambda x: -x["count"])
