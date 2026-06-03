@@ -4556,11 +4556,6 @@
   ],
   "trade_remedies": [
     {
-      "iso": "EUN",
-      "country": "European Union",
-      "count": 189
-    },
-    {
       "iso": "USA",
       "country": "United States of America",
       "count": 22
@@ -4574,6 +4569,11 @@
       "iso": "AUS",
       "country": "Australia",
       "count": 10
+    },
+    {
+      "iso": "EUN",
+      "country": "European Union",
+      "count": 7
     },
     {
       "iso": "SAU",
