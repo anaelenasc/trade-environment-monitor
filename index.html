@@ -1366,6 +1366,16 @@ function initSlider() {
 // ═══════════════════════════════════════════════════════
 //  3. HORIZONTAL BAR CHART
 // ═══════════════════════════════════════════════════════
+// Display name overrides for bar charts
+const COUNTRY_DISPLAY = {
+  "United States of America": "US",
+  "United Arab Emirates":     "UAE",
+  "United Kingdom":           "UK",
+};
+function displayName(name) {
+  return COUNTRY_DISPLAY[name] || name;
+}
+
 function renderBarChart(containerId, data, color) {
   const top10 = data.slice(0, 10);
   const wrap  = document.getElementById(containerId);
@@ -1379,11 +1389,11 @@ function renderBarChart(containerId, data, color) {
     const y = i * (BAR_H + GAP), bw = x(d.count);
     g.append("rect").attr("x", 0).attr("y", y).attr("width", bw).attr("height", BAR_H)
       .attr("fill", color).attr("rx", 2).attr("opacity", 0.88)
-      .on("mousemove", e => showTip(`<strong>${d.country}</strong>${d.count.toLocaleString()} interventions`, e))
+      .on("mousemove", e => showTip(`<strong>${displayName(d.country)}</strong>${d.count.toLocaleString()} interventions`, e))
       .on("mouseleave", hideTip);
     g.append("text").attr("x", -6).attr("y", y + BAR_H / 2).attr("dy", "0.35em")
       .attr("text-anchor", "end").attr("font-size", "11px").attr("font-family", F_SANS)
-      .attr("fill", "#334155").text(d.country.length > 16 ? d.country.slice(0, 15) + "…" : d.country);
+      .attr("fill", "#334155").text(displayName(d.country).length > 16 ? displayName(d.country).slice(0, 15) + "…" : displayName(d.country));
     g.append("text").attr("x", bw + 5).attr("y", y + BAR_H / 2).attr("dy", "0.35em")
       .attr("font-size", "10.5px").attr("font-family", F_MONO).attr("fill", "#64748b").text(d.count);
   });
