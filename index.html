@@ -1400,6 +1400,62 @@ function renderBarChart(containerId, data, color) {
 }
 
 // ═══════════════════════════════════════════════════════
+//  4. VERTICAL BAR CHART
+// ═══════════════════════════════════════════════════════
+function renderVerticalBarChart(containerId, data, color) {
+  if (!data || !data.length) return;
+  const wrap = document.getElementById(containerId);
+  const W  = Math.max(wrap.clientWidth || 0, 300);
+  const MT = 20, MB = 44, ML = 36, MR = 12;
+  const H  = 220, cW = W - ML - MR, cH = H - MT - MB;
+  const n  = data.length;
+  const slot = cW / n;
+  const barW = Math.floor(slot * 0.6);
+  const maxV = Math.max(...data.map(d => d.count), 1);
+
+  const y = d3.scaleLinear().domain([0, maxV * 1.12]).range([cH, 0]).nice();
+
+  const svg = d3.select(wrap).append("svg")
+    .attr("viewBox", `0 0 ${W} ${H}`).attr("width", "100%");
+  const g = svg.append("g").attr("transform", `translate(${ML},${MT})`);
+
+  // Y-axis grid
+  g.append("g").call(
+    d3.axisLeft(y).ticks(4).tickSize(-cW).tickFormat(d3.format("~s"))
+  ).call(ax => {
+    ax.select(".domain").remove();
+    ax.selectAll(".tick line").attr("stroke", BORDER).attr("stroke-dasharray", "3,3");
+    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO);
+  });
+
+  // Baseline
+  g.append("line").attr("x1", 0).attr("x2", cW)
+    .attr("y1", cH).attr("y2", cH).attr("stroke", BORDER);
+
+  // Bars + labels
+  data.forEach((d, i) => {
+    const name = displayName(d.country);
+    const bx = i * slot + (slot - barW) / 2;
+    const by = y(d.count), bh = cH - by;
+    g.append("rect")
+      .attr("x", bx).attr("y", by)
+      .attr("width", barW).attr("height", bh)
+      .attr("fill", color).attr("rx", 3).attr("opacity", 0.88)
+      .on("mousemove", e => showTip(`<strong>${name}</strong>${d.count.toLocaleString()} interventions`, e))
+      .on("mouseleave", hideTip);
+    // Value above bar
+    g.append("text")
+      .attr("x", bx + barW / 2).attr("y", by - 5)
+      .attr("text-anchor", "middle").attr("font-size", "9.5px")
+      .attr("font-family", F_MONO).attr("fill", SLATE).text(d.count);
+    // Country label below
+    g.append("text")
+      .attr("x", bx + barW / 2).attr("y", cH + 14)
+      .attr("text-anchor", "middle").attr("font-size", "10px")
+      .attr("font-family", F_SANS).attr("fill", SLATE).text(name);
+  });
+}
+// ═══════════════════════════════════════════════════════
 //  4. LINE CHART HELPER
 // ═══════════════════════════════════════════════════════
 function renderLineChart(containerId, series, colorMap) {
@@ -1420,7 +1476,8 @@ function renderLineChart(containerId, series, colorMap) {
   });
   g.append("g").attr("transform", `translate(0,${cH})`).call(d3.axisBottom(x).tickSize(0)).call(ax => {
     ax.select(".domain").attr("stroke", BORDER);
-    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO).attr("dy", "1.2em");
+    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO).attr("dy", "1.2em")
+      .text(d => d == 2026 ? "2026 YTD" : d);
   });
   series.forEach(s => {
     g.append("path").datum(s.values).attr("d", line).attr("fill", "none")
@@ -1557,7 +1614,7 @@ async function init() {
   ], {fossil: FOSSIL_C, green: GTA_BLUE});
 
   // Section 4
-  renderBarChart("remedies-wrap", DATA.trade_remedies || [], GTA_BLUE);
+  renderVerticalBarChart("remedies-wrap", (DATA.trade_remedies || []).slice(0, 5), GTA_BLUE);
   const initMineral = document.getElementById("mineral-select").value;
   renderMineralTrend(initMineral);
   document.getElementById("mineral-select").addEventListener("change", e => renderMineralTrend(e.target.value));
