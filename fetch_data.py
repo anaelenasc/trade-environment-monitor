@@ -117,6 +117,21 @@ TRADE_REMEDY_TYPES = {
     "Anti-dumping","Anti-subsidy","Safeguard","Anti-circumvention",
 }
 
+# ── STATED MOTIVE COLUMN MAPPING ────────────────────────────────────────────
+MOTIVE_COLS = {
+    "climate change mitigation":                "climate_change_mitigation",
+    "sustainability and circular economy":       "sustainability_circular_economy",
+    "strategic competitiveness":                 "strategic_competitiveness",
+    "resilience/security of supply":             "resilience_security_supply",
+    "resilience/security of supply (non food)":  "resilience_security_supply",
+}
+TARGET_MOTIVE_COLS = [
+    "climate_change_mitigation",
+    "sustainability_circular_economy",
+    "strategic_competitiveness",
+    "resilience_security_supply",
+]
+
 # ── NAME → ISO (used when normalising API records missing iso field) ────────
 NAME_ISO = {
     "Afghanistan":"AFG","Albania":"ALB","Algeria":"DZA","Angola":"AGO",
@@ -217,6 +232,14 @@ def normalise_api_record(r: dict) -> dict:
     else:
         prods = [int(p) for p in raw_prods if p is not None]
 
+    # Extract stated motive flags from API response
+    motive_flags = {col: 0 for col in TARGET_MOTIVE_COLS}
+    for sm in r.get("stated_motive", []):
+        for label in sm.get("label", []):
+            col = MOTIVE_COLS.get(label.strip())
+            if col:
+                motive_flags[col] = 1
+
     return {
         "intervention_id":            r.get("intervention_id"),
         "intervention_url":           r.get("intervention_url", ""),
@@ -227,6 +250,7 @@ def normalise_api_record(r: dict) -> dict:
         "affected_products":          prods,
         "date_announced":             r.get("date_announced", ""),
         "is_in_force":                r.get("is_in_force", 0),
+        **motive_flags,
     }
 
 
@@ -274,7 +298,7 @@ def fetch_records(since_date: str | None) -> list:
     If since_date is provided, also filter by date_published >= since_date
     so only new/updated records are returned.
     """
-    req = {"announcement_period": [DATE_FROM, None]}
+    req = {"announcement_period": [DATE_FROM, None], "extras": ["stated_motive"]}
     if since_date:
         req["date_published"] = [since_date, None]
         print(f"  Incremental fetch: published on or after {since_date}…")
