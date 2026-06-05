@@ -181,7 +181,7 @@
       "iso": "AUS",
       "country": "Australia",
       "year": 2024,
-      "harmful": 30,
+      "harmful": 32,
       "liberalising": 117
     },
     {
@@ -195,8 +195,8 @@
       "iso": "AUS",
       "country": "Australia",
       "year": 2026,
-      "harmful": 14,
-      "liberalising": 65
+      "harmful": 15,
+      "liberalising": 68
     },
     {
       "iso": "AUT",
@@ -1609,7 +1609,7 @@
       "iso": "IND",
       "country": "India",
       "year": 2026,
-      "harmful": 23,
+      "harmful": 24,
       "liberalising": 6
     },
     {
@@ -3667,7 +3667,7 @@
       "iso": "USA",
       "country": "United States of America",
       "year": 2026,
-      "harmful": 54,
+      "harmful": 58,
       "liberalising": 9
     },
     {
@@ -3820,7 +3820,7 @@
     {
       "iso": "AUS",
       "country": "Australia",
-      "count": 901
+      "count": 904
     },
     {
       "iso": "USA",
@@ -3936,7 +3936,7 @@
     },
     {
       "year": 2024,
-      "harmful": 1077,
+      "harmful": 1079,
       "liberalising": 277
     },
     {
@@ -3946,8 +3946,8 @@
     },
     {
       "year": 2026,
-      "harmful": 387,
-      "liberalising": 151
+      "harmful": 393,
+      "liberalising": 154
     }
   ],
   "fossil_fuel_support": [
@@ -4568,7 +4568,7 @@
     {
       "iso": "AUS",
       "country": "Australia",
-      "count": 10
+      "count": 12
     },
     {
       "iso": "EUN",
