@@ -1077,7 +1077,8 @@ const SAMPLE_DATA = {
     {year:2022,harmful:156,liberalising:189},
     {year:2023,harmful:143,liberalising:224},
     {year:2024,harmful:131,liberalising:267},
-    {year:2025,harmful:118,liberalising:241}
+    {year:2025,harmful:118,liberalising:241},
+    {year:2026,harmful:64, liberalising:138}
   ],
   fossil_fuel_support: [
     {iso:"SAU",country:"Saudi Arabia", count:89},
@@ -1102,7 +1103,8 @@ const SAMPLE_DATA = {
     {year:2022,fossil:287,green:345},
     {year:2023,fossil:271,green:367},
     {year:2024,fossil:258,green:398},
-    {year:2025,fossil:241,green:359}
+    {year:2025,fossil:241,green:359},
+    {year:2026,fossil:128,green:201}
   ],
   trade_remedies: [
     {country:"US",  count:48},
@@ -1117,7 +1119,7 @@ const SAMPLE_DATA = {
     {country:"South Korea",    count:9}
   ],
   mineral_export_restrictions: {
-    all:         [{year:2020,count:33},{year:2021,count:46},{year:2022,count:72},{year:2023,count:91},{year:2024,count:113},{year:2025,count:87}],
+    all:         [{year:2020,count:33},{year:2021,count:46},{year:2022,count:72},{year:2023,count:91},{year:2024,count:113},{year:2025,count:87},{year:2026,count:52}],
     lithium:     [{year:2020,count:3},{year:2021,count:5},{year:2022,count:8},{year:2023,count:12},{year:2024,count:15},{year:2025,count:11}],
     copper:      [{year:2020,count:4},{year:2021,count:6},{year:2022,count:9},{year:2023,count:11},{year:2024,count:13},{year:2025,count:10}],
     cobalt:      [{year:2020,count:6},{year:2021,count:8},{year:2022,count:12},{year:2023,count:15},{year:2024,count:18},{year:2025,count:14}],
@@ -1447,12 +1449,12 @@ function renderVerticalBarChart(containerId, data, color) {
     g.append("text")
       .attr("x", bx + barW / 2).attr("y", by - 5)
       .attr("text-anchor", "middle").attr("font-size", "9.5px")
-      .attr("font-family", F_MONO).attr("fill", SLATE).text(d.count);
+      .attr("font-family", F_MONO).attr("fill", "#475569").text(d.count);
     // Country label below
     g.append("text")
       .attr("x", bx + barW / 2).attr("y", cH + 14)
       .attr("text-anchor", "middle").attr("font-size", "10px")
-      .attr("font-family", F_SANS).attr("fill", SLATE).text(name);
+      .attr("font-family", F_SANS).attr("fill", "#475569").text(name);
   });
 }
 // ═══════════════════════════════════════════════════════
@@ -1476,8 +1478,8 @@ function renderLineChart(containerId, series, colorMap) {
   });
   g.append("g").attr("transform", `translate(0,${cH})`).call(d3.axisBottom(x).tickSize(0)).call(ax => {
     ax.select(".domain").attr("stroke", BORDER);
-    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO).attr("dy", "1.2em")
-      .text(d => d == 2026 ? "2026 YTD" : d);
+    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO).attr("dy", "1.2em");
+    ax.selectAll(".tick").filter(d => +d === 2026).select("text").text("2026 YTD");
   });
   series.forEach(s => {
     g.append("path").datum(s.values).attr("d", line).attr("fill", "none")
