@@ -1835,7 +1835,7 @@ function renderShareTrend(containerId, data, color, shareKey, chartH=160) {
 // ═══════════════════════════════════════════════════════
 //  DOWNLOAD HELPERS
 // ═══════════════════════════════════════════════════════
-function downloadJSON() { const a = document.createElement("a"); a.href = "data/indicators.json"; a.download = `GTA_Green_Transition_Data_${DATA?.last_updated||"latest"}.json`; a.click(); }
+function downloadJSON() { const a = document.createElement("a"); a.href = "data/interventions_download.csv"; a.download = `GTA_Green_Transition_Interventions_${DATA?.last_updated||"latest"}.csv`; a.click(); }
 function downloadCSV()  { const a = document.createElement("a"); a.href = "data/indicators_export.csv"; a.download = `GTA_Green_Transition_Indicators_${DATA?.last_updated||"latest"}.csv`; a.click(); }
 function downloadFTAData() {
   const rows = [["from","to","agreement","year","provisions"]];
