@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-07",
+  "last_updated": "2026-06-08",
   "data_notes": "Dynamic indicators derived from the Global Trade Alert database (globaltradealert.org). All counts reflect announced interventions from 1 January 2020. HS 281410 appears in both green goods (Other) and petrochemicals; interventions on this code count toward both. FTA data is static and updated manually.",
   "net_policy_stance": [
     {
@@ -4863,5 +4863,402 @@
         "count": 42
       }
     ]
-  }
+  },
+  "enviro_motive_trend": [
+    {
+      "year": 2020,
+      "count": 24
+    },
+    {
+      "year": 2021,
+      "count": 43
+    },
+    {
+      "year": 2022,
+      "count": 248
+    },
+    {
+      "year": 2023,
+      "count": 868
+    },
+    {
+      "year": 2024,
+      "count": 1070
+    },
+    {
+      "year": 2025,
+      "count": 765
+    },
+    {
+      "year": 2026,
+      "count": 282
+    }
+  ],
+  "fossil_security_framing": [
+    {
+      "year": 2020,
+      "total": 177,
+      "framed": 7,
+      "share": 4.0
+    },
+    {
+      "year": 2021,
+      "total": 159,
+      "framed": 8,
+      "share": 5.0
+    },
+    {
+      "year": 2022,
+      "total": 300,
+      "framed": 82,
+      "share": 27.3
+    },
+    {
+      "year": 2023,
+      "total": 295,
+      "framed": 72,
+      "share": 24.4
+    },
+    {
+      "year": 2024,
+      "total": 257,
+      "framed": 86,
+      "share": 33.5
+    },
+    {
+      "year": 2025,
+      "total": 247,
+      "framed": 106,
+      "share": 42.9
+    },
+    {
+      "year": 2026,
+      "total": 156,
+      "framed": 81,
+      "share": 51.9
+    }
+  ],
+  "greenwashing": {
+    "overall_share": 96.7,
+    "total": 3300,
+    "harmful": 3191,
+    "trend": [
+      {
+        "year": 2020,
+        "total": 24,
+        "harmful": 24,
+        "share": 100.0
+      },
+      {
+        "year": 2021,
+        "total": 43,
+        "harmful": 43,
+        "share": 100.0
+      },
+      {
+        "year": 2022,
+        "total": 248,
+        "harmful": 242,
+        "share": 97.6
+      },
+      {
+        "year": 2023,
+        "total": 868,
+        "harmful": 846,
+        "share": 97.5
+      },
+      {
+        "year": 2024,
+        "total": 1070,
+        "harmful": 1030,
+        "share": 96.3
+      },
+      {
+        "year": 2025,
+        "total": 765,
+        "harmful": 737,
+        "share": 96.3
+      },
+      {
+        "year": 2026,
+        "total": 282,
+        "harmful": 269,
+        "share": 95.4
+      }
+    ]
+  },
+  "enviro_motive_top_countries": [
+    {
+      "iso": "EUN",
+      "country": "European Union",
+      "count": 1355
+    },
+    {
+      "iso": "USA",
+      "country": "United States of America",
+      "count": 355
+    },
+    {
+      "iso": "GBR",
+      "country": "United Kingdom",
+      "count": 315
+    },
+    {
+      "iso": "BRA",
+      "country": "Brazil",
+      "count": 296
+    },
+    {
+      "iso": "CAN",
+      "country": "Canada",
+      "count": 229
+    },
+    {
+      "iso": "AUS",
+      "country": "Australia",
+      "count": 194
+    },
+    {
+      "iso": "JPN",
+      "country": "Japan",
+      "count": 143
+    },
+    {
+      "iso": "CHN",
+      "country": "China",
+      "count": 111
+    },
+    {
+      "iso": "IND",
+      "country": "India",
+      "count": 58
+    },
+    {
+      "iso": "KOR",
+      "country": "Republic of Korea",
+      "count": 47
+    },
+    {
+      "iso": "THA",
+      "country": "Thailand",
+      "count": 28
+    },
+    {
+      "iso": "MEX",
+      "country": "Mexico",
+      "count": 16
+    },
+    {
+      "iso": "RUS",
+      "country": "Russia",
+      "count": 15
+    },
+    {
+      "iso": "MYS",
+      "country": "Malaysia",
+      "count": 13
+    },
+    {
+      "iso": "SAU",
+      "country": "Saudi Arabia",
+      "count": 13
+    },
+    {
+      "iso": "ZAF",
+      "country": "South Africa",
+      "count": 12
+    },
+    {
+      "iso": "TUR",
+      "country": "Turkiye",
+      "count": 11
+    },
+    {
+      "iso": "ARG",
+      "country": "Argentina",
+      "count": 10
+    },
+    {
+      "iso": "NOR",
+      "country": "Norway",
+      "count": 9
+    },
+    {
+      "iso": "KEN",
+      "country": "Kenya",
+      "count": 8
+    }
+  ],
+  "greenwashing_top_countries": [
+    {
+      "iso": "EUN",
+      "country": "European Union",
+      "count": 1342
+    },
+    {
+      "iso": "USA",
+      "country": "United States of America",
+      "count": 354
+    },
+    {
+      "iso": "GBR",
+      "country": "United Kingdom",
+      "count": 312
+    },
+    {
+      "iso": "BRA",
+      "country": "Brazil",
+      "count": 282
+    },
+    {
+      "iso": "CAN",
+      "country": "Canada",
+      "count": 227
+    },
+    {
+      "iso": "AUS",
+      "country": "Australia",
+      "count": 194
+    },
+    {
+      "iso": "JPN",
+      "country": "Japan",
+      "count": 121
+    },
+    {
+      "iso": "CHN",
+      "country": "China",
+      "count": 104
+    },
+    {
+      "iso": "IND",
+      "country": "India",
+      "count": 49
+    },
+    {
+      "iso": "KOR",
+      "country": "Republic of Korea",
+      "count": 45
+    },
+    {
+      "iso": "THA",
+      "country": "Thailand",
+      "count": 22
+    },
+    {
+      "iso": "RUS",
+      "country": "Russia",
+      "count": 14
+    },
+    {
+      "iso": "MEX",
+      "country": "Mexico",
+      "count": 13
+    },
+    {
+      "iso": "ZAF",
+      "country": "South Africa",
+      "count": 11
+    },
+    {
+      "iso": "TUR",
+      "country": "Turkiye",
+      "count": 11
+    },
+    {
+      "iso": "SAU",
+      "country": "Saudi Arabia",
+      "count": 11
+    },
+    {
+      "iso": "NOR",
+      "country": "Norway",
+      "count": 9
+    },
+    {
+      "iso": "ARG",
+      "country": "Argentina",
+      "count": 8
+    },
+    {
+      "iso": "MYS",
+      "country": "Malaysia",
+      "count": 8
+    },
+    {
+      "iso": "KEN",
+      "country": "Kenya",
+      "count": 7
+    }
+  ],
+  "security_mineral_framing": {
+    "total": 306,
+    "security_framed": 4,
+    "share": 1.3
+  },
+  "motive_composition": [
+    {
+      "year": 2020,
+      "climate": 7,
+      "sustainability": 0,
+      "strategic": 47,
+      "resilience": 22,
+      "no_motive": 1033,
+      "total": 1103
+    },
+    {
+      "year": 2021,
+      "climate": 2,
+      "sustainability": 0,
+      "strategic": 80,
+      "resilience": 18,
+      "no_motive": 812,
+      "total": 905
+    },
+    {
+      "year": 2022,
+      "climate": 66,
+      "sustainability": 4,
+      "strategic": 140,
+      "resilience": 71,
+      "no_motive": 927,
+      "total": 1143
+    },
+    {
+      "year": 2023,
+      "climate": 233,
+      "sustainability": 53,
+      "strategic": 296,
+      "resilience": 116,
+      "no_motive": 766,
+      "total": 1261
+    },
+    {
+      "year": 2024,
+      "climate": 212,
+      "sustainability": 94,
+      "strategic": 373,
+      "resilience": 158,
+      "no_motive": 597,
+      "total": 1180
+    },
+    {
+      "year": 2025,
+      "climate": 155,
+      "sustainability": 52,
+      "strategic": 423,
+      "resilience": 256,
+      "no_motive": 755,
+      "total": 1323
+    },
+    {
+      "year": 2026,
+      "climate": 70,
+      "sustainability": 20,
+      "strategic": 184,
+      "resilience": 79,
+      "no_motive": 237,
+      "total": 486
+    }
+  ]
 }
