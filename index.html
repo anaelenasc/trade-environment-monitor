@@ -425,8 +425,8 @@
     <h2 class="section-title">Green Transition Policy Behaviour</h2>
     <p class="section-desc">This section tracks governments' support measures targeting green goods as defined in the methodology, identifying which countries are most actively backing the green transition through trade and industrial policy.</p>
 
-    <!-- All 3 indicators side by side in one row -->
-    <div class="card-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+    <!-- Block 1: Net Policy Stance (big) + Growth charts (right column) -->
+    <div class="card-grid col3">
       <div class="card">
         <div class="card-title">Net Policy Stance on Green Goods</div>
         <div class="card-sub">Shows whether each jurisdiction has adopted more liberalising or more harmful trade interventions affecting green goods since 2020. Allows for year range adjustment.</div>
@@ -449,19 +449,39 @@
         </div>
         <div class="chart-wrap" id="net-map-wrap"></div>
       </div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="card">
+          <div class="card-title">Growth of Green Industrial Policy</div>
+          <div class="card-sub">Shows the annual evolution of trade and industrial policy interventions affecting green goods, hydrogen, and strategic minerals.</div>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-line" style="background:#B6242E;"></div>Harmful</div>
+            <div class="legend-item"><div class="legend-line" style="background:#1E752A;"></div>Liberalising</div>
+          </div>
+          <div class="chart-wrap" id="growth-trend-wrap"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Growth of Environmentally Motivated Policy</div>
+          <div class="card-sub">Annual count of interventions citing climate change mitigation and/or sustainability &amp; circular economy as a stated motive since 2020.</div>
+          <div class="chart-wrap" id="enviro-trend-wrap"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Block 2: 3 equal-width indicators side by side -->
+    <div class="card-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:1.25rem;">
+      <div class="card">
+        <div class="card-title">Policy Motive Composition on Green Goods</div>
+        <div class="card-sub">Annual breakdown of stated motives behind interventions on green goods. Shows whether green goods policy is environmentally or economically framed.</div>
+        <div class="chart-wrap" id="motive-composition-wrap"></div>
+      </div>
       <div class="card">
         <div class="card-title">Top Implementers — Green Sector Support</div>
         <div class="card-sub">Shows the jurisdictions that have adopted the largest number of support measures targeting green goods, hydrogen, and strategic minerals since 2020.</div>
         <div class="chart-wrap" id="green-support-wrap"></div>
       </div>
       <div class="card">
-        <div class="card-title">Growth of Green Industrial Policy</div>
-        <div class="card-sub">Shows the annual evolution of trade and industrial policy interventions affecting green goods, hydrogen, and strategic minerals.</div>
-        <div class="legend">
-          <div class="legend-item"><div class="legend-line" style="background:#B6242E;"></div>Harmful</div>
-          <div class="legend-item"><div class="legend-line" style="background:#1E752A;"></div>Liberalising</div>
-        </div>
-        <div class="chart-wrap" id="growth-trend-wrap"></div>
+        <div class="card-title">Top Countries — Environmentally Motivated Interventions</div>
+        <div class="card-sub">Jurisdictions most frequently citing climate change mitigation and/or sustainability &amp; circular economy as a stated motive since 2020.</div>
+        <div class="chart-wrap" id="enviro-countries-wrap"></div>
       </div>
     </div>
     <div class="section-footer">
@@ -513,20 +533,28 @@
     <h2 class="section-title">Fossil Fuel Persistence</h2>
     <p class="section-desc">This section examines the continued use of fossil fuel support policies alongside the global expansion of green industrial measures.</p>
 
-    <div class="card-grid col2">
+    <div class="card-grid col3">
       <div class="card">
         <div class="card-title">Active Fossil Fuel Subsidies</div>
         <div class="card-sub">Shows the number of currently active subsidy measures supporting coal, oil, gas, and petrochemicals by implementing jurisdiction.</div>
         <div class="chart-wrap" id="fossil-map-wrap"></div>
       </div>
-      <div class="card">
-        <div class="card-title">Fossil Fuel vs Green Subsidy Trends</div>
-        <div class="card-sub">Compares the annual number of subsidy measures supporting fossil fuel sectors with those supporting green goods, hydrogen, and strategic minerals.</div>
-        <div class="legend">
-          <div class="legend-item"><div class="legend-line" style="background:#003366;"></div>Fossil fuels</div>
-          <div class="legend-item"><div class="legend-line" style="background:#1874CD;"></div>Green goods &amp; minerals</div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="card">
+          <div class="card-title">Fossil Fuel vs Green Subsidy Trends</div>
+          <div class="card-sub">Compares annual subsidy measures supporting fossil fuel sectors vs green goods, hydrogen, and strategic minerals.</div>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-line" style="background:#003366;"></div>Fossil fuels</div>
+            <div class="legend-item"><div class="legend-line" style="background:#1874CD;"></div>Green goods &amp; minerals</div>
+          </div>
+          <div class="chart-wrap" id="fossil-trend-wrap"></div>
         </div>
-        <div class="chart-wrap" id="fossil-trend-wrap"></div>
+        <div class="card" style="flex:1;">
+          <div class="card-title">Security Framing of Fossil Fuel Subsidies</div>
+          <div class="card-sub">Share of fossil fuel subsidy measures citing resilience/security of supply and/or strategic competitiveness, over time.</div>
+          <div class="chart-wrap" id="fossil-framing-wrap"></div>
+        </div>
+
       </div>
     </div>
     <div class="section-footer">
@@ -541,7 +569,8 @@
     <h2 class="section-title">Green Protectionism</h2>
     <p class="section-desc">This section explores the growing use of trade defence instruments and export restrictions linked to green goods and strategic minerals.</p>
 
-    <div class="card-grid col2">
+    <!-- Top row: Trade Remedies | Export Restrictions | Mineral Security (1/4 width) -->
+    <div class="card-grid" style="grid-template-columns:4fr 4fr 1fr;">
       <div class="card">
         <div class="card-title">Leading Users of Trade Remedies on Green Goods</div>
         <div class="card-sub">Shows the jurisdictions that have used trade remedy instruments most frequently on green goods since 2020.</div>
@@ -560,6 +589,31 @@
           <option value="rare_earths">Rare Earths</option>
         </select>
         <div class="chart-wrap" id="mineral-trend-wrap"></div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1rem 0.5rem;">
+        <div class="card-title" style="font-size:0.65rem;">Security Framing — Mineral Export Controls</div>
+        <div class="stat-number" id="mineral-security-stat" style="font-size:2rem;margin:0.5rem 0;">—</div>
+        <div class="stat-label">cite resilience/<br/>security of supply</div>
+        <div class="card-sub" style="margin-top:0.5rem;font-size:0.6rem;">Based on <span id="mineral-security-total">—</span> export controls since 2020.</div>
+      </div>
+    </div>
+    <!-- Greenwashing trend + top countries -->
+    <div class="card-grid col2" style="margin-top:1.25rem;">
+      <div class="card">
+        <div class="card-title">Green Claims, Harmful Reality</div>
+        <div class="card-sub">Share of environmentally-motivated interventions that are actually harmful (red or amber GTA evaluation), over time.</div>
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;flex-wrap:wrap;">
+          <div style="text-align:center;min-width:90px;">
+            <div class="stat-number" id="greenwashing-stat" style="font-size:2rem;">—</div>
+            <div class="stat-label">overall share</div>
+          </div>
+          <div style="flex:1;min-width:180px;" class="chart-wrap" id="greenwashing-trend-wrap"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Top Implementers — Harmful Environmentally Motivated Interventions</div>
+        <div class="card-sub">Jurisdictions with the highest count of harmful interventions citing climate change mitigation and/or sustainability &amp; circular economy since 2020.</div>
+        <div class="chart-wrap" id="greenwashing-countries-wrap"></div>
       </div>
     </div>
     <div class="section-footer">
@@ -1118,6 +1172,60 @@ const SAMPLE_DATA = {
     {country:"Mexico",         count:11},
     {country:"South Korea",    count:9}
   ],
+  // Stated motive indicators
+  enviro_motive_trend: [
+    {year:2020,count:42},{year:2021,count:61},{year:2022,count:88},
+    {year:2023,count:112},{year:2024,count:128},{year:2025,count:115},{year:2026,count:68}
+  ],
+  fossil_security_framing: [
+    {year:2020,total:120,framed:28,share:23.3},{year:2021,total:138,framed:36,share:26.1},
+    {year:2022,total:152,framed:48,share:31.6},{year:2023,total:145,framed:52,share:35.9},
+    {year:2024,total:131,framed:54,share:41.2},{year:2025,total:118,framed:51,share:43.2},
+    {year:2026,total:72, framed:33,share:45.8}
+  ],
+  greenwashing: {
+    overall_share: 43.2, total: 614, harmful: 265,
+    trend: [
+      {year:2020,total:42,harmful:24,share:57.1},{year:2021,total:61,harmful:32,share:52.5},
+      {year:2022,total:88,harmful:41,share:46.6},{year:2023,total:112,harmful:47,share:42.0},
+      {year:2024,total:128,harmful:51,share:39.8},{year:2025,total:115,harmful:44,share:38.3},
+      {year:2026,total:68,harmful:26,share:38.2}
+    ]
+  },
+  enviro_motive_top_countries: [
+    {iso:"USA",country:"United States of America",count:58},
+    {iso:"DEU",country:"Germany",count:44},
+    {iso:"CHN",country:"China",count:38},
+    {iso:"FRA",country:"France",count:31},
+    {iso:"GBR",country:"United Kingdom",count:28},
+    {iso:"JPN",country:"Japan",count:22},
+    {iso:"KOR",country:"South Korea",count:18},
+    {iso:"CAN",country:"Canada",count:16},
+    {iso:"AUS",country:"Australia",count:14},
+    {iso:"BRA",country:"Brazil",count:11}
+  ],
+  greenwashing_top_countries: [
+    {iso:"CHN",country:"China",count:42},
+    {iso:"USA",country:"United States of America",count:34},
+    {iso:"IND",country:"India",count:28},
+    {iso:"RUS",country:"Russia",count:22},
+    {iso:"IDN",country:"Indonesia",count:18},
+    {iso:"BRA",country:"Brazil",count:14},
+    {iso:"TUR",country:"Turkiye",count:11},
+    {iso:"SAU",country:"Saudi Arabia",count:9},
+    {iso:"MEX",country:"Mexico",count:8},
+    {iso:"VNM",country:"Vietnam",count:7}
+  ],
+  security_mineral_framing: {total:218, security_framed:64, share:29.4},
+  motive_composition: [
+    {year:2020,climate:18,sustainability:8,strategic:12,resilience:9,no_motive:142,total:189},
+    {year:2021,climate:24,sustainability:11,strategic:18,resilience:14,no_motive:178,total:245},
+    {year:2022,climate:32,sustainability:15,strategic:24,resilience:19,no_motive:220,total:310},
+    {year:2023,climate:41,sustainability:19,strategic:31,resilience:24,no_motive:248,total:363},
+    {year:2024,climate:48,sustainability:22,strategic:36,resilience:28,no_motive:235,total:369},
+    {year:2025,climate:43,sustainability:20,strategic:33,resilience:25,no_motive:218,total:339},
+    {year:2026,climate:26,sustainability:12,strategic:20,resilience:15,no_motive:128,total:201}
+  ],
   mineral_export_restrictions: {
     all:         [{year:2020,count:33},{year:2021,count:46},{year:2022,count:72},{year:2023,count:91},{year:2024,count:113},{year:2025,count:87},{year:2026,count:52}],
     lithium:     [{year:2020,count:3},{year:2021,count:5},{year:2022,count:8},{year:2023,count:12},{year:2024,count:15},{year:2025,count:11}],
@@ -1202,18 +1310,27 @@ function hideTip() { tooltip.classList.remove("visible"); }
 // ═══════════════════════════════════════════════════════
 //  WORLD MAP HELPER
 // ═══════════════════════════════════════════════════════
-function drawWorldMap(containerId, dataByIso, colorFn, tipFn, fixedH) {
+function drawWorldMap(containerId, dataByIso, colorFn, tipFn, fixedH, zoomFactor=1) {
   const wrap = document.getElementById(containerId);
   const W = wrap.clientWidth || 640;
   const H = fixedH !== undefined ? fixedH : Math.round(Math.min(W * 0.5, 200));
-  const svg = d3.select(wrap).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", "100%");
+  // Ensure wrap clips the zoomed SVG without affecting card layout
+  // Center the SVG vertically within the chart-wrap (handles stretched grid cells)
+  wrap.style.display         = "flex";
+  wrap.style.alignItems      = "center";
+  wrap.style.justifyContent  = "center";
+  const svg = d3.select(wrap).append("svg")
+    .attr("viewBox", `0 0 ${W} ${H}`)
+    .attr("width",  "100%")
+    .attr("height", H);         // explicit height keeps the SVG at H regardless of card stretch
   const scale = Math.min(W / 6.3, H / 3.15);
   const proj = d3.geoNaturalEarth1().scale(scale).translate([W / 2, H / 2]);
   const path = d3.geoPath().projection(proj);
   const countries = topojson.feature(WORLD, WORLD.objects.countries);
+
   const numToIso = {};
   for (const [iso, num] of Object.entries(ISO3_NUM)) numToIso[num] = iso;
-  svg.selectAll(".country").data(countries.features).join("path")
+  svg.selectAll(".country").data(countries.features.filter(f => +f.id !== 10)).join("path")
     .attr("class", "country").attr("d", path)
     .attr("fill", d => {
       const iso = numToIso[String(d.id).padStart(3, "0")];
@@ -1347,7 +1464,8 @@ function renderNetMap() {
   drawWorldMap("net-map-wrap",
     Object.fromEntries(Object.entries(mapped).map(([iso, d]) => [iso, d.net])),
     v => v > 0 ? GREEN_LIB : v < 0 ? RED : "#D8D8D8",
-    (iso, net) => { const d = mapped[iso]; return `<strong>${d.country}</strong>Net: ${net >= 0 ? "+" : ""}${Math.round(net)}<br/>Liberalising: ${d.liberalising} · Harmful: ${d.harmful}`; }
+    (iso, net) => { const d = mapped[iso]; return `<strong>${d.country}</strong>Net: ${net >= 0 ? "+" : ""}${Math.round(net)}<br/>Liberalising: ${d.liberalising} · Harmful: ${d.harmful}`; },
+    280
   );
 }
 function initSlider() {
@@ -1404,12 +1522,12 @@ function renderBarChart(containerId, data, color) {
 // ═══════════════════════════════════════════════════════
 //  4. VERTICAL BAR CHART
 // ═══════════════════════════════════════════════════════
-function renderVerticalBarChart(containerId, data, color) {
+function renderVerticalBarChart(containerId, data, color, chartH=220) {
   if (!data || !data.length) return;
   const wrap = document.getElementById(containerId);
   const W  = Math.max(wrap.clientWidth || 0, 300);
   const MT = 20, MB = 44, ML = 36, MR = 12;
-  const H  = 220, cW = W - ML - MR, cH = H - MT - MB;
+  const H  = chartH, cW = W - ML - MR, cH = H - MT - MB;
   const n  = data.length;
   const slot = cW / n;
   const barW = Math.floor(slot * 0.6);
@@ -1460,9 +1578,9 @@ function renderVerticalBarChart(containerId, data, color) {
 // ═══════════════════════════════════════════════════════
 //  4. LINE CHART HELPER
 // ═══════════════════════════════════════════════════════
-function renderLineChart(containerId, series, colorMap) {
+function renderLineChart(containerId, series, colorMap, chartH=125) {
   const wrap = document.getElementById(containerId);
-  const W = wrap.clientWidth || 440, H = 125;
+  const W = wrap.clientWidth || 440, H = chartH;
   const ML = 32, MR = 10, MT = 8, MB = 24, cW = W - ML - MR, cH = H - MT - MB;
   const allYears  = [...new Set(series.flatMap(s => s.values.map(v => v.year)))].sort();
   const allValues = series.flatMap(s => s.values.map(v => v.count));
@@ -1504,7 +1622,8 @@ function renderFossilMap() {
   drawWorldMap("fossil-map-wrap",
     Object.fromEntries(Object.entries(byIso).map(([iso, d]) => [iso, d.count])),
     v => colorScale(v),
-    (iso, count) => { const d = byIso[iso]; return `<strong>${d.country}</strong>${count} active fossil fuel subsidies`; }
+    (iso, count) => { const d = byIso[iso]; return `<strong>${d.country}</strong>${count} active fossil fuel subsidies`; },
+    260
   );
 }
 
@@ -1527,7 +1646,140 @@ function renderMineralTrend(mineral) {
   }
 
   if (!data.length) { wrap.innerHTML = '<div class="no-data">No data available</div>'; return; }
-  renderLineChart("mineral-trend-wrap", [{key: mineral, label: MINERAL_LABELS[mineral] || mineral, values: data}], {[mineral]: GTA_BLUE});
+  renderLineChart("mineral-trend-wrap", [{key: mineral, label: MINERAL_LABELS[mineral] || mineral, values: data}], {[mineral]: GTA_BLUE}, 100);
+}
+
+
+// ═══════════════════════════════════════════════════════
+//  STACKED BAR — motive composition
+// ═══════════════════════════════════════════════════════
+const MOTIVE_COLORS = {
+  climate:       "#3B97ED",
+  sustainability:"#52B6B7",
+  strategic:     "#D1B278",
+  resilience:    "#C97063",
+  no_motive:     "#e2e8f0",
+};
+const MOTIVE_LABELS = {
+  climate:       "Climate change mitigation",
+  sustainability:"Sustainability & circular economy",
+  strategic:     "Strategic competitiveness",
+  resilience:    "Resilience/security of supply",
+  no_motive:     "No stated motive",
+};
+const MOTIVE_KEYS = ["climate","sustainability","strategic","resilience","no_motive"];
+
+function renderStackedBar(containerId, data) {
+  if (!data || !data.length) return;
+  const wrap = document.getElementById(containerId);
+  const W  = Math.max(wrap.clientWidth || 0, 320);
+  const ML = 36, MR = 12, MB = 28;
+  const cW = W - ML - MR;
+  const cH = 144;           // reduced by 1/3 from 216px
+  const LEG_ROW = 18;       // height of each legend row
+  const LEG_GAP = 6;        // gap between legend rows
+  const LEG_H   = LEG_ROW * 2 + LEG_GAP;   // 2-line legend = 42px
+  const MT  = LEG_H + 8;
+  const H   = MT + cH + MB;
+
+  // 2-line legend: [climate, sustainability] / [strategic, resilience]
+  const legLines = [
+    ["climate", "sustainability"],
+    ["strategic", "resilience"],
+  ];
+
+  const svg = d3.select(wrap).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width","100%");
+
+  // ── Legend — 2 rows, 2 items each, spread across full width ──
+  legLines.forEach((keys, row) => {
+    const rowY = row * (LEG_ROW + LEG_GAP) + LEG_ROW / 2 + 1;
+    keys.forEach((k, col) => {
+      const cx = ML + (col + 0.5) * (cW / 2);   // 2 items share cW equally
+      svg.append("rect")
+        .attr("x", cx - cW / 4)
+        .attr("y", rowY - 4)
+        .attr("width", 8).attr("height", 8)
+        .attr("fill", MOTIVE_COLORS[k]);
+      svg.append("text")
+        .attr("x", cx - cW / 4 + 11)
+        .attr("y", rowY + 3)
+        .attr("font-size", "8.5px").attr("fill", MUTED).attr("font-family", F_SANS)
+        .text(MOTIVE_LABELS[k]);
+    });
+  });
+
+  // ── Chart area ──
+  const g = svg.append("g").attr("transform", `translate(${ML},${MT})`);
+  const n    = data.length;
+  const slot = cW / n;
+  const barW = Math.floor(slot * 0.72);
+  const maxV = Math.max(...data.map(d => d.total), 1);
+  const y    = d3.scaleLinear().domain([0, maxV * 1.08]).range([cH, 0]).nice();
+
+  g.append("g").call(d3.axisLeft(y).ticks(4).tickSize(-cW).tickFormat(d3.format("~s"))).call(ax => {
+    ax.select(".domain").remove();
+    ax.selectAll(".tick line").attr("stroke", BORDER).attr("stroke-dasharray","3,3");
+    ax.selectAll(".tick text").attr("font-size","9px").attr("fill",MUTED).attr("font-family",F_MONO);
+  });
+  g.append("line").attr("x1",0).attr("x2",cW).attr("y1",cH).attr("y2",cH).attr("stroke",BORDER);
+
+  data.forEach((d, i) => {
+    const bx = i * slot + (slot - barW) / 2;
+    let cum = 0;
+    MOTIVE_KEYS.forEach(k => {
+      const v = d[k] || 0;
+      if (!v) return;
+      const yT = y(cum + v), h = y(cum) - y(cum + v);
+      cum += v;
+      g.append("rect").attr("x", bx).attr("y", yT)
+        .attr("width", barW).attr("height", h)
+        .attr("fill", MOTIVE_COLORS[k]).attr("rx", 1)
+        .on("mousemove", e => showTip(
+          `<strong>${d.year}</strong>${MOTIVE_LABELS[k]}: ${v} (${d.total} total)`, e))
+        .on("mouseleave", hideTip);
+    });
+    g.append("text").attr("x", bx + barW / 2).attr("y", cH + 14)
+      .attr("text-anchor","middle").attr("font-size","9px")
+      .attr("font-family",F_MONO).attr("fill",MUTED)
+      .text(d.year == 2026 ? "2026 YTD" : d.year);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  SHARE TREND LINE — percentage over time
+// ═══════════════════════════════════════════════════════
+function renderShareTrend(containerId, data, color, shareKey, chartH=160) {
+  if (!data || !data.length) return;
+  const wrap = document.getElementById(containerId);
+  const W = Math.max(wrap.clientWidth || 0, 320);
+  const ML = 36, MR = 12, MT = 10, MB = 28;
+  const H = chartH, cW = W - ML - MR, cH = H - MT - MB;
+  const years   = data.map(d => d.year);
+  const maxShare = Math.min(100, Math.max(...data.map(d => d[shareKey] || 0)) * 1.2);
+  const x = d3.scalePoint().domain(years).range([0, cW]).padding(0.3);
+  const y = d3.scaleLinear().domain([0, maxShare]).range([cH, 0]).nice();
+  const line = d3.line().x(d => x(d.year)).y(d => y(d[shareKey] || 0)).curve(d3.curveCatmullRom);
+  const svg = d3.select(wrap).append("svg").attr("viewBox",`0 0 ${W} ${H}`).attr("width","100%");
+  const g   = svg.append("g").attr("transform",`translate(${ML},${MT})`);
+  g.append("g").call(d3.axisLeft(y).ticks(4).tickSize(-cW).tickFormat(d => d + "%")).call(ax => {
+    ax.select(".domain").remove();
+    ax.selectAll(".tick line").attr("stroke",BORDER).attr("stroke-dasharray","3,3");
+    ax.selectAll(".tick text").attr("font-size","9px").attr("fill",MUTED).attr("font-family",F_MONO);
+  });
+  g.append("g").attr("transform",`translate(0,${cH})`).call(d3.axisBottom(x).tickSize(0)).call(ax => {
+    ax.select(".domain").attr("stroke",BORDER);
+    ax.selectAll(".tick text").attr("font-size","9px").attr("fill",MUTED).attr("font-family",F_MONO).attr("dy","1.2em");
+    ax.selectAll(".tick").filter(d => +d === 2026).select("text").text("2026 YTD");
+  });
+  g.append("path").datum(data).attr("d", line).attr("fill","none")
+    .attr("stroke", color).attr("stroke-width", 2.2)
+    .attr("stroke-linejoin","round").attr("stroke-linecap","round");
+  g.selectAll(".dot-share").data(data).join("circle")
+    .attr("cx", d => x(d.year)).attr("cy", d => y(d[shareKey] || 0))
+    .attr("r", 3.5).attr("fill", color).attr("stroke","white").attr("stroke-width",1.5)
+    .on("mousemove", (event, d) =>
+      showTip(`<strong>${d.year}</strong>${d[shareKey]}% (${d.framed || d.harmful} of ${d.total})`, event))
+    .on("mouseleave", hideTip);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1605,7 +1857,7 @@ async function init() {
   renderLineChart("growth-trend-wrap", [
     {key:"harmful",      label:"Harmful",      values: growth.map(d => ({year: d.year, count: d.harmful}))},
     {key:"liberalising", label:"Liberalising",  values: growth.map(d => ({year: d.year, count: d.liberalising}))},
-  ], {harmful: RED, liberalising: GREEN_LIB});
+  ], {harmful: RED, liberalising: GREEN_LIB}, 124);
 
   // Section 3
   if (WORLD) renderFossilMap();
@@ -1616,10 +1868,34 @@ async function init() {
   ], {fossil: FOSSIL_C, green: GTA_BLUE});
 
   // Section 4
-  renderVerticalBarChart("remedies-wrap", (DATA.trade_remedies || []).slice(0, 5), GTA_BLUE);
+  renderVerticalBarChart("remedies-wrap", (DATA.trade_remedies || []).slice(0, 5), GTA_BLUE, 170);
   const initMineral = document.getElementById("mineral-select").value;
   renderMineralTrend(initMineral);
   document.getElementById("mineral-select").addEventListener("change", e => renderMineralTrend(e.target.value));
+
+  // ── Stated motive indicators ──
+  // Section 2: enviro motive
+  renderStackedBar("motive-composition-wrap", DATA.motive_composition || []);
+  renderBarChart("enviro-countries-wrap", DATA.enviro_motive_top_countries || [], NAV_BLUE);
+  renderLineChart("enviro-trend-wrap",
+    [{key:"enviro", label:"Environmentally motivated", values: (DATA.enviro_motive_trend||[]).map(d => ({year:d.year, count:d.count}))}],
+    {enviro: GTA_BLUE}, 178);
+
+  // Section 3: fossil security framing + mineral security stat
+  renderShareTrend("fossil-framing-wrap", DATA.fossil_security_framing || [], GTA_BLUE, "share", 120);
+  const msf = DATA.security_mineral_framing || {};
+  if (msf.share !== undefined) {
+    document.getElementById("mineral-security-stat").textContent = msf.share + "%";
+    document.getElementById("mineral-security-total").textContent = (msf.total || 0).toLocaleString();
+  }
+
+  // Section 4: greenwashing
+  const gw = DATA.greenwashing || {};
+  if (gw.overall_share !== undefined) {
+    document.getElementById("greenwashing-stat").textContent = gw.overall_share + "%";
+  }
+  renderShareTrend("greenwashing-trend-wrap", gw.trend || [], GTA_BLUE, "share", 120);
+  renderBarChart("greenwashing-countries-wrap", DATA.greenwashing_top_countries || [], GTA_BLUE);
 
   // Net map (needs WORLD)
   if (WORLD) renderNetMap();
