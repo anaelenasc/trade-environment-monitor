@@ -441,6 +441,32 @@ EU_MEMBER_NAMES = {
 def _is_eu_member(jur: dict) -> bool:
     return jur.get("iso","") in EU_MEMBER_ISOS or jur.get("name","") in EU_MEMBER_NAMES
 
+def eu_dedup_key(r: dict):
+    """Composite key to deduplicate EU measures stored as one-record-per-member-state.
+    Returns a tuple if the record has an EU implementing jurisdiction, else None."""
+    if any(_is_eu_member(j) for j in r.get("implementing_jurisdictions", [])):
+        return (r.get("date_announced",""),
+                r.get("intervention_type") or "",
+                r.get("gta_evaluation") or "",
+                tuple(sorted(get_product_ids(r))))
+    return None
+
+def get_implementers_eu_consolidated(r: dict) -> list:
+    """Return implementing jurisdictions with all EU members collapsed to one EU entry."""
+    has_eu = False
+    non_eu = {}
+    for jur in r.get("implementing_jurisdictions", []):
+        if _is_eu_member(jur):
+            has_eu = True
+        else:
+            iso = jur.get("iso","")
+            if iso:
+                non_eu[iso] = jur.get("name","")
+    result = [{"iso": iso, "name": name} for iso, name in non_eu.items()]
+    if has_eu:
+        result.append({"iso": "EUN", "name": "European Union"})
+    return result
+
 def compute_trade_remedies(records: list) -> list:
     """
     Trade remedies on green goods per implementer.
@@ -510,6 +536,185 @@ def compute_mineral_export_restrictions(records: list) -> dict:
     out["all"] = [{"year": y, "count": c} for y, c in sorted(all_by_year.items())]
     return out
 
+
+
+
+# ══════════════════════════════════════════════════════════════════════════
+#  STATED MOTIVE INDICATORS
+# ══════════════════════════════════════════════════════════════════════════
+
+def compute_enviro_motive_trend(records: list) -> list:
+    """Annual count of interventions citing climate change mitigation
+    and/or sustainability & circular economy."""
+    agg      = defaultdict(int)
+    eu_seen  = set()
+    for r in records:
+        if not (r.get("climate_change_mitigation") or r.get("sustainability_circular_economy")):
+            continue
+        key = eu_dedup_key(r)
+        if key:
+            if key in eu_seen: continue
+            eu_seen.add(key)
+        agg[get_year(r)] += 1
+    return [{"year": y, "count": c} for y, c in sorted(agg.items())]
+
+
+def compute_fossil_security_framing(records: list) -> list:
+    """Share of fossil fuel subsidy measures citing resilience/security or
+    strategic competitiveness, by year."""
+    total_by_year   = defaultdict(int)
+    framed_by_year  = defaultdict(int)
+    eu_seen         = set()
+    for r in records:
+        if not (get_product_ids(r) & FOSSIL_SET): continue
+        if not is_subsidy(r): continue
+        key = eu_dedup_key(r)
+        if key:
+            if key in eu_seen: continue
+            eu_seen.add(key)
+        year = get_year(r)
+        total_by_year[year] += 1
+        if r.get("resilience_security_supply") or r.get("strategic_competitiveness"):
+            framed_by_year[year] += 1
+    return [{"year": y,
+             "total":  total_by_year[y],
+             "framed": framed_by_year.get(y, 0),
+             "share":  round(100 * framed_by_year.get(y, 0) / total_by_year[y], 1)}
+            for y in sorted(total_by_year)]
+
+
+def compute_greenwashing(records: list) -> dict:
+    """Share of environmentally-motivated interventions that are harmful,
+    overall (headline) and by year (trend)."""
+    total_by_year   = defaultdict(int)
+    harmful_by_year = defaultdict(int)
+    eu_seen         = set()
+    for r in records:
+        if not (r.get("climate_change_mitigation") or r.get("sustainability_circular_economy")):
+            continue
+        key = eu_dedup_key(r)
+        if key:
+            if key in eu_seen: continue
+            eu_seen.add(key)
+        year = get_year(r)
+        total_by_year[year]  += 1
+        if is_harmful(r):
+            harmful_by_year[year] += 1
+    total_all   = sum(total_by_year.values())
+    harmful_all = sum(harmful_by_year.values())
+    trend = [{"year": y,
+              "total":   total_by_year[y],
+              "harmful": harmful_by_year.get(y, 0),
+              "share":   round(100 * harmful_by_year.get(y, 0) / total_by_year[y], 1)}
+             for y in sorted(total_by_year)]
+    return {
+        "overall_share": round(100 * harmful_all / total_all, 1) if total_all else 0,
+        "total":   total_all,
+        "harmful": harmful_all,
+        "trend":   trend,
+    }
+
+
+def compute_enviro_motive_top_countries(records: list) -> list:
+    """Top implementers by count of climate/sustainability-motivated interventions."""
+    sup     = defaultdict(lambda: {"country": "", "count": 0})
+    eu_seen = set()
+    for r in records:
+        if not (r.get("climate_change_mitigation") or r.get("sustainability_circular_economy")):
+            continue
+        key  = eu_dedup_key(r)
+        jurs = get_implementers_eu_consolidated(r)
+        for jur in jurs:
+            iso, name = jur["iso"], jur["name"]
+            if iso == "EUN":
+                if key and key not in eu_seen:
+                    eu_seen.add(key)
+                    sup["EUN"]["country"] = "European Union"
+                    sup["EUN"]["count"]  += 1
+            else:
+                sup[iso]["country"] = name
+                sup[iso]["count"]  += 1
+    out = [{"iso": iso, "country": d["country"], "count": d["count"]}
+           for iso, d in sup.items()]
+    out.sort(key=lambda x: -x["count"])
+    return out[:20]
+
+
+def compute_greenwashing_top_countries(records: list) -> list:
+    """Top implementers of harmful climate/sustainability-motivated interventions."""
+    sup     = defaultdict(lambda: {"country": "", "count": 0})
+    eu_seen = set()
+    for r in records:
+        if not (r.get("climate_change_mitigation") or r.get("sustainability_circular_economy")):
+            continue
+        if not is_harmful(r): continue
+        key  = eu_dedup_key(r)
+        jurs = get_implementers_eu_consolidated(r)
+        for jur in jurs:
+            iso, name = jur["iso"], jur["name"]
+            if iso == "EUN":
+                if key and key not in eu_seen:
+                    eu_seen.add(key)
+                    sup["EUN"]["country"] = "European Union"
+                    sup["EUN"]["count"]  += 1
+            else:
+                sup[iso]["country"] = name
+                sup[iso]["count"]  += 1
+    out = [{"iso": iso, "country": d["country"], "count": d["count"]}
+           for iso, d in sup.items()]
+    out.sort(key=lambda x: -x["count"])
+    return out[:20]
+
+
+def compute_security_mineral_framing(records: list) -> dict:
+    """Share of strategic mineral export controls citing resilience/security of supply."""
+    total      = 0
+    sec_framed = 0
+    eu_seen    = set()
+    for r in records:
+        if (r.get("intervention_type") or "") not in EXPORT_CONTROL_TYPES: continue
+        if not (get_product_ids(r) & ALL_MINERALS_SET): continue
+        key = eu_dedup_key(r)
+        if key:
+            if key in eu_seen: continue
+            eu_seen.add(key)
+        total += 1
+        if r.get("resilience_security_supply"):
+            sec_framed += 1
+    return {
+        "total":           total,
+        "security_framed": sec_framed,
+        "share":           round(100 * sec_framed / total, 1) if total else 0,
+    }
+
+
+def compute_motive_composition(records: list) -> list:
+    """Annual motive composition of interventions on green goods HS codes."""
+    agg     = defaultdict(lambda: {"climate":0,"sustainability":0,
+                                   "strategic":0,"resilience":0,
+                                   "no_motive":0,"total":0})
+    eu_seen = set()
+    for r in records:
+        if not (get_product_ids(r) & GREEN_GOODS_SET): continue
+        key = eu_dedup_key(r)
+        if key:
+            if key in eu_seen: continue
+            eu_seen.add(key)
+        year = get_year(r)
+        d    = agg[year]
+        d["total"] += 1
+        has_any = False
+        if r.get("climate_change_mitigation"):
+            d["climate"] += 1;        has_any = True
+        if r.get("sustainability_circular_economy"):
+            d["sustainability"] += 1; has_any = True
+        if r.get("strategic_competitiveness"):
+            d["strategic"] += 1;      has_any = True
+        if r.get("resilience_security_supply"):
+            d["resilience"] += 1;     has_any = True
+        if not has_any:
+            d["no_motive"] += 1
+    return [{"year": y, **d} for y, d in sorted(agg.items())]
 
 # ── DOWNLOAD CSV ───────────────────────────────────────────────────────────
 def write_interventions_csv(records_dict: dict):
@@ -662,6 +867,14 @@ def main():
         "fossil_vs_green_trend":        compute_fossil_vs_green_trend(records_list),
         "trade_remedies":               compute_trade_remedies(records_list),
         "mineral_export_restrictions":  compute_mineral_export_restrictions(records_list),
+        # Stated motive indicators
+        "enviro_motive_trend":           compute_enviro_motive_trend(records_list),
+        "fossil_security_framing":       compute_fossil_security_framing(records_list),
+        "greenwashing":                  compute_greenwashing(records_list),
+        "enviro_motive_top_countries":   compute_enviro_motive_top_countries(records_list),
+        "greenwashing_top_countries":    compute_greenwashing_top_countries(records_list),
+        "security_mineral_framing":      compute_security_mineral_framing(records_list),
+        "motive_composition":            compute_motive_composition(records_list),
     }
 
     os.makedirs("data", exist_ok=True)
