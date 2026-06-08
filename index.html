@@ -215,6 +215,8 @@
   .legend-dot  { width: 9px; height: 9px; flex-shrink: 0; border-radius: 2px; }
   .legend-line { width: 18px; height: 3px; flex-shrink: 0; }
 
+  svg text { font-family: 'Roboto', Arial, sans-serif; }
+
   /* ── METHODOLOGY ── */
   .meth-sub { margin-bottom: 1.6rem; }
   .meth-sub:last-child { margin-bottom: 0; }
@@ -460,8 +462,8 @@
           <div class="chart-wrap" id="growth-trend-wrap"></div>
         </div>
         <div class="card">
-          <div class="card-title">Growth of Environmentally Motivated Policy</div>
-          <div class="card-sub">Annual count of interventions citing climate change mitigation and/or sustainability &amp; circular economy as a stated motive since 2020.</div>
+          <div class="card-title">Growth of environmentally motivated trade policy</div>
+          <div class="card-sub">Shows how frequently governments cite climate or sustainability objectives when introducing trade policy interventions.</div>
           <div class="chart-wrap" id="enviro-trend-wrap"></div>
         </div>
       </div>
@@ -469,8 +471,8 @@
     <!-- Block 2: 3 equal-width indicators side by side -->
     <div class="card-grid" style="grid-template-columns:1fr 1fr 1fr;margin-top:1.25rem;">
       <div class="card">
-        <div class="card-title">Policy Motive Composition on Green Goods</div>
-        <div class="card-sub">Annual breakdown of stated motives behind interventions on green goods. Shows whether green goods policy is environmentally or economically framed.</div>
+        <div class="card-title">Policy motive composition for green goods</div>
+        <div class="card-sub">Shows how interventions affecting green goods are distributed across stated policy motives, including cases with no stated motive.</div>
         <div class="chart-wrap" id="motive-composition-wrap"></div>
       </div>
       <div class="card">
@@ -479,8 +481,8 @@
         <div class="chart-wrap" id="green-support-wrap"></div>
       </div>
       <div class="card">
-        <div class="card-title">Top Countries — Environmentally Motivated Interventions</div>
-        <div class="card-sub">Jurisdictions most frequently citing climate change mitigation and/or sustainability &amp; circular economy as a stated motive since 2020.</div>
+        <div class="card-title">Top jurisdictions using environmental motives</div>
+        <div class="card-sub">Shows which jurisdictions most frequently justify trade interventions through climate or sustainability objectives.</div>
         <div class="chart-wrap" id="enviro-countries-wrap"></div>
       </div>
     </div>
@@ -550,8 +552,8 @@
           <div class="chart-wrap" id="fossil-trend-wrap"></div>
         </div>
         <div class="card" style="flex:1;">
-          <div class="card-title">Security Framing of Fossil Fuel Subsidies</div>
-          <div class="card-sub">Share of fossil fuel subsidy measures citing resilience/security of supply and/or strategic competitiveness, over time.</div>
+          <div class="card-title">Security of supply framing of fossil fuel support</div>
+          <div class="card-sub">Shows how often fossil fuel subsidy measures are justified through security, resilience, or strategic competitiveness objectives.</div>
           <div class="chart-wrap" id="fossil-framing-wrap"></div>
         </div>
 
@@ -591,28 +593,27 @@
         <div class="chart-wrap" id="mineral-trend-wrap"></div>
       </div>
       <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1rem 0.5rem;">
-        <div class="card-title" style="font-size:0.65rem;">Security Framing — Mineral Export Controls</div>
-        <div class="stat-number" id="mineral-security-stat" style="font-size:2rem;margin:0.5rem 0;">—</div>
-        <div class="stat-label">cite resilience/<br/>security of supply</div>
-        <div class="card-sub" style="margin-top:0.5rem;font-size:0.6rem;">Based on <span id="mineral-security-total">—</span> export controls since 2020.</div>
+        <div class="card-title" style="font-size:0.65rem;">Security of supply framing in strategic mineral export restrictions</div>
+        <div class="card-sub" style="margin-bottom:0.4rem;font-size:0.6rem;">Shows the share of export controls on strategic minerals justified by resilience or security-of-supply concerns. Based on <span id="mineral-security-total">—</span> export controls since 2020.</div>
+        <div class="stat-number" id="mineral-security-stat" style="font-size:2rem;margin:0.25rem 0;">—</div>
       </div>
     </div>
     <!-- Greenwashing trend + top countries -->
     <div class="card-grid col2" style="margin-top:1.25rem;">
       <div class="card">
-        <div class="card-title">Green Claims, Harmful Reality</div>
-        <div class="card-sub">Share of environmentally-motivated interventions that are actually harmful (red or amber GTA evaluation), over time.</div>
+        <div class="card-title">Harmful measures with environmental motives</div>
+        <div class="card-sub">Shows the share of environmentally motivated interventions that are classified as harmful.</div>
         <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;flex-wrap:wrap;">
           <div style="text-align:center;min-width:90px;">
             <div class="stat-number" id="greenwashing-stat" style="font-size:2rem;">—</div>
-            <div class="stat-label">overall share</div>
+            <div class="stat-label">overall average share</div>
           </div>
           <div style="flex:1;min-width:180px;" class="chart-wrap" id="greenwashing-trend-wrap"></div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Top Implementers — Harmful Environmentally Motivated Interventions</div>
-        <div class="card-sub">Jurisdictions with the highest count of harmful interventions citing climate change mitigation and/or sustainability &amp; circular economy since 2020.</div>
+        <div class="card-title">Harmful environmentally justified measures by country</div>
+        <div class="card-sub">Shows where harmful trade interventions are most frequently justified using climate or sustainability motives.</div>
         <div class="chart-wrap" id="greenwashing-countries-wrap"></div>
       </div>
     </div>
@@ -634,7 +635,7 @@
         <p>The dashboard combines static data on free trade agreements with dynamic intervention-level data from the GTA API.</p>
         <p>Indicators based on static data use the attached FTA information and are downloadable through the "FTA information" button. Indicators based on dynamic data use GTA intervention-level records and are downloadable through the "GTA data" button.</p>
         <p>All dynamic indicators include measures covering the product groups specified in the "Product groups" section. All product groups use the HS Nomenclature 2022 version at the 6-digit level. The trade instruments covered by the dashboard are grouped into different policy categories, as specified in the "Policy groups" section.</p>
-        <p>For GTA-based indicators, the relevant records are filtered to interventions announced from 1 January 2020 onward. The core GTA fields used are intervention ID, announcement date, implementing jurisdiction, GTA evaluation, intervention type, MAST chapter, affected jurisdiction, affected product, in-force status, and rationale.</p>
+        <p>For GTA-based indicators, the relevant records are filtered to interventions announced from 1 January 2020 onward. The criteria for an intervention to be included is HS codes (i.e. that the intervention affects at least one HS code falling under one of the relevant product categories) or stated motives (i.e. that the government justified the intervention due to climate change, sustainability, strategic competitiveness or security of supply). The GTA fields used are intervention ID, announcement date, implementing jurisdiction, GTA evaluation, intervention type, MAST chapter, affected jurisdiction, affected product, in-force status, and rationale.</p>
       </div>
     </div>
 
@@ -642,6 +643,38 @@
     <div class="meth-sub">
       <h3 class="meth-sub-title">Indicators</h3>
       <div class="meth-accordion">
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Green Transition Policy Behaviour</summary>
+          <div class="meth-details-body">
+            <div class="meth-grid">
+              <div class="meth-card">
+                <h4>Net Policy Stance on Green Goods</h4>
+                <p>This indicator is calculated using GTA intervention-level data for interventions announced from 1 January 2020 onward and affecting the relevant green goods product categories. For each implementing jurisdiction and year, the number of liberalising interventions (green GTA evaluation) and harmful interventions (red or amber GTA evaluation) are counted. The net policy stance equals liberalising minus harmful interventions. A positive value indicates more liberalising than harmful interventions; a negative value indicates the opposite. The main map displays cumulative values since 2020, while the year-range slider filters the underlying intervention data by announcement year.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Top Implementers — Green Sector Support</h4>
+                <p>This indicator is calculated using GTA intervention-level data from 1 January 2020 onward. It counts qualifying green sector support measures by implementing jurisdiction. A measure is included if it affects green goods, hydrogen, or strategic minerals and falls into one of the following categories: (a) harmful subsidies — red or amber GTA evaluation under MAST Chapter L; (b) liberalising import barrier measures — green GTA evaluation with intervention type: import tariff, import quota, import ban, import tariff quota, import licensing requirement, import price benchmark, minimum import price, or other import charges; (c) liberalising export control measures — green GTA evaluation with intervention type: export ban, export quota, export tax, export tariff quota, export licensing requirement, export price benchmark, or local supply for exports. The indicator displays the ten jurisdictions with the highest cumulative counts since 2020.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Growth of Green Industrial Policy</h4>
+                <p>This indicator is calculated using GTA intervention-level data for interventions announced from 1 January 2020 onward. It counts, by announcement year, all interventions affecting green goods, hydrogen, or strategic minerals. The resulting annual counts are displayed as a trend line to show whether policy activity affecting sectors central to the green transition has increased, decreased, or remained stable over time.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Growth of environmentally motivated trade policy</h4>
+                <p>This indicator is calculated using dynamic GTA intervention-level data from 1 January 2020 onward. It counts new interventions whose stated motive includes either "climate change mitigation" or "sustainability and circular economy". Interventions are grouped by announcement year, and the annual count is displayed as a trend line. The indicator includes all qualifying interventions regardless of whether they are liberalising, harmful, or neutral in their GTA evaluation.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Policy motive composition for green goods</h4>
+                <p>This indicator is calculated using dynamic GTA intervention-level data from 1 January 2020 onward. The population includes all interventions affecting green goods HS codes, using the product groups defined in the dashboard. For each intervention, the stated motive field is used to classify the measure into motive categories. These categories include the specific stated motives recorded in the GTA data, as well as a separate "no stated motive" category for interventions having no motive or a motive different than the ones shown in the chart. The indicator calculates the proportion of interventions on green goods that fall into each motive category. In the stacked visualisation, each segment represents one stated motive category, and the full bar or column represents all interventions affecting green goods in the relevant period.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Top jurisdictions using environmental motives</h4>
+                <p>This indicator is calculated using dynamic GTA intervention-level data from 1 January 2020 onward. It counts interventions by implementing jurisdiction where the stated motive includes "climate change mitigation" and/or "sustainability and circular economy". The indicator includes both harmful and liberalising interventions, as the purpose is to measure how frequently jurisdictions use environmental motives rather than to assess the policy effect of the measures. Counts are aggregated cumulatively by implementing jurisdiction, and the bar chart displays the jurisdictions with the highest number of environmentally motivated interventions.</p>
+              </div>
+            </div>
+          </div>
+        </details>
 
         <details class="meth-details">
           <summary class="meth-details-title">Green Commitments</summary>
@@ -664,26 +697,6 @@
         </details>
 
         <details class="meth-details">
-          <summary class="meth-details-title">Green Transition Policy Behaviour</summary>
-          <div class="meth-details-body">
-            <div class="meth-grid">
-              <div class="meth-card">
-                <h4>Net Policy Stance on Green Goods</h4>
-                <p>This indicator is calculated using GTA intervention-level data for interventions announced from 1 January 2020 onward and affecting the relevant green goods product categories. For each implementing jurisdiction and year, the number of liberalising interventions (green GTA evaluation) and harmful interventions (red or amber GTA evaluation) are counted. The net policy stance equals liberalising minus harmful interventions. A positive value indicates more liberalising than harmful interventions; a negative value indicates the opposite. The main map displays cumulative values since 2020, while the year-range slider filters the underlying intervention data by announcement year.</p>
-              </div>
-              <div class="meth-card">
-                <h4>Top Implementers — Green Sector Support</h4>
-                <p>This indicator is calculated using GTA intervention-level data from 1 January 2020 onward. It counts qualifying green sector support measures by implementing jurisdiction. A measure is included if it affects green goods, hydrogen, or strategic minerals and falls into one of the following categories: (a) harmful subsidies — red or amber GTA evaluation under MAST Chapter L; (b) liberalising import barrier measures — green GTA evaluation with intervention type: import tariff, import quota, import ban, import tariff quota, import licensing requirement, import price benchmark, minimum import price, or other import charges; (c) liberalising export control measures — green GTA evaluation with intervention type: export ban, export quota, export tax, export tariff quota, export licensing requirement, export price benchmark, or local supply for exports. The indicator displays the ten jurisdictions with the highest cumulative counts since 2020.</p>
-              </div>
-              <div class="meth-card">
-                <h4>Growth of Green Industrial Policy</h4>
-                <p>This indicator is calculated using GTA intervention-level data for interventions announced from 1 January 2020 onward. It counts, by announcement year, all interventions affecting green goods, hydrogen, or strategic minerals. The resulting annual counts are displayed as a trend line to show whether policy activity affecting sectors central to the green transition has increased, decreased, or remained stable over time.</p>
-              </div>
-            </div>
-          </div>
-        </details>
-
-        <details class="meth-details">
           <summary class="meth-details-title">Fossil Fuel Persistence</summary>
           <div class="meth-details-body">
             <div class="meth-grid">
@@ -694,6 +707,10 @@
               <div class="meth-card">
                 <h4>Fossil Fuel vs Green Subsidy Trends</h4>
                 <p>This indicator is calculated using GTA intervention-level data from 1 January 2020 onward. It creates two annual series. The fossil fuel support series counts MAST Chapter L subsidy interventions supporting coal, oil, gas, or petrochemicals. The green support series counts MAST Chapter L subsidy interventions supporting green goods, hydrogen, or strategic minerals. The two series are displayed together as a trend line to compare the persistence of fossil fuel support with the evolution of support for sectors linked to the green transition.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Security of supply framing of fossil fuel support</h4>
+                <p>This indicator is calculated using dynamic GTA intervention-level data from 1 January 2020 onward. The denominator includes subsidy interventions affecting fossil fuel products, namely coal, oil, gas, and petrochemicals. Subsidies are identified using MAST Chapter L. The numerator includes the subset of these fossil fuel subsidy measures whose stated motive cites "resilience/security of supply" and/or "strategic competitiveness". The indicator is calculated as the share of fossil fuel subsidy measures that use one of these security-related justifications. It is displayed over time as a trend line, using the announcement year of each intervention.</p>
               </div>
             </div>
           </div>
@@ -710,6 +727,18 @@
               <div class="meth-card">
                 <h4>Export Restrictions on Energy Transition Minerals</h4>
                 <p>This indicator is calculated using GTA intervention-level data from 1 January 2020 onward. It includes export control interventions affecting lithium, cobalt, nickel, copper, graphite, and rare earths. The relevant export control types are export ban, export quota, export tax, export tariff quota, export licensing requirement, export price benchmark, and local supply for exports. The indicator counts qualifying export control interventions by announcement year. A dropdown filter allows users to select a specific mineral or view the aggregate across all covered strategic minerals.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Harmful measures with environmental motives</h4>
+                <p>This indicator is calculated using dynamic GTA intervention-level data from 1 January 2020 onward. The denominator includes all interventions whose stated motive includes "climate change mitigation" and/or "sustainability and circular economy". The numerator includes the subset of those interventions that are classified as harmful, meaning interventions with a red or amber GTA evaluation. The indicator is displayed as both a headline share for the full period since 2020 and as an annual trend line showing how that share has evolved over time.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Harmful environmentally justified measures by country</h4>
+                <p>This indicator is calculated using dynamic GTA intervention-level data from 1 January 2020 onward. It includes interventions that meet two conditions. First, the intervention must have a stated motive that includes "climate change mitigation" and/or "sustainability and circular economy". Second, the intervention must be classified as harmful, meaning it has a red or amber GTA evaluation. The indicator counts these harmful environmentally justified interventions by implementing jurisdiction. The resulting country-level totals can be used to identify jurisdictions where environmental language is most often associated with measures that restrict or distort trade.</p>
+              </div>
+              <div class="meth-card">
+                <h4>Security of supply framing in strategic mineral export restrictions</h4>
+                <p>This indicator is calculated using dynamic GTA intervention-level data from 1 January 2020 onward. The denominator includes export control interventions affecting strategic minerals used in the energy transition, including lithium, cobalt, nickel, copper, graphite, and rare earths. The numerator includes the subset of these strategic mineral export controls whose stated motive cites "resilience/security of supply". The indicator is calculated as the share of strategic mineral export controls citing resilience/security of supply out of all strategic mineral export controls. The result is the cumulative share for the period since 2020.</p>
               </div>
             </div>
           </div>
@@ -834,38 +863,59 @@
       </div>
     </div>
 
-        <!-- Policy groups: revised text -->
+        <!-- Policy groups: accordion style -->
     <div class="meth-sub" style="margin-bottom:0;">
       <h3 class="meth-sub-title">Policy groups</h3>
-      <div class="policy-grid">
-        <div class="policy-card">
-          <h4>Domestic subsidies</h4>
-          <p>This group includes the following trade instruments classified under MAST Chapter L:</p>
-          <div style="margin-top:0.45rem;">
-            <span class="policy-tag">Debt purchase</span><span class="policy-tag">Equity stake</span><span class="policy-tag">Financial grant</span><span class="policy-tag">Financial investment support</span><span class="policy-tag">In-kind grant</span><span class="policy-tag">Interest payment subsidy</span><span class="policy-tag">Lending support</span><span class="policy-tag">Loan guarantee</span><span class="policy-tag">Price stabilisation</span><span class="policy-tag">Production subsidy</span><span class="policy-tag">State loan</span><span class="policy-tag">Tax or social insurance relief</span><span class="policy-tag">State aid, nes</span><span class="policy-tag">State aid, unspecified</span>
+      <div class="meth-accordion">
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Domestic subsidies</summary>
+          <div class="meth-details-body">
+            <div class="meth-card">
+              <p>This group includes the following trade instruments classified under MAST Chapter L:</p>
+              <div style="margin-top:0.6rem;">
+                <span class="policy-tag">Debt purchase</span><span class="policy-tag">Equity stake</span><span class="policy-tag">Financial grant</span><span class="policy-tag">Financial investment support</span><span class="policy-tag">In-kind grant</span><span class="policy-tag">Interest payment subsidy</span><span class="policy-tag">Lending support</span><span class="policy-tag">Loan guarantee</span><span class="policy-tag">Price stabilisation</span><span class="policy-tag">Production subsidy</span><span class="policy-tag">State loan</span><span class="policy-tag">Tax or social insurance relief</span><span class="policy-tag">State aid, nes</span><span class="policy-tag">State aid, unspecified</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="policy-card">
-          <h4>Export controls</h4>
-          <p>This group includes the following trade instruments:</p>
-          <div style="margin-top:0.45rem;">
-            <span class="policy-tag">export ban</span><span class="policy-tag">export quota</span><span class="policy-tag">export tax</span><span class="policy-tag">export tariff quota</span><span class="policy-tag">export licensing requirement</span><span class="policy-tag">export price benchmark</span><span class="policy-tag">local supply for exports</span>
+        </details>
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Export controls</summary>
+          <div class="meth-details-body">
+            <div class="meth-card">
+              <p>This group includes the following trade instruments:</p>
+              <div style="margin-top:0.6rem;">
+                <span class="policy-tag">Export ban</span><span class="policy-tag">Export quota</span><span class="policy-tag">Export tax</span><span class="policy-tag">Export tariff quota</span><span class="policy-tag">Export licensing requirement</span><span class="policy-tag">Export price benchmark</span><span class="policy-tag">Local supply for exports</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="policy-card">
-          <h4>Import barrier</h4>
-          <p>This group includes the following trade instruments:</p>
-          <div style="margin-top:0.45rem;">
-            <span class="policy-tag">import tariff</span><span class="policy-tag">import quota</span><span class="policy-tag">import ban</span><span class="policy-tag">import tariff quota</span><span class="policy-tag">import licensing requirement</span><span class="policy-tag">import price benchmark</span><span class="policy-tag">minimum import price</span><span class="policy-tag">other import charges</span>
+        </details>
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Import barriers</summary>
+          <div class="meth-details-body">
+            <div class="meth-card">
+              <p>This group includes the following trade instruments:</p>
+              <div style="margin-top:0.6rem;">
+                <span class="policy-tag">Import tariff</span><span class="policy-tag">Import quota</span><span class="policy-tag">Import ban</span><span class="policy-tag">Import tariff quota</span><span class="policy-tag">Import licensing requirement</span><span class="policy-tag">Import price benchmark</span><span class="policy-tag">Minimum import price</span><span class="policy-tag">Other import charges</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="policy-card">
-          <h4>Trade Remedies</h4>
-          <p>This group includes the following trade instruments:</p>
-          <div style="margin-top:0.45rem;">
-            <span class="policy-tag">Anti-dumping</span><span class="policy-tag">Anti-subsidy</span><span class="policy-tag">Anti-circumvention</span><span class="policy-tag">Safeguards</span>
+        </details>
+
+        <details class="meth-details">
+          <summary class="meth-details-title">Trade remedies</summary>
+          <div class="meth-details-body">
+            <div class="meth-card">
+              <p>This group includes the following trade instruments:</p>
+              <div style="margin-top:0.6rem;">
+                <span class="policy-tag">Anti-dumping</span><span class="policy-tag">Anti-subsidy</span><span class="policy-tag">Anti-circumvention</span><span class="policy-tag">Safeguards</span>
+              </div>
+            </div>
           </div>
-        </div>
+        </details>
+
       </div>
     </div>
   </div>
@@ -1515,7 +1565,7 @@ function renderBarChart(containerId, data, color) {
       .attr("text-anchor", "end").attr("font-size", "11px").attr("font-family", F_SANS)
       .attr("fill", "#334155").text(displayName(d.country).length > 16 ? displayName(d.country).slice(0, 15) + "…" : displayName(d.country));
     g.append("text").attr("x", bw + 5).attr("y", y + BAR_H / 2).attr("dy", "0.35em")
-      .attr("font-size", "10.5px").attr("font-family", F_MONO).attr("fill", "#64748b").text(d.count);
+      .attr("font-size", "10.5px").attr("font-family", F_SANS).attr("fill", "#64748b").text(d.count);
   });
 }
 
@@ -1545,7 +1595,7 @@ function renderVerticalBarChart(containerId, data, color, chartH=220) {
   ).call(ax => {
     ax.select(".domain").remove();
     ax.selectAll(".tick line").attr("stroke", BORDER).attr("stroke-dasharray", "3,3");
-    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO);
+    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_SANS);
   });
 
   // Baseline
@@ -1567,7 +1617,7 @@ function renderVerticalBarChart(containerId, data, color, chartH=220) {
     g.append("text")
       .attr("x", bx + barW / 2).attr("y", by - 5)
       .attr("text-anchor", "middle").attr("font-size", "9.5px")
-      .attr("font-family", F_MONO).attr("fill", "#475569").text(d.count);
+      .attr("font-family", F_SANS).attr("fill", "#475569").text(d.count);
     // Country label below
     g.append("text")
       .attr("x", bx + barW / 2).attr("y", cH + 14)
@@ -1592,11 +1642,11 @@ function renderLineChart(containerId, series, colorMap, chartH=125) {
   g.append("g").call(d3.axisLeft(y).ticks(4).tickSize(-cW).tickFormat(d3.format("~s"))).call(ax => {
     ax.select(".domain").remove();
     ax.selectAll(".tick line").attr("stroke", BORDER).attr("stroke-dasharray", "3,3");
-    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO);
+    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_SANS);
   });
   g.append("g").attr("transform", `translate(0,${cH})`).call(d3.axisBottom(x).tickSize(0)).call(ax => {
     ax.select(".domain").attr("stroke", BORDER);
-    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_MONO).attr("dy", "1.2em");
+    ax.selectAll(".tick text").attr("font-size", "9px").attr("fill", MUTED).attr("font-family", F_SANS).attr("dy", "1.2em");
     ax.selectAll(".tick").filter(d => +d === 2026).select("text").text("2026 YTD");
   });
   series.forEach(s => {
@@ -1719,7 +1769,7 @@ function renderStackedBar(containerId, data) {
   g.append("g").call(d3.axisLeft(y).ticks(4).tickSize(-cW).tickFormat(d3.format("~s"))).call(ax => {
     ax.select(".domain").remove();
     ax.selectAll(".tick line").attr("stroke", BORDER).attr("stroke-dasharray","3,3");
-    ax.selectAll(".tick text").attr("font-size","9px").attr("fill",MUTED).attr("font-family",F_MONO);
+    ax.selectAll(".tick text").attr("font-size","9px").attr("fill",MUTED).attr("font-family",F_SANS);
   });
   g.append("line").attr("x1",0).attr("x2",cW).attr("y1",cH).attr("y2",cH).attr("stroke",BORDER);
 
@@ -1740,7 +1790,7 @@ function renderStackedBar(containerId, data) {
     });
     g.append("text").attr("x", bx + barW / 2).attr("y", cH + 14)
       .attr("text-anchor","middle").attr("font-size","9px")
-      .attr("font-family",F_MONO).attr("fill",MUTED)
+      .attr("font-family",F_SANS).attr("fill",MUTED)
       .text(d.year == 2026 ? "2026 YTD" : d.year);
   });
 }
@@ -1764,11 +1814,11 @@ function renderShareTrend(containerId, data, color, shareKey, chartH=160) {
   g.append("g").call(d3.axisLeft(y).ticks(4).tickSize(-cW).tickFormat(d => d + "%")).call(ax => {
     ax.select(".domain").remove();
     ax.selectAll(".tick line").attr("stroke",BORDER).attr("stroke-dasharray","3,3");
-    ax.selectAll(".tick text").attr("font-size","9px").attr("fill",MUTED).attr("font-family",F_MONO);
+    ax.selectAll(".tick text").attr("font-size","9px").attr("fill",MUTED).attr("font-family",F_SANS);
   });
   g.append("g").attr("transform",`translate(0,${cH})`).call(d3.axisBottom(x).tickSize(0)).call(ax => {
     ax.select(".domain").attr("stroke",BORDER);
-    ax.selectAll(".tick text").attr("font-size","9px").attr("fill",MUTED).attr("font-family",F_MONO).attr("dy","1.2em");
+    ax.selectAll(".tick text").attr("font-size","9px").attr("fill",MUTED).attr("font-family",F_SANS).attr("dy","1.2em");
     ax.selectAll(".tick").filter(d => +d === 2026).select("text").text("2026 YTD");
   });
   g.append("path").datum(data).attr("d", line).attr("fill","none")
